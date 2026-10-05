@@ -57,6 +57,8 @@ $env:STOCKSMART_TEST_DATABASE_URL = "postgresql+psycopg://stocksmart:<clave>@loc
 
 En bash, activa `.venv/bin/activate`, usa `python -m pip install -e '.[test]'` y exporta las dos variables. [`.env.example`](backend/.env.example) solo muestra los nombres de configuración: la aplicación lee **variables de entorno**, no carga un archivo `.env` automáticamente. Los archivos `.env` y datos de bases están excluidos de Git.
 
+`STOCKSMART_CORS_ORIGINS` lista, separados por comas, los orígenes del frontend que pueden llamar a la API desde el navegador (por ejemplo `http://localhost:5173,https://stocksmart.vercel.app`). Sin esa variable la API no acepta llamadas de otros orígenes.
+
 Aplica migraciones desde una base vacía y ejecuta la API:
 
 ```powershell

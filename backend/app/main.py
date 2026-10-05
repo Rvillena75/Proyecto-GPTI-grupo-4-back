@@ -4,12 +4,14 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.api.routes import router
+from app.config import cors_origins
 from app.domain.errors import RuleViolation
 from app.persistence.database import get_session
 
@@ -22,6 +24,22 @@ app = FastAPI(
     ),
 )
 app.include_router(router)
+
+
+def add_cors(application: FastAPI, origins: list[str]) -> None:
+    """Lets the configured frontend origins call the API from the browser.
+
+    Authentication travels as a Bearer header, not cookies, so credentials stay disabled.
+    """
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+        allow_headers=["Authorization", "Content-Type"],
+    )
+
+
+add_cors(app, cors_origins())
 
 
 @app.exception_handler(RuleViolation)

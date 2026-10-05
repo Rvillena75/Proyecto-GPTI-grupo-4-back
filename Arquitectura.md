@@ -259,7 +259,7 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 | C10 | Conteo mayor al teórico | `needs_review = difference > 0` | ✅ Aceptada |
 | C11 | Ajustar cantidad o proveedor antes de aprobar (`suggestion_revisions`) | Recomiendo **dejarlo fuera del MVP**: el mockup no lo tiene y suma 6–10 HH. Si no le sirve la sugerencia, el administrador la rechaza con un motivo | ✅ Aceptada |
 | C12 | Alerta: borde, días y proveedor | Borde **«≤»**, días **corridos** y el **mayor** tiempo de entrega entre los proveedores activos del insumo. Es lo que ya supone el mockup (Proveedor B, 4 días) | ✅ Corregido |
-| C13 | Proveedores | Central Mayorista, Jumbo y Santa Isabel (§12) | ⏳ Por confirmar con el equipo |
+| C13 | Proveedores | Central Mayorista, Jumbo y Santa Isabel (§12) | ✅ Aceptada |
 
 **Numeración oficial (C9):**
 - REQ-01 Registrar insumos · REQ-02 Registrar entradas y salidas · REQ-03 Registrar conteo físico

@@ -257,8 +257,8 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 | C8 | Autenticación | JWT en la propia API | ✅ Aceptada |
 | C9 | Numeración de REQ | **17 REQ** (lista de Nati): la del DRS sin la carga manual y con las tres últimas corridas en una | ✅ Decidida por el equipo |
 | C10 | Conteo mayor al teórico | `needs_review = difference > 0` | ✅ Aceptada |
-| C11 | Ajustar cantidad o proveedor antes de aprobar (`suggestion_revisions`) | Recomiendo **dejarlo fuera del MVP**: el mockup no lo tiene y suma 6–10 HH. Si no le sirve la sugerencia, el administrador la rechaza con un motivo | ⏳ Por confirmar |
-| C12 | Alerta: borde, días y proveedor | Borde **«≤»**, días **corridos** y el **mayor** tiempo de entrega entre los proveedores activos del insumo. Es lo que ya supone el mockup (Proveedor B, 4 días) | ⏳ Por confirmar con Rodrigo |
+| C11 | Ajustar cantidad o proveedor antes de aprobar (`suggestion_revisions`) | Recomiendo **dejarlo fuera del MVP**: el mockup no lo tiene y suma 6–10 HH. Si no le sirve la sugerencia, el administrador la rechaza con un motivo | ✅ Aceptada |
+| C12 | Alerta: borde, días y proveedor | Borde **«≤»**, días **corridos** y el **mayor** tiempo de entrega entre los proveedores activos del insumo. Es lo que ya supone el mockup (Proveedor B, 4 días) | ✅ Corregido |
 | C13 | Proveedores | Central Mayorista, Jumbo y Santa Isabel (§12) | ⏳ Por confirmar con el equipo |
 
 **Numeración oficial (C9):**

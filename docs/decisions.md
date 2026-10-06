@@ -76,3 +76,17 @@
 ## Casos aún no definidos aquí
 
 - P6: siguen pendientes la validación de fuentes, la vigencia máxima del precio y la comparabilidad de ubicación y condición de compra. Ninguno de estos pendientes impide avanzar con P1–P5.
+
+## Integración 1 (v1.2, 06-10) — decisiones de implementación
+
+Fuente: `Arquitectura.md` v1.2 (§4.2, §4.3, §5 y decisiones C1, C5, C11, C12 y C14).
+
+- **Modelo congelado:** la migración `0003_procurement` crea todas las tablas de la §4.2 (`users`, `suppliers`, `supplier_products`, `scrape_runs`, `price_quotes`, `suggestions`, `orders`) y agrega `created_by` a `movements` y `counts`. No existe `suggestion_revisions` (C11) ni costo de despacho (C4). Los precios se guardan con IVA incluido (C14) y sólo vienen del scraping (C2).
+- **Tiempo de entrega (C12):** el mayor `lead_time_days` entre los proveedores activos que venden el insumo (`supplier_products` y `suppliers` activos), en días corridos. Sin proveedores, cuenta como 0 días y la regla equivale a la P5 original.
+- **Alerta (C1):** `stock proyectado a la llegada = max(0, stock − consumo diario × L)`; hay alerta si es `≤` el stock seguro. Sin consumo calculable, se compara el stock actual (como antes).
+- **Órdenes en tránsito:** suma de `suggestions.purchased_qty` de las órdenes en estado `APPROVED`. Si hay alerta y hay algo en tránsito, `alert_status = IN_TRANSIT` (alerta atendida). `GET /alerts` lista sólo las `LOW_STOCK`, que son las que requieren pedir.
+- **Cantidad sugerida (C5):** `max(0, 2 × consumo semanal − stock proyectado a la llegada − en tránsito)`. El redondeo a formatos completos es de la sugerencia (P7), no del panel.
+- **`order_by_at`:** momento más tardío para pedir, `ahora + ((stock − stock seguro) / consumo diario − L)` días. Puede quedar en el pasado: significa que el pedido está atrasado.
+- **`balance_after`:** saldo del insumo inmediatamente después de cada movimiento, sumando todos sus movimientos (incluidas reversas) en orden de ocurrencia `(occurred_at, created_at, id)`. El último siempre coincide con el stock actual. El historial se sigue entregando en orden de `id`.
+- **`created_by`:** `null` hasta que exista la autenticación (REQ-14); después, `{id, name}` del usuario.
+- **`PATCH /items/{id}`:** cambia sólo los campos enviados (`name`, `manual_safe_stock`; `null` en este último vuelve al umbral automático). La unidad base no se puede cambiar. Un cuerpo vacío responde `422 EMPTY_UPDATE`.

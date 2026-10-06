@@ -1,4 +1,4 @@
-"""P4/P5 deterministic calendar-day consumption and stock status."""
+"""P4/P5 deterministic calendar-day consumption and stock status (alert per C1/C5/C12)."""
 
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, time, timedelta
@@ -28,6 +28,10 @@ class StockAssessment:
     remaining_days: Decimal | None
     depletion_at: datetime | None
     depletion_status: str
+    lead_time_days: int | None = None
+    projected_stock_at_arrival: Decimal | None = None
+    in_transit_quantity: Decimal = Decimal(0)
+    order_by_at: datetime | None = None
 
 
 def local_day_start(day: date, zone: ZoneInfo) -> datetime:
@@ -63,12 +67,32 @@ def calculate_consumption(
     return Consumption(status, complete_days, observed, weekly, start, end)
 
 
+def _after_days(reference_at: datetime, days: Decimal) -> datetime | None:
+    microseconds = (days * Decimal(86_400_000_000)).to_integral_value(rounding=ROUND_HALF_UP)
+    try:
+        return reference_at + timedelta(microseconds=int(microseconds))
+    except OverflowError:
+        return None
+
+
 def assess_stock(
     current_stock: Decimal,
     manual_safe_stock: Decimal | None,
     consumption: Consumption,
     reference_at: datetime,
+    lead_time_days: int | None = None,
+    in_transit: Decimal = Decimal(0),
 ) -> StockAssessment:
+    """Stock status with the agreed replenishment rules.
+
+    - C12: ``lead_time_days`` is the longest delivery time, in calendar days, among the item's
+      active suppliers; ``None`` (no supplier yet) behaves as zero days.
+    - C1: alert when the stock projected at the arrival of an order placed now is at or below
+      the safe stock (``<=``, not ``<``).
+    - An approved order not yet received (``in_transit``) marks a low-stock alert as attended
+      (``IN_TRANSIT``) and is discounted from the suggested quantity.
+    - C5: suggested = max(0, 2 weeks of consumption - projected stock at arrival - in transit).
+    """
     weekly = consumption.weekly_average
     safe = manual_safe_stock if manual_safe_stock is not None else weekly
     source = (
@@ -76,14 +100,27 @@ def assess_stock(
         if manual_safe_stock is not None
         else ("AUTOMATIC" if weekly is not None else None)
     )
+    daily = weekly / 7 if weekly is not None else None
+    lead = Decimal(lead_time_days or 0)
+    projected = max(Decimal(0), current_stock - daily * lead) if daily is not None else None
+    compared = projected if projected is not None else current_stock
     if safe is None:
         alert_status, is_low = "INSUFFICIENT_HISTORY", None
     else:
-        is_low = current_stock <= safe
-        alert_status = "LOW_STOCK" if is_low else "OK"
+        is_low = compared <= safe
+        if not is_low:
+            alert_status = "OK"
+        else:
+            alert_status = "IN_TRANSIT" if in_transit > 0 else "LOW_STOCK"
     target = weekly * 2 if weekly is not None else None
-    suggested = max(Decimal(0), target - current_stock) if target is not None else None
-    daily = weekly / 7 if weekly is not None else None
+    suggested = (
+        max(Decimal(0), target - projected - in_transit)
+        if target is not None and projected is not None
+        else None
+    )
+    order_by = None
+    if safe is not None and daily is not None and daily > 0:
+        order_by = _after_days(reference_at, (current_stock - safe) / daily - lead)
     remaining = current_stock / daily if daily is not None and daily > 0 else None
     depletion = None
     if weekly is None:
@@ -91,16 +128,8 @@ def assess_stock(
     elif weekly == 0:
         depletion_status = "ZERO_CONSUMPTION"
     else:
-        depletion_status = "OUT_OF_RANGE"
-        microseconds = (remaining * Decimal(86_400_000_000)).to_integral_value(
-            rounding=ROUND_HALF_UP
-        )
-        try:
-            depletion = reference_at + timedelta(microseconds=int(microseconds))
-        except OverflowError:
-            pass
-        else:
-            depletion_status = "PROJECTED"
+        depletion = _after_days(reference_at, remaining)
+        depletion_status = "PROJECTED" if depletion is not None else "OUT_OF_RANGE"
     return StockAssessment(
         safe,
         source,
@@ -112,4 +141,8 @@ def assess_stock(
         remaining,
         depletion,
         depletion_status,
+        lead_time_days,
+        projected,
+        in_transit,
+        order_by,
     )

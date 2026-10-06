@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.domain.errors import RuleViolation
@@ -12,7 +12,17 @@ from app.domain.forecast import Consumption, assess_stock, calculate_consumption
 from app.domain.history import CountFact, MovementFact, effective_movements, validate_history
 from app.domain.shortage import calculate_count, shortage_rate
 from app.domain.units import BASE_UNITS, amount, to_base
-from app.persistence.models import Count, Item, Movement, Observation
+from app.persistence.models import (
+    Count,
+    Item,
+    Movement,
+    Observation,
+    Order,
+    Suggestion,
+    Supplier,
+    SupplierProduct,
+    User,
+)
 
 
 def _aware(value: datetime) -> None:
@@ -384,6 +394,26 @@ class InventoryService:
             self._validate(item, observation)
         return count
 
+    def update_item(self, item_id: int, changes: dict, now: datetime) -> Item:
+        """Partial edit of name and/or manual safe stock (REQ-01). Base unit is immutable."""
+        _aware(now)
+        if not changes:
+            raise RuleViolation("EMPTY_UPDATE", "Send at least one field to change", 422)
+        name = changes.get("name")
+        if "name" in changes and (name is None or not name.strip()):
+            raise RuleViolation("INVALID_NAME", "Item name cannot be blank", 422)
+        safe = None
+        if changes.get("manual_safe_stock") is not None:
+            safe = amount(changes["manual_safe_stock"], allow_zero=True)
+        with self.session.begin():
+            item = self._item(item_id, lock=True)
+            if "name" in changes:
+                item.name = name.strip()
+            if "manual_safe_stock" in changes:
+                item.manual_safe_stock = safe
+            item.updated_at = now
+        return item
+
     def set_manual_safe_stock(self, item_id: int, value: Decimal | None, now: datetime) -> Item:
         _aware(now)
         safe = amount(value, allow_zero=True) if value is not None else None
@@ -414,7 +444,14 @@ class InventoryService:
             consumption = calculate_consumption(
                 observation.started_at, now, item.timezone_name, exits
             )
-        assessment = assess_stock(item.current_stock, item.manual_safe_stock, consumption, now)
+        assessment = assess_stock(
+            item.current_stock,
+            item.manual_safe_stock,
+            consumption,
+            now,
+            self._lead_time_days(item_id),
+            self._in_transit(item_id),
+        )
         return {
             "id": item.id,
             "name": item.name,
@@ -428,6 +465,27 @@ class InventoryService:
             "consumption": consumption,
             "assessment": assessment,
         }
+
+    def _lead_time_days(self, item_id: int) -> int | None:
+        """C12: longest delivery time among the item's active suppliers."""
+        return self.session.scalar(
+            select(func.max(Supplier.lead_time_days))
+            .join(SupplierProduct, SupplierProduct.supplier_id == Supplier.id)
+            .where(
+                SupplierProduct.item_id == item_id,
+                SupplierProduct.is_active,
+                Supplier.is_active,
+            )
+        )
+
+    def _in_transit(self, item_id: int) -> Decimal:
+        """Base-unit quantity of approved orders for the item that were not received yet."""
+        total = self.session.scalar(
+            select(func.coalesce(func.sum(Suggestion.purchased_qty), 0))
+            .join(Order, Order.suggestion_id == Suggestion.id)
+            .where(Suggestion.item_id == item_id, Order.status == "APPROVED")
+        )
+        return Decimal(total)
 
     def shortage_rate(self, item_id: int, start: datetime, end: datetime) -> dict:
         _aware(start)
@@ -522,6 +580,50 @@ class InventoryService:
             "rate_percent": result.value,
         }
 
+    def _views(self, item_id: int, movements: list[Movement]) -> list[dict]:
+        """Add balance_after (stock right after each movement, in occurrence order) and the
+        user who recorded it. The full ledger always sums to the item's current stock."""
+        ledger = self.session.execute(
+            select(Movement.id, Movement.delta, Movement.occurred_at, Movement.created_at).where(
+                Movement.item_id == item_id
+            )
+        ).all()
+        balances: dict[int, Decimal] = {}
+        running = Decimal(0)
+        for row in sorted(ledger, key=lambda r: (r.occurred_at, r.created_at, r.id)):
+            running += row.delta
+            balances[row.id] = running
+        user_ids = {m.created_by for m in movements if m.created_by is not None}
+        users = (
+            {u.id: u for u in self.session.scalars(select(User).where(User.id.in_(user_ids)))}
+            if user_ids
+            else {}
+        )
+        return [
+            {
+                "id": m.id,
+                "item_id": m.item_id,
+                "kind": m.kind,
+                "delta": m.delta,
+                "input_quantity": m.input_quantity,
+                "input_unit": m.input_unit,
+                "occurred_at": m.occurred_at,
+                "created_at": m.created_at,
+                "invalidates_movement_id": m.invalidates_movement_id,
+                "note": m.note,
+                "balance_after": balances[m.id],
+                "created_by": (
+                    {"id": users[m.created_by].id, "name": users[m.created_by].name}
+                    if m.created_by in users
+                    else None
+                ),
+            }
+            for m in movements
+        ]
+
+    def movement_view(self, movement: Movement) -> dict:
+        return self._views(movement.item_id, [movement])[0]
+
     def movements(self, item_id: int) -> list[Movement]:
         self._item(item_id)
         return list(
@@ -529,6 +631,10 @@ class InventoryService:
                 select(Movement).where(Movement.item_id == item_id).order_by(Movement.id)
             ).all()
         )
+
+    def movement_history(self, item_id: int) -> list[dict]:
+        """Audit trail for the API: movements in id order with balance_after and created_by."""
+        return self._views(item_id, self.movements(item_id))
 
     def counts(self, item_id: int) -> list[Count]:
         self._item(item_id)

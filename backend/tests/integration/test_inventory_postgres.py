@@ -28,9 +28,7 @@ def create(factory: sessionmaker[Session], stock: str = "10", now: datetime = T0
 
 def test_migration_and_multiple_items_do_not_mix_balances(clean_db: sessionmaker[Session]) -> None:
     with clean_db() as session:
-        assert (
-            session.scalar(text("SELECT version_num FROM alembic_version")) == "0002_balance_guard"
-        )
+        assert session.scalar(text("SELECT version_num FROM alembic_version")) == "0003_procurement"
     first = create(clean_db, "10")
     second = call(
         clean_db, "create_item", "Harina", "kg", D(20), "kg", "America/Santiago", None, T0

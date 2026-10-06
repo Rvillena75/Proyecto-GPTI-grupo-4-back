@@ -1,4 +1,4 @@
-"""JSON contract for the P1–P5 API."""
+"""JSON contract for the API (frozen v1.2 for the inventory slice)."""
 
 from datetime import datetime
 from decimal import Decimal
@@ -18,6 +18,17 @@ class ItemCreate(InputModel):
     initial_unit: str = Field(examples=["kg"])
     timezone: str = Field(default="America/Santiago", examples=["America/Santiago"])
     manual_safe_stock: Decimal | None = Field(default=None, ge=0)
+
+
+class ItemUpdate(InputModel):
+    """Partial update. Only the fields sent are changed; the base unit cannot change."""
+
+    name: str | None = Field(default=None, min_length=1, max_length=200)
+    manual_safe_stock: Decimal | None = Field(
+        default=None,
+        ge=0,
+        description="Send null to restore the automatic threshold; omit to leave it unchanged.",
+    )
 
 
 class InitialStockCreate(InputModel):
@@ -81,7 +92,9 @@ class ConsumptionResponse(BaseModel):
 class AssessmentResponse(BaseModel):
     safe_stock: Decimal | None
     alert_source: Literal["MANUAL_THRESHOLD", "AUTOMATIC"] | None
-    alert_status: Literal["LOW_STOCK", "OK", "INSUFFICIENT_HISTORY"]
+    alert_status: Literal["LOW_STOCK", "IN_TRANSIT", "OK", "INSUFFICIENT_HISTORY"] = Field(
+        description="IN_TRANSIT: low stock already attended by an approved order not yet received."
+    )
     is_low_stock: bool | None
     target_stock: Decimal | None
     suggested_quantity: Decimal | None
@@ -91,6 +104,19 @@ class AssessmentResponse(BaseModel):
     depletion_status: Literal[
         "INSUFFICIENT_HISTORY", "ZERO_CONSUMPTION", "PROJECTED", "OUT_OF_RANGE"
     ]
+    lead_time_days: int | None = Field(
+        description="Longest delivery time (calendar days) among active suppliers; null if none."
+    )
+    projected_stock_at_arrival: Decimal | None = Field(
+        description="Stock left when an order placed now would arrive (never below zero)."
+    )
+    in_transit_quantity: Decimal = Field(
+        description="Base-unit quantity in approved orders not yet received."
+    )
+    order_by_at: datetime | None = Field(
+        description="Latest moment to order so it arrives before falling to the safe stock. "
+        "A past value means the order is overdue."
+    )
 
 
 class ItemStateResponse(BaseModel):
@@ -107,6 +133,11 @@ class ItemStateResponse(BaseModel):
     assessment: AssessmentResponse
 
 
+class UserRef(BaseModel):
+    id: int
+    name: str
+
+
 class MovementResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -120,6 +151,11 @@ class MovementResponse(BaseModel):
     created_at: datetime
     invalidates_movement_id: int | None
     note: str | None
+    balance_after: Decimal = Field(
+        description="Item stock right after this movement, in order of occurrence "
+        "(occurred_at, created_at, id)."
+    )
+    created_by: UserRef | None = Field(description="Null until authentication exists.")
 
 
 class CountResponse(BaseModel):
@@ -152,6 +188,10 @@ class AlertResponse(BaseModel):
     alert_source: str | None
     alert_status: str
     is_low_stock: bool | None
+    lead_time_days: int | None
+    projected_stock_at_arrival: Decimal | None
+    in_transit_quantity: Decimal
+    order_by_at: datetime | None
 
 
 class ValidationIssue(BaseModel):

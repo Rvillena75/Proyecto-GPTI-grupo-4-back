@@ -47,7 +47,11 @@ def db_factory() -> Iterator[sessionmaker[Session]]:
 def clean_db(db_factory: sessionmaker[Session]) -> sessionmaker[Session]:
     with db_factory.kw["bind"].begin() as connection:
         connection.execute(
-            text("TRUNCATE counts, movements, observations, items RESTART IDENTITY CASCADE")
+            text(
+                "TRUNCATE orders, suggestions, price_quotes, scrape_runs, supplier_products, "
+                "suppliers, counts, movements, observations, items, users "
+                "RESTART IDENTITY CASCADE"
+            )
         )
     return db_factory
 

@@ -15,6 +15,7 @@ from app.api.schemas import (
     InitialStockCreate,
     ItemCreate,
     ItemStateResponse,
+    ItemUpdate,
     MovementCreate,
     MovementResponse,
     ReverseCreate,
@@ -51,6 +52,10 @@ def _alert(state: dict) -> AlertResponse:
         alert_source=assessment.alert_source,
         alert_status=assessment.alert_status,
         is_low_stock=assessment.is_low_stock,
+        lead_time_days=assessment.lead_time_days,
+        projected_stock_at_arrival=assessment.projected_stock_at_arrival,
+        in_transit_quantity=assessment.in_transit_quantity,
+        order_by_at=assessment.order_by_at,
     )
 
 
@@ -75,6 +80,23 @@ def create_item(payload: ItemCreate, db: Db, now: Now) -> dict:
     return InventoryService(db).status(item.id, now)
 
 
+@router.get("/items", response_model=list[ItemStateResponse], tags=["items"])
+def list_items(db: Db, now: Now) -> list[dict]:
+    """All items with the same snapshot as GET /items/{id}, ordered by id (REQ-01)."""
+    service = InventoryService(db)
+    return [service.status(item.id, now) for item in service.items()]
+
+
+@router.patch(
+    "/items/{item_id}", response_model=ItemStateResponse, responses=ITEM_ERRORS, tags=["items"]
+)
+def update_item(item_id: int, payload: ItemUpdate, db: Db, now: Now) -> dict:
+    """Edit name and/or manual safe stock. Only the fields sent change (REQ-01)."""
+    service = InventoryService(db)
+    service.update_item(item_id, payload.model_dump(exclude_unset=True), now)
+    return service.status(item_id, now)
+
+
 @router.get(
     "/items/{item_id}", response_model=ItemStateResponse, responses=ITEM_ERRORS, tags=["items"]
 )
@@ -92,7 +114,10 @@ def get_item(item_id: int, db: Db, now: Now) -> dict:
 )
 def replace_initial(item_id: int, payload: InitialStockCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
     """Start a new observation after the previous initial stock was validly reversed."""
-    return InventoryService(db).replace_initial(item_id, payload.quantity, payload.unit, now)
+    service = InventoryService(db)
+    return service.movement_view(
+        service.replace_initial(item_id, payload.quantity, payload.unit, now)
+    )
 
 
 @router.put(
@@ -117,7 +142,8 @@ def update_safe_stock(item_id: int, payload: SafeStockUpdate, db: Db, now: Now) 
 )
 def create_movement(payload: MovementCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
     """Post an entry or exit; backdated events are checked against the full ledger and counts."""
-    return InventoryService(db).add_movement(
+    service = InventoryService(db)
+    movement = service.add_movement(
         payload.item_id,
         payload.kind,
         payload.quantity,
@@ -126,6 +152,7 @@ def create_movement(payload: MovementCreate, db: Db, now: Now):  # type: ignore[
         payload.occurred_at,
         payload.note,
     )
+    return service.movement_view(movement)
 
 
 @router.post(
@@ -137,7 +164,8 @@ def create_movement(payload: MovementCreate, db: Db, now: Now):  # type: ignore[
 )
 def reverse_movement(movement_id: int, payload: ReverseCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
     """Exact inverse only when the effective history remains valid (D1/D6)."""
-    return InventoryService(db).reverse(movement_id, now, payload.occurred_at)
+    service = InventoryService(db)
+    return service.movement_view(service.reverse(movement_id, now, payload.occurred_at))
 
 
 @router.post(
@@ -149,9 +177,9 @@ def reverse_movement(movement_id: int, payload: ReverseCreate, db: Db, now: Now)
 )
 def create_correction(movement_id: int, payload: CorrectionCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
     """Record a present D6 correction with its signed base-unit stock effect."""
-    return InventoryService(db).record_correction(
-        movement_id, payload.note, now, payload.stock_effect
-    )
+    service = InventoryService(db)
+    correction = service.record_correction(movement_id, payload.note, now, payload.stock_effect)
+    return service.movement_view(correction)
 
 
 @router.post(
@@ -180,8 +208,8 @@ def create_count(payload: CountCreate, db: Db, now: Now):  # type: ignore[no-unt
     tags=["movements"],
 )
 def list_movements(item_id: int, db: Db):
-    """Read-only movement audit trail; there is no edit or delete endpoint."""
-    return InventoryService(db).movements(item_id)
+    """Read-only movement audit trail, in id order, with balance_after and created_by."""
+    return InventoryService(db).movement_history(item_id)
 
 
 @router.get(
@@ -216,10 +244,11 @@ def item_alert(item_id: int, db: Db, now: Now) -> AlertResponse:
 
 @router.get("/alerts", response_model=list[AlertResponse], tags=["alerts"])
 def list_alerts(db: Db, now: Now) -> list[AlertResponse]:
-    """Currently active low-stock alerts. Use the item alert route for other states."""
+    """Low-stock alerts that still need an order (LOW_STOCK). Alerts already attended by an
+    order in transit (IN_TRANSIT) are not listed; see each item's alert route."""
     service = InventoryService(db)
     alerts = [_alert(service.status(item.id, now)) for item in service.items()]
-    return [alert for alert in alerts if alert.is_low_stock]
+    return [alert for alert in alerts if alert.alert_status == "LOW_STOCK"]
 
 
 @router.get(

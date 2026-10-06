@@ -1,6 +1,7 @@
 # Documento de Arquitectura — StockSmart · Grupo 4
 IIC3113-1 · Entrega 2 · Pedro Irarrázaval (líder de desarrollo + backend)
-Versión 1.1 · 2026-10-05 — ajustada al repo `Proyecto-GPTI-grupo-4-back` (commit `efc0bd1`) y a las decisiones del equipo de la semana del 28-09
+Versión 1.2 · 2026-10-06 — ajustada al repo `Proyecto-GPTI-grupo-4-back` y a las decisiones del equipo hasta el 06-10.
+**El modelo de datos (§4) y el contrato de la API (§5) se congelan el miércoles 07-10.** Desde ahí, cualquier cambio se avisa a la jefa de proyecto, a Nati y a Sofi.
 
 > **Qué saca cada uno:**
 > - **Nati** → §4.3, §6 y §7 van al DRS (reglas de negocio, entorno, interfaces). La numeración oficial es la de 17 REQ (§8, C9).
@@ -8,6 +9,13 @@ Versión 1.1 · 2026-10-05 — ajustada al repo `Proyecto-GPTI-grupo-4-back` (co
 > - **Sofi** → §5 completo: el contrato de la API. En §4.3 están los números que tienen que mostrar las pantallas.
 > - **Rai** → §10 y `E2 Planificacion/Estimacion HH (Pedro).md`, para la EDT y el cronograma.
 > - **Fran** → §2 para el diagrama del PPT; §11 y §12 para el Registro de Riesgos.
+
+**Cambios respecto de la v1.1 (05-10):**
+- **Sin despacho:** el costo fijo por proveedor (C4) sale del MVP. La comparación usa sólo el precio de los formatos.
+- **Sin ajustes antes de aprobar:** C11 queda cerrada. Se eliminan la tabla `suggestion_revisions` y el `PATCH /suggestions/{id}`.
+- **IVA:** los precios se guardan, comparan y muestran **con IVA incluido** (C14, §4.3).
+- **CORS implementado** (commit `758db32`, variable `STOCKSMART_CORS_ORIGINS`).
+- C11, C12 y C13 quedan cerradas (05-10). La fecha de la §12 se corrige: la validación se hizo del 03 al 05-10.
 
 **Cambios respecto de la v1.0 (03-10):**
 - Se elimina la carga manual de precios.
@@ -112,12 +120,11 @@ Verificado el 2026-10-03: `pytest` → **54 passed**; `ruff check` → sin obser
 | Tabla | Campos clave | Para qué (REQ) |
 |---|---|---|
 | `users` | id, email, password_hash, name, **role** (`ADMIN` = Administrador(a) \| `WAREHOUSE` = Encargado(a) de bodega), is_active | REQ-14. Agregar `created_by` a `movements` y `counts` (el mockup muestra el usuario en el historial) |
-| `suppliers` | id, name, price_source_url, **lead_time_days** (días corridos), **shipping_cost_clp** (despacho fijo, ingresado a mano), adapter, is_active | REQ-13, REQ-17, C4 |
+| `suppliers` | id, name, price_source_url, **lead_time_days** (días corridos), adapter, is_active | REQ-13, REQ-17 |
 | `supplier_products` | id, supplier_id, item_id, name_on_site, url, **pack_quantity** (en unidad base), min_packs | P7: compara formatos completos (manga de 10 × 1 kg → 10) |
 | `price_quotes` | id, supplier_product_id, run_id, pack_price_clp, **unit_price_clp** (por unidad base), available, **observed_at**, **valid_until** (= observed_at + 7 días) | REQ-07, REQ-08. Sólo precios scrapeados (sin `source` ni carga manual). Se guarda el histórico completo |
 | `scrape_runs` | id, supplier_id, started_at, finished_at, status (`OK`\|`PARTIAL`\|`ERROR`), message | REQ-07: registro de fallos que muestra el mockup en *Proveedores* |
 | `suggestions` | id, item_id, status (`PENDING`\|`APPROVED`\|`REJECTED`), required_qty, **in_transit_qty**, supplier_product_id, packs, purchased_qty, total_clp, next_best_total_clp, savings_clp, inputs_snapshot (JSON), created_at | REQ-09. Guarda los datos y precios usados, para explicar la sugerencia |
-| `suggestion_revisions` | id, suggestion_id, changed_by, changed_at, before (JSON), after (JSON) | **Por decidir (C11)**: sólo si el administrador puede ajustar antes de aprobar |
 | `orders` | id, suggestion_id, code (`OC-0012`), status (`APPROVED`\|`RECEIVED`), decided_by, decided_at, expected_at, received_at, receipt_movement_id | REQ-10, REQ-15. La recepción crea un `ENTRY` y lo enlaza (C3) |
 
 ### 4.3 Reglas de cálculo (van al DRS como *Reglas de negocio*)
@@ -139,9 +146,12 @@ Verificado el 2026-10-03: `pytest` → **54 passed**; `ruff check` → sin obser
   - Si un proveedor falla, se usa su **último precio vigente**, mostrando su fecha.
   - Si ya venció, ese proveedor **se excluye** de la comparación.
 - **Comparación (REQ-08):**
-  - Para cada proveedor con precio vigente, el costo total es `formatos × precio del formato + despacho fijo` (C4).
+  - Para cada proveedor con precio vigente, el costo total es `formatos × precio del formato`. **No incluye despacho** (C4 quedó fuera del MVP).
   - **Sólo se recomienda proveedor si hay al menos 2 precios vigentes.** Con menos, el sistema avisa que no puede comparar.
 - **Ahorro (C6)** = total de la **siguiente mejor opción vigente** − total recomendado, en $ y en %.
+- **IVA (C14):** los tres proveedores publican el **precio final con IVA incluido** (en Chile el precio informado al consumidor es el final). StockSmart guarda, compara y muestra esos precios **con IVA**, y lo dice en pantalla («precios con IVA»).
+  - Como los tres llevan la misma tasa (19 %), incluir o no el IVA **no cambia qué proveedor sale recomendado ni el ahorro en %**. El ahorro en $ con IVA es 1,19 veces el neto.
+  - Si el negocio quiere ver el neto (porque recupera el IVA como crédito fiscal), es `precio / 1,19` sólo al mostrar. No cambia el modelo de datos.
 
 **Ejemplo con los números del mockup** (para Sofi):
 
@@ -175,36 +185,36 @@ Verificado el 2026-10-03: `pytest` → **54 passed**; `ruff check` → sin obser
 |---|---|---|
 | `GET /health` | Estado de API y base | — |
 | `POST /items` | Crear insumo + stock inicial | Insumos → Nuevo insumo |
-| `GET /items/{id}` | Stock, consumo, proyección, alerta, cantidad sugerida | Panel de stock |
+| `GET /items` | **Listar insumos** con el mismo detalle que `GET /items/{id}` (06-10) | Insumos, panel |
+| `GET /items/{id}` | Stock, consumo, proyección, alerta (C1, C12, en tránsito), cantidad sugerida (C5), `order_by_at` | Panel de stock |
+| `PATCH /items/{id}` | Editar nombre y/o stock seguro; sólo cambia lo enviado (06-10) | Insumos → Editar |
 | `PUT /items/{id}/safe-stock` | Stock seguro manual (`null` = automático) | Insumos → Editar |
 | `POST /items/{id}/initial-stock` | Reemplazar stock inicial (sólo tras reversarlo) | — |
 | `POST /movements` | Entrada o salida (`kind`: `ENTRY`\|`EXIT`) | Movimientos |
 | `POST /movements/{id}/reverse` · `/corrections` | Anular o corregir un movimiento | — |
 | `POST /counts` | Conteo físico + ajuste | Conteo y merma |
-| `GET /items/{id}/movements` · `/counts` | Historiales | Movimientos · Conteo y merma |
+| `GET /items/{id}/movements` · `/counts` | Historiales; cada movimiento trae `balance_after` y `created_by` (06-10) | Movimientos · Conteo y merma |
 | `GET /items/{id}/consumption` | Igual que `GET /items/{id}` | — |
-| `GET /items/{id}/alert` · `GET /alerts` | Alerta de un insumo / alertas activas | Panel, badge del menú |
+| `GET /items/{id}/alert` · `GET /alerts` | Alerta de un insumo / alertas que requieren pedir (`LOW_STOCK`; las `IN_TRANSIT` no se listan) | Panel, badge del menú |
 | `GET /items/{id}/shortage-rate?start&end` | Tasa de merma del período | Conteo y merma |
 
 ### 5.3 Endpoints por agregar
 
 | Método y ruta | Qué hace | REQ | Nota |
 |---|---|---|---|
-| `GET /items` | **Listar insumos** | REQ-01 | El mockup lista insumos; hoy sólo existe `GET /items/{id}` |
-| `PATCH /items/{id}` | Editar nombre (y proveedores asociados) | REQ-01 | Hoy sólo se puede editar el stock seguro |
 | `POST /auth/login` · `GET /auth/me` | Sesión y usuario actual | REQ-14 | C8 |
-| `GET/POST /suppliers` · `PATCH /suppliers/{id}` | Proveedores con URL, días de entrega y despacho fijo | REQ-13, REQ-17 | C4 |
+| `GET/POST /suppliers` · `PATCH /suppliers/{id}` | Proveedores con URL y días de entrega | REQ-13, REQ-17 | — |
 | `GET /suppliers/{id}/scrape-runs` | Registro de fallos | REQ-07 | — |
 | `GET /prices/{item_id}` | Ofertas por proveedor (precio por unidad, fecha, vigente/vencida), total para la cantidad requerida, mejor opción o aviso «no se puede comparar» | REQ-08 | Regla de ≥ 2 vigentes |
 | `POST /prices/{item_id}/refresh` | Botón «Actualizar precios» (corre los adaptadores) | REQ-07 | — |
-| `POST /suggestions` · `GET /suggestions/{id}` | Generar y ver la sugerencia | REQ-09 | `PATCH` sólo si entra C11 |
+| `POST /suggestions` · `GET /suggestions/{id}` | Generar y ver la sugerencia | REQ-09 | Sin `PATCH`: no se ajusta antes de aprobar (C11) |
 | `POST /suggestions/{id}/decision` | `{"decision": "APPROVE"\|"REJECT", "reason"}` → crea la orden; sólo Administrador(a) | REQ-10 | — |
 | `GET /orders` · `POST /orders/{id}/receipt` | Historial; registrar recepción (crea `ENTRY`) | REQ-15 | C3 |
 | `GET /metrics?start&end` | Alertas atendidas antes del quiebre, quiebres, merma, órdenes, ahorro | REQ-12 | C7 |
 
 Ya no existe `POST /prices/{item_id}/manual` (C2).
 
-**Ajuste a una respuesta existente:** `MovementResponse` debe traer `balance_after` y `created_by`. La tabla de *Movimientos* del mockup muestra el **stock después de cada movimiento** y el **usuario**, y el frontend no puede calcular bien el saldo cuando hay reversas o movimientos retroactivos (REQ-16).
+**Ajuste a una respuesta existente (hecho el 06-10):** `MovementResponse` trae `balance_after` y `created_by`. La tabla de *Movimientos* del mockup muestra el **stock después de cada movimiento** y el **usuario**, y el frontend no puede calcular bien el saldo cuando hay reversas o movimientos retroactivos (REQ-16).
 
 ### 5.4 Contrato de los adaptadores (Rodrigo)
 
@@ -250,16 +260,17 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 | C1 | Alerta y tiempo de entrega | La alerta anticipa el tiempo de entrega (§4.3) | ✅ Aceptada |
 | C2 | Carga manual de precios | **Se elimina**: el Acta de la E1 exige obtener los precios por scraping. Se mantiene la **vigencia de 7 días** | ✅ Decidida por el equipo |
 | C3 | Recepción de la orden | Estados sugerida → aprobada → recibida; la recepción crea un `ENTRY` enlazado | ✅ Aceptada |
-| C4 | Despacho | Costo fijo por proveedor, ingresado a mano | ✅ Aceptada |
+| C4 | Despacho | **Fuera del MVP** (v1.2): el total compara sólo el precio de los formatos | ✅ Decidida por el equipo (06-10) |
 | C5 | Cantidad sugerida | `2 × consumo semanal − stock proyectado a la llegada − en tránsito`, redondeada a formatos | ✅ Aceptada, con el descuento de lo en tránsito |
 | C6 | Referencia del ahorro | Frente a la **siguiente mejor opción vigente** (como el mockup) | ✅ Decidida por el equipo |
 | C7 | «Quiebres evitados» | «Alertas atendidas antes del quiebre» + quiebres del período | ✅ Aceptada |
 | C8 | Autenticación | JWT en la propia API | ✅ Aceptada |
 | C9 | Numeración de REQ | **17 REQ** (lista de Nati): la del DRS sin la carga manual y con las tres últimas corridas en una | ✅ Decidida por el equipo |
 | C10 | Conteo mayor al teórico | `needs_review = difference > 0` | ✅ Aceptada |
-| C11 | Ajustar cantidad o proveedor antes de aprobar (`suggestion_revisions`) | Recomiendo **dejarlo fuera del MVP**: el mockup no lo tiene y suma 6–10 HH. Si no le sirve la sugerencia, el administrador la rechaza con un motivo | ✅ Aceptada |
+| C11 | Ajustar cantidad o proveedor antes de aprobar | **Fuera del MVP.** Si la sugerencia no le sirve, el administrador la rechaza con un motivo | ✅ Cerrada (05-10) |
 | C12 | Alerta: borde, días y proveedor | Borde **«≤»**, días **corridos** y el **mayor** tiempo de entrega entre los proveedores activos del insumo. Es lo que ya supone el mockup (Proveedor B, 4 días) | ✅ Corregido |
 | C13 | Proveedores | Central Mayorista, Jumbo y Santa Isabel (§12) | ✅ Aceptada |
+| C14 | IVA en los precios | Se guardan, comparan y muestran **con IVA incluido**, como los publican los sitios (§4.3) | ✅ Propuesta v1.2 |
 
 **Numeración oficial (C9):**
 - REQ-01 Registrar insumos · REQ-02 Registrar entradas y salidas · REQ-03 Registrar conteo físico
@@ -280,7 +291,7 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 - Plan y decisiones (P1–P12, D1–D7) documentados con trazabilidad a la E1: sirven para el DRS y el Plan de Pruebas.
 
 **Mal o por corregir (en orden de urgencia):**
-1. **No tiene CORS.** Un frontend en Vercel (u otro origen) no va a poder llamar a la API desde el navegador. Hay que agregar `CORSMiddleware` con el origen del frontend **antes del 09-10**.
+1. ~~No tiene CORS~~ — **resuelto el 05-10** (commit `758db32`): `CORSMiddleware` con los orígenes en `STOCKSMART_CORS_ORIGINS`. Falta configurar en esa variable el origen real del frontend (local y Vercel).
 2. **Cubre ~40 % de los REQ.** Faltan REQ-07, 08, 09, 10, 12, 13, 14, 15 y 17 (precios, órdenes, auth, métricas, tiempo de reposición). La demo es el 17-10: hay que priorizar el **flujo vertical** (insumo → alerta → precios → sugerencia → aprobación) por sobre más casos borde.
 3. **La alerta y la cantidad sugerida del código no son las acordadas** (§4.3). Hay que cambiarlas antes de que Sofi conecte el panel.
 4. **Sobredimensionado para el MVP.** D5–D7 (movimientos retroactivos, conteos como puntos de conciliación, reinicio de observación) son correctos pero no los pide ningún REQ, y cada módulo nuevo (recepción de órdenes) tiene que respetarlos. **Congelar: no más reglas D** hasta terminar el flujo completo.
@@ -316,7 +327,7 @@ La estimación de HH por tarea está en `E2 Planificacion/Estimacion HH (Pedro).
 2. **Ajustes al núcleo:** CORS, `GET/PATCH /items`, `balance_after`/`created_by`, alerta con tiempo de entrega y en tránsito (C1, C12), `needs_review` (C10).
 3. **Autenticación y roles** (C8).
 4. **Proveedores y precios:** tablas, CRUD de proveedores, validación de fuentes (§12), **tres adaptadores** (Central Mayorista, Jumbo, Santa Isabel), normalización, corrida programada, vigencia y registro de fallos.
-5. **Comparación y sugerencia** (P7, C4–C6, regla de ≥ 2 vigentes).
+5. **Comparación y sugerencia** (P7, C5–C6, regla de ≥ 2 vigentes, IVA).
 6. **Decisión, órdenes y recepción** (P8, C3).
 7. **Métricas** (P9, C7) — E3.
 8. **Despliegue y respaldos** (P10, P12).
@@ -340,7 +351,7 @@ Queda por ajustar con la v1.1:
 | **R13** Concentración del conocimiento | Respuesta: Rodrigo toma el pipeline de precios y la recepción de órdenes (ver la estimación de HH) |
 | **Nuevo: dependencia de dos grupos** | Central Mayorista es de **Walmart**; Jumbo y Santa Isabel, de **Cencosud**. Si Cencosud bloquea, quedan menos de 2 proveedores. Respuesta: Super Líder (Walmart) como reserva técnica (§12) |
 
-## 12. Proveedores validados (06-10)
+## 12. Proveedores validados (03 al 05-10)
 
 Detalle y evidencia en `E2 Planificacion/Validacion scraping (Pedro).md` y `Evidencia scraping 2026-10-03/`.
 
@@ -363,3 +374,5 @@ Detalle y evidencia en `E2 Planificacion/Validacion scraping (Pedro).md` y `Evid
 |---|---|---|---|
 | Código del backend (`AGENTS.md`) | **Por completar (Rodrigo)** | Implementar P1–P5 y D1–D7 | Por completar (Rodrigo): tests escritos, revisión del código |
 | Este documento, la validación de proveedores y la estimación de HH | Claude (Claude Code, Anthropic) | Revisar el repo contra el DRS y el mockup, redactar el documento, probar el acceso a los sitios y armar la estimación | Pedro: corrió los tests (54 passed), comparó cada decisión con el DRS, el mockup y el Acta, verificó los precios en los sitios y revisó el texto |
+| CORS (commit `758db32`: `app/config.py`, `app/main.py`, `tests/unit/test_cors.py`) | Claude (Claude Code, Anthropic) | Escribir el middleware CORS con el origen por variable de entorno y sus 4 tests | Pedro: revisó el código, corrió la suite completa contra PostgreSQL (58 passed) y `ruff` sin observaciones |
+| Migración `0003_procurement` (modelo v1.2), `GET/PATCH /items`, historial con `balance_after`/`created_by`, alerta C1/C12 con órdenes en tránsito y sus tests | Claude (Claude Code, Anthropic) | Implementar el modelo congelado y los endpoints de la integración 1 | Pedro: revisó el código; suite completa contra PostgreSQL (67 passed), `ruff` sin observaciones, migración probada de ida y vuelta |

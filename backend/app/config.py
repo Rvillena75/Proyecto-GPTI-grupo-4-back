@@ -4,9 +4,17 @@ import os
 
 
 def database_url() -> str:
+    """SQLAlchemy URL for PostgreSQL with the psycopg 3 driver.
+
+    Hosting providers such as Render hand out ``postgres://`` or ``postgresql://`` URLs;
+    those are rewritten to ``postgresql+psycopg://`` so the variable can be linked as is.
+    """
     value = os.getenv("STOCKSMART_DATABASE_URL")
     if not value:
         raise RuntimeError("STOCKSMART_DATABASE_URL is required")
+    for scheme in ("postgres://", "postgresql://"):
+        if value.startswith(scheme):
+            value = "postgresql+psycopg://" + value.removeprefix(scheme)
     if not value.startswith("postgresql+psycopg://"):
         raise RuntimeError("STOCKSMART_DATABASE_URL must use postgresql+psycopg")
     return value

@@ -80,6 +80,20 @@ Desde `backend/`, con `STOCKSMART_TEST_DATABASE_URL` configurada:
 
 Los tests de integración usan PostgreSQL real. **Al iniciar la suite se elimina y recrea el esquema `public` de la base `_test` indicada** y se aplican las migraciones desde cero. Nunca apuntes esa variable a una base con datos que deban conservarse. La suite incluye concurrencia, rollback e inmutabilidad mediante triggers PostgreSQL. La migración `0002_balance_guard` también se aplica sobre una base existente en `0001_inventory`: verifica primero que los saldos ya coincidan y luego instala un trigger diferido que exige `items.current_stock = suma de efectos de movimientos` al confirmar cada transacción. Un `UPDATE` SQL aislado del saldo se rechaza. Las consultas de estado bloquean la fila del insumo mientras leen saldo e historial para entregar una visión coherente.
 
+## Despliegue en Render
+
+[`render.yaml`](render.yaml) describe la API y su PostgreSQL, ambos en el plan gratuito:
+en Render, **New → Blueprint** y elegir este repositorio. Al arrancar, el servicio corre
+`alembic upgrade head` y después `uvicorn`; si una migración falla, la API no levanta.
+
+- `STOCKSMART_DATABASE_URL` se enlaza a la base de Render; la URL `postgresql://` que entrega
+  Render se convierte sola a `postgresql+psycopg://`.
+- `STOCKSMART_CORS_ORIGINS` trae el frontend de Vercel y el de desarrollo local. Para agregar
+  otro origen se edita en el panel de Render (o en `render.yaml`) y se redespliega.
+- La salud del servicio se revisa en `/health`.
+- Plan gratuito: la API se duerme tras 15 minutos sin uso (la primera llamada tarda cerca de un
+  minuto) y la base gratuita vence a los 30 días de creada (riesgo R14).
+
 ## Contrato REST JSON
 
 Los campos decimales se devuelven como cadenas JSON para conservar precisión. Las fechas incluyen zona horaria y pueden mostrarse con otro desplazamiento UTC equivalente entre respuestas. Un error de negocio tiene forma `{"error":{"code":"NEGATIVE_STOCK","message":"..."}}`; los errores de validación de estructura usan el mismo sobre con `details`. OpenAPI documenta los cuerpos de error 422, 404 y 409 utilizados por cada ruta. Las cantidades persistidas usan `NUMERIC(24,6)` y se rechazan si exceden 18 dígitos enteros o seis decimales en la unidad base.

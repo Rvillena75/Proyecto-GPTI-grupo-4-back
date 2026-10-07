@@ -296,7 +296,7 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 3. **La alerta y la cantidad sugerida del código no son las acordadas** (§4.3). Hay que cambiarlas antes de que Sofi conecte el panel.
 4. **Sobredimensionado para el MVP.** D5–D7 (movimientos retroactivos, conteos como puntos de conciliación, reinicio de observación) son correctos pero no los pide ningún REQ, y cada módulo nuevo (recepción de órdenes) tiene que respetarlos. **Congelar: no más reglas D** hasta terminar el flujo completo.
 5. **Faltan dos rutas para el mockup:** `GET /items` (listar) y `PATCH /items/{id}` (editar). Además, el historial no trae `balance_after` ni el usuario (§5.3).
-6. **No hay despliegue.** Falta `render.yaml`/Procfile, ejecutar las migraciones al arrancar y el origen CORS por variable. Sin esto no hay *link a la aplicación* para la rúbrica (*Evidencia de avance*, 2,5 pts).
+6. ~~No hay despliegue~~ — **preparado el 07-10**: `render.yaml` (API + PostgreSQL 17, plan gratuito), migraciones al arrancar, URL de Render aceptada tal cual y CORS con los orígenes del frontend. Falta crear el servicio en Render y pasarle la URL a Sofi. Sin esto no hay *link a la aplicación* para la rúbrica (*Evidencia de avance*, 2,5 pts).
 7. **README orientado a Windows** (PowerShell). Agregar los comandos de macOS/Linux. Además pide PostgreSQL 17 cuando funciona con 14: bajar el requisito o fijar 16, que es lo que ofrece Render.
 8. **`GET /alerts` recalcula el historial completo de cada insumo.** Con un insumo da igual; si el MVP crece, conviene cachear el estado.
 9. **Uso de IA.** `AGENTS.md` muestra que el repo se construyó con un agente. El curso exige **declararlo** (§13).

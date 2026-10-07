@@ -1,0 +1,32 @@
+# Despliegue en Render (Blueprint): API + PostgreSQL, ambos en el plan gratuito.
+# Render > New > Blueprint > este repositorio. Las migraciones corren al arrancar
+# porque el plan gratuito no tiene comando previo al despliegue.
+databases:
+  - name: stocksmart-db
+    plan: free
+    region: oregon
+    databaseName: stocksmart
+    user: stocksmart
+    postgresMajorVersion: "17"
+    ipAllowList: []  # sólo la red interna de Render
+
+services:
+  - type: web
+    name: stocksmart-api
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install .
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: STOCKSMART_DATABASE_URL
+        fromDatabase:
+          name: stocksmart-db
+          property: connectionString
+      - key: STOCKSMART_CORS_ORIGINS
+        value: https://stocksmart-nine.vercel.app,http://localhost:5173

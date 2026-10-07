@@ -291,7 +291,7 @@ Ya no existe `POST /prices/{item_id}/manual` (C2).
 - Plan y decisiones (P1–P12, D1–D7) documentados con trazabilidad a la E1: sirven para el DRS y el Plan de Pruebas.
 
 **Mal o por corregir (en orden de urgencia):**
-1. ~~No tiene CORS~~ — **resuelto el 05-10** (commit `758db32`): `CORSMiddleware` con los orígenes en `STOCKSMART_CORS_ORIGINS`. Falta configurar en esa variable el origen real del frontend (local y Vercel).
+1. ~~No tiene CORS~~ — **resuelto el 05-10** (commit `758db32`): `CORSMiddleware` con los orígenes en `STOCKSMART_CORS_ORIGINS`. Orígenes del frontend (Sofía, 07-10): `https://stocksmart-nine.vercel.app` y `http://localhost:5173`; se cargan en esa variable al desplegar.
 2. **Cubre ~40 % de los REQ.** Faltan REQ-07, 08, 09, 10, 12, 13, 14, 15 y 17 (precios, órdenes, auth, métricas, tiempo de reposición). La demo es el 17-10: hay que priorizar el **flujo vertical** (insumo → alerta → precios → sugerencia → aprobación) por sobre más casos borde.
 3. **La alerta y la cantidad sugerida del código no son las acordadas** (§4.3). Hay que cambiarlas antes de que Sofi conecte el panel.
 4. **Sobredimensionado para el MVP.** D5–D7 (movimientos retroactivos, conteos como puntos de conciliación, reinicio de observación) son correctos pero no los pide ningún REQ, y cada módulo nuevo (recepción de órdenes) tiene que respetarlos. **Congelar: no más reglas D** hasta terminar el flujo completo.

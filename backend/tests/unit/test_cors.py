@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 from app.config import cors_origins
 from app.main import add_cors
 
-FRONTEND = "https://stocksmart.vercel.app"
+FRONTEND = "https://stocksmart-nine.vercel.app"
 
 
 def client_for(origins: list[str]) -> TestClient:

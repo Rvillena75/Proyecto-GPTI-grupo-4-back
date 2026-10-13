@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-10-06T02:33:27.9890872+00:00",
+  "acquisition": "PUBLIC_HTTP_GET",
+  "status": 200,
+  "redirects_followed": false,
+  "sha256": "195b879a94889f76fb8b99e30f2f6fdafe299272b6f54b62de45d79e111fa26a",
+  "bytes": 530929,
+  "url": "https://www.centralmayorista.cl/p/huevo-grande-pack-de-30-santa-elvira-5066346",
+  "content_type": "text/html; charset=utf-8",
+  "artifact_sha256": "0152f4df8c8cf176eefe576330eb12dcb699234fe62165c2aa2b916a92058fde",
+  "redaction": {
+    "reason": "Public provider HTML contained credential-like strings unrelated to the product offer",
+    "aws_access_key_ids": 2,
+    "provider_tokens": 3,
+    "original_response_sha256": "195b879a94889f76fb8b99e30f2f6fdafe299272b6f54b62de45d79e111fa26a",
+    "original_location": "Private local audit backup; never published"
+  }
+}

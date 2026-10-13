@@ -1,0 +1,39 @@
+{
+  "days": 28,
+  "future_seed": 20261005,
+  "future_seed_is_not_used_to_generate_prior_history": true,
+  "provenance": "SYNTHETIC_PREPERIOD_NOT_OBSERVED",
+  "recipes": [
+    {
+      "customer_jitter": 2,
+      "eggs_per_serving": 2,
+      "name": "omelette",
+      "weekday_servings": [
+        16,
+        18,
+        19,
+        20,
+        24,
+        26,
+        14
+      ]
+    },
+    {
+      "customer_jitter": 1,
+      "eggs_per_serving": 1,
+      "name": "porcion_reposteria",
+      "weekday_servings": [
+        8,
+        10,
+        12,
+        12,
+        16,
+        16,
+        8
+      ]
+    }
+  ],
+  "seed": 20260629,
+  "seed_basis": "YYYYMMDD of start of the preceding four complete weeks; chosen before any history/KPI draw",
+  "start_date": "2026-06-29"
+}

@@ -1,0 +1,10 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 1433723,
+  "content_type": "text/html; charset=utf-8",
+  "observed_at": "2026-10-07T04:06:19.829514+00:00",
+  "redirects_followed": false,
+  "sha256": "b11097df6d88c22ee05ab084dc5bd36b4a56b4c401ebed1cfd9ab80f20772f88",
+  "status": 200,
+  "url": "https://www.jumbo.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p"
+}

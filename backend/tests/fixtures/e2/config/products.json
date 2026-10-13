@@ -1,0 +1,102 @@
+{
+  "base_unit": "kg",
+  "comparison_group": "rda_roasted_chicken_luncheon_meat",
+  "item_id": 2,
+  "item_name": "Pechuga de pollo asada refrigerada Receta del Abuelo",
+  "schema_version": "2.1",
+  "suppliers": [
+    {
+      "adapter": "central",
+      "brand": "RECETA DEL ABUELO",
+      "evidence_stem": "central_asada_2500g",
+      "expected_name_tokens": [
+        "pech",
+        "pollo",
+        "asada",
+        "receta",
+        "abuelo"
+      ],
+      "is_active": true,
+      "lead_time_days": 1,
+      "min_packs": 1,
+      "name": "Central Mayorista",
+      "name_on_site": "PZA PECH POLLO ASADA 2.5KG RECETA ABUELO",
+      "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE",
+      "pack": {
+        "base_unit": "kg",
+        "commercial_format": "pieza nominal2.5kg por peso",
+        "content_quantity": "2500",
+        "content_unit": "g",
+        "is_variable_weight": true,
+        "units_per_pack": 1
+      },
+      "shipping_cost_clp": "0",
+      "sku": "880521",
+      "supplier_id": 1,
+      "supplier_product_id": 201,
+      "url": "https://www.centralmayorista.cl/p/pza-pech-pollo-asada-25kg-receta-abuelo-880521"
+    },
+    {
+      "adapter": "jumbo",
+      "brand": "Receta del Abuelo",
+      "evidence_stem": "jumbo_asada_125g",
+      "expected_name_tokens": [
+        "pech",
+        "pollo",
+        "asada",
+        "receta",
+        "abuelo"
+      ],
+      "is_active": true,
+      "lead_time_days": 1,
+      "min_packs": 1,
+      "name": "Jumbo",
+      "name_on_site": "Pechuga Pollo Asada Receta del Abuelo Corte Pluma 125 g",
+      "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE",
+      "pack": {
+        "base_unit": "kg",
+        "commercial_format": "paquete corte pluma125g",
+        "content_quantity": "125",
+        "content_unit": "g",
+        "is_variable_weight": false,
+        "units_per_pack": 1
+      },
+      "shipping_cost_clp": "0",
+      "sku": "125608",
+      "supplier_id": 2,
+      "supplier_product_id": 202,
+      "url": "https://www.jumbo.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p"
+    },
+    {
+      "adapter": "santa_isabel",
+      "brand": "Receta del Abuelo",
+      "evidence_stem": "santa_isabel_asada_125g",
+      "expected_name_tokens": [
+        "pech",
+        "pollo",
+        "asada",
+        "receta",
+        "abuelo"
+      ],
+      "is_active": true,
+      "lead_time_days": 2,
+      "min_packs": 1,
+      "name": "Santa Isabel",
+      "name_on_site": "Pechuga Pollo Asada Receta del Abuelo Corte Pluma 125 g",
+      "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE",
+      "pack": {
+        "base_unit": "kg",
+        "commercial_format": "paquete corte pluma125g",
+        "content_quantity": "125",
+        "content_unit": "g",
+        "is_variable_weight": false,
+        "units_per_pack": 1
+      },
+      "shipping_cost_clp": "0",
+      "sku": "23226",
+      "supplier_id": 3,
+      "supplier_product_id": 203,
+      "url": "https://www.santaisabel.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p"
+    }
+  ]
+}

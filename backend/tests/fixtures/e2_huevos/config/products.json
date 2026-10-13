@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "item_id": 1,
+  "item_name": "Huevos grandes tradicionales de gallina",
+  "base_unit": "unidad",
+  "comparison_group": "egg_traditional_large",
+  "suppliers": [
+    {"supplier_id": 1, "name": "Central Mayorista", "adapter": "central", "is_active": true, "lead_time_days": 3, "shipping_cost_clp": "0", "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION", "supplier_product_id": 11, "sku": "5066346", "brand": "SANTA ELVIRA", "name_on_site": "HUEVO GRANDE PACK DE 30 SANTA ELVIRA", "url": "https://www.centralmayorista.cl/p/huevo-grande-pack-de-30-santa-elvira-5066346", "expected_name_tokens": ["huevo", "grande", "santa", "elvira"], "min_packs": 1, "pack": {"commercial_format": "pack de 30", "content_quantity": "1", "content_unit": "unidad", "units_per_pack": 30, "base_unit": "unidad"}, "evidence_stem": "central_huevo_grande_30"},
+    {"supplier_id": 2, "name": "Jumbo", "adapter": "jumbo", "is_active": true, "lead_time_days": 2, "shipping_cost_clp": "0", "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION", "supplier_product_id": 21, "sku": "6659", "brand": "Cintazul", "name_on_site": "Huevos Cintazul Grandes Blancos 12 un.", "url": "https://www.jumbo.cl/huevos-grandes-blancos-cintazul-bandeja-12-unid/p", "expected_name_tokens": ["huevos", "cintazul", "grandes", "blancos"], "min_packs": 1, "pack": {"commercial_format": "bandeja de 12", "content_quantity": "1", "content_unit": "unidad", "units_per_pack": 12, "base_unit": "unidad"}, "evidence_stem": "jumbo_huevo_grande_12"},
+    {"supplier_id": 3, "name": "Santa Isabel", "adapter": "santa_isabel", "is_active": true, "lead_time_days": 4, "shipping_cost_clp": "0", "operating_parameters_provenance": "SYNTHETIC_ASSUMPTION", "supplier_product_id": 31, "sku": "867", "brand": "Cintazul", "name_on_site": "Huevos Cintazul Grandes Blancos 12 un.", "url": "https://www.santaisabel.cl/huevos-grandes-blancos-cintazul-bandeja-12-unid/p", "expected_name_tokens": ["huevos", "cintazul", "grandes", "blancos"], "min_packs": 1, "pack": {"commercial_format": "bandeja de 12", "content_quantity": "1", "content_unit": "unidad", "units_per_pack": 12, "base_unit": "unidad"}, "evidence_stem": "santa_isabel_huevo_grande_12"}
+  ]
+}

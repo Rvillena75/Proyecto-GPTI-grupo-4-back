@@ -1,0 +1,115 @@
+{
+  "days": 7,
+  "end_date": "2026-07-26",
+  "full_service_assumption": "Recipe demand assumed fully served in prior period; no prior inventory/merma modeled",
+  "provenance": "SYNTHETIC_PREPERIOD_CONSUMPTION_NOT_OBSERVED_BUSINESS",
+  "rows": [
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.375000",
+      "date": "2026-07-20",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.375000",
+          "quantity": "0.375000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 5
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.225000",
+      "date": "2026-07-21",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.225000",
+          "quantity": "0.225000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 3
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.150000",
+      "date": "2026-07-22",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.150000",
+          "quantity": "0.150000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 2
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.450000",
+      "date": "2026-07-23",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.450000",
+          "quantity": "0.450000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 6
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.825000",
+      "date": "2026-07-24",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.825000",
+          "quantity": "0.825000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 11
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.450000",
+      "date": "2026-07-25",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.450000",
+          "quantity": "0.450000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 6
+        }
+      ]
+    },
+    {
+      "base_unit": "kg",
+      "consumed_quantity": "0.600000",
+      "date": "2026-07-26",
+      "recipe_details": [
+        {
+          "base_unit": "kg",
+          "demand_quantity": "0.600000",
+          "quantity": "0.600000",
+          "quantity_per_serving": "0.075000",
+          "recipe": "sandwich_pechuga_asada",
+          "servings": 8
+        }
+      ]
+    }
+  ],
+  "seed": 20260720,
+  "start_date": "2026-07-20"
+}

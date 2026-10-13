@@ -1,0 +1,10 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 359,
+  "content_type": "text/plain",
+  "observed_at": "2026-10-07T04:06:14.461652+00:00",
+  "redirects_followed": false,
+  "sha256": "94a4464928fa4fcb0edf865e3dc5ee21a1f520a029f312daa3227054cbedf7ac",
+  "status": 200,
+  "url": "https://www.centralmayorista.cl/robots.txt"
+}

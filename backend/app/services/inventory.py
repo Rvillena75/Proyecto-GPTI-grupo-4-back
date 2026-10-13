@@ -1,5 +1,6 @@
 """Transactional inventory use cases. All writes lock the item's PostgreSQL row."""
 
+from contextlib import nullcontext
 from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -178,11 +179,15 @@ class InventoryService:
         now: datetime,
         occurred_at: datetime | None = None,
         note: str | None = None,
+        *,
+        _join_transaction: bool = False,
     ) -> Movement:
         _aware(now)
         if kind not in {"ENTRY", "EXIT"}:
             raise RuleViolation("INVALID_MOVEMENT_KIND", "Only ENTRY or EXIT is accepted", 422)
-        with self.session.begin():
+        if _join_transaction and not self.session.in_transaction():
+            raise RuntimeError("Caller must open an atomic transaction")
+        with nullcontext() if _join_transaction else self.session.begin():
             item = self._item(item_id, lock=True)
             observation = self._require_observation(item_id)
             effective_at = self._occurred_at(occurred_at, observation, now)
@@ -215,6 +220,14 @@ class InventoryService:
             raise RuleViolation("MOVEMENT_NOT_FOUND", "Movement does not exist", 404)
         if original.kind in {"REVERSAL", "CORRECTION"}:
             raise RuleViolation("INVALID_CORRECTION_TARGET", "Cannot correct a correction")
+        if (
+            self.session.scalar(select(Order.id).where(Order.receipt_movement_id == original.id))
+            is not None
+        ):
+            raise RuleViolation(
+                "ORDER_RECEIPT_IMMUTABLE",
+                "Linked receipt requires an agreed order reconciliation flow",
+            )
         already = self.session.scalar(
             select(Movement.id).where(Movement.invalidates_movement_id == movement_id)
         )

@@ -1,5 +1,7 @@
 # Plan del backend de StockSmart
 
+**Actualización 12/10/2026:** las secciones P1–P12 y la tabla con corte 28/09 conservan el plan histórico. Las precisiones aceptadas de arquitectura v1.2 (C1–C14) están en `docs/decisions.md`. El estado implementado actual está en [README](README.md) y [contrato de integración](docs/INTEGRACION_BACKEND.md): proveedores/productos, precios persistidos y recepción/historial integrados; sugerencias, decisiones y auth pendientes de Pedro; métricas postergadas a E3. Los fixtures vigentes usan pechuga asada y mantienen huevos como evidencia histórica.
+
 **Estado:** decisiones de backend consolidadas; las validaciones pendientes se señalan expresamente.
 
 **Fecha de revisión:** 28 de septiembre de 2026.

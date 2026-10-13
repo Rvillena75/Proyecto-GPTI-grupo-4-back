@@ -1,5 +1,7 @@
 # Decisiones de implementación del backend
 
+**Integración 12/10/2026:** D1–D7 se conservan. La API usa las reglas C1/C5/C12 de Pedro con proveedores y órdenes persistidas; el evaluador E2 histórico conserva su comportamiento y fixtures. Estado y contrato actuales en [INTEGRACION_BACKEND.md](INTEGRACION_BACKEND.md). No se cargan datos sintéticos en producción.
+
 `PLAN_BACKEND_STOCKSMART.md` conserva la autoridad funcional. Estas decisiones precisan P1–P5 para su futura implementación; no modifican las fórmulas ni amplían el alcance del MVP. El núcleo de inventario P1–P5 puede desarrollarse antes de validar las fuentes de P6. Los adaptadores reales de Central Mayorista y Alvi requieren esa validación previa.
 
 ## D1 — Reversas y correcciones (P2; efecto en P3)

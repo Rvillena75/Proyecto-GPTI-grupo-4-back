@@ -1,4 +1,6 @@
-# StockSmart — backend de inventario P1–P5
+# StockSmart — backend de inventario y compras
+
+**Estado de la rama de integración, 12/10/2026:** núcleo de inventario de Pedro integrado con proveedores/productos, precios persistidos y recepción/historial de órdenes de Rodrigo. Los fixtures E2 vigentes usan pechuga asada; huevos se conserva como fixture histórico. [Contrato de integración](docs/INTEGRACION_BACKEND.md) y [guía histórica E2](docs/E2_Rodrigo.md).
 
 Este repositorio contiene **solo el backend**. Al 28 de septiembre de 2026, el Goal 1 implementa el núcleo de inventario **P1–P5 y D1–D7**: insumos y stock, movimientos y conteos, consumo, proyección, alertas y cantidad base a reponer. No incluye frontend. Las reglas funcionales están en [`PLAN_BACKEND_STOCKSMART.md`](PLAN_BACKEND_STOCKSMART.md) y las precisiones D1–D7 en [`docs/decisions.md`](docs/decisions.md).
 
@@ -11,16 +13,19 @@ Este repositorio contiene **solo el backend**. Al 28 de septiembre de 2026, el G
 - Historial inmutable; reversas y correcciones trazables; validación de saldo y conciliaciones históricas D1–D7.
 - Cálculo P3 de faltantes y tasa por período. La función matemática de reducción frente a una tasa base está implementada y probada.
 - Cálculo P4 de consumo y proyección, y reglas P5 de stock seguro automático/manual, alertas y cantidad base a reponer.
+- Modelo de compras `0003_procurement`, listado/edición de insumos, plazos C12, alertas C1 y órdenes en tránsito C5 de Pedro.
+- Gestión de proveedores y productos; desactivación mediante `PATCH is_active=false`, conservando referencias históricas.
+- Adaptadores públicos Central/Jumbo/Santa Isabel y persistencia PostgreSQL de precios y corridas; vigencia original de siete días, comparación por formatos y al menos dos proveedores.
+- `GET /orders` y `POST /orders/{id}/receipt`: recepción completa, atómica e idempotente, con peso real obligatorio en formatos variables configurados.
 
 **Pendiente de implementar:**
 
-- **P6:** validar las fuentes y sus condiciones de uso; después, implementar adaptadores de proveedores. No hay consultas de precios reales.
-- **P7:** formatos comerciales, comparación de ofertas, recomendación de proveedor y ahorro potencial por orden.
-- **P8:** autenticación, roles y permisos, decisión humana y registro de órdenes internas.
+- **P6:** configurar los proveedores/productos operacionales y programar el worker; los fixtures no se cargan automáticamente.
+- **P7/P8 (Pedro):** generación/persistencia de sugerencias y aprobación/rechazo; JWT, roles y permisos. Las tablas existen, sus rutas todavía no están implementadas. El flujo completo queda pendiente de estos módulos.
 - **P9:** carga/gestión de línea base y métricas comparativas completas del piloto. La reducción matemática implementada no incluye la gestión de esa línea base.
 - **P10:** respaldos automáticos, retención y prueba de restauración.
-- **P11:** documentar e implementar las rutas para precios, sugerencias, decisiones, órdenes y métricas; acordar con el equipo de frontend las decisiones que dependan de su integración.
-- **P12:** despliegue y servicios operacionales. El núcleo actual utiliza Python, FastAPI, PostgreSQL, SQLAlchemy y Alembic; no incluye autenticación ni despliegue configurado.
+- **P11:** conectar el frontend al contrato OpenAPI y completar las rutas de sugerencias, decisiones y auth. Las métricas se postergan a E3.
+- **P12 (Pedro):** `render.yaml` está preparado; el repositorio no documenta una URL pública verificada ni un servicio creado. Esta rama requiere revisión e integración antes de desplegarse. Las rutas actuales todavía no exigen autorización.
 
 El alcance y el estado detallado por requisito están en [`PLAN_BACKEND_STOCKSMART.md`](PLAN_BACKEND_STOCKSMART.md). Las metas de reducción de quiebres, merma y ahorro siguen siendo métricas pendientes de evaluación con datos comparables, no resultados del software.
 
@@ -55,7 +60,19 @@ $env:STOCKSMART_DATABASE_URL = "postgresql+psycopg://stocksmart:<clave>@localhos
 $env:STOCKSMART_TEST_DATABASE_URL = "postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart_test"
 ```
 
-En bash, activa `.venv/bin/activate`, usa `python -m pip install -e '.[test]'` y exporta las dos variables. [`.env.example`](backend/.env.example) solo muestra los nombres de configuración: la aplicación lee **variables de entorno**, no carga un archivo `.env` automáticamente. Los archivos `.env` y datos de bases están excluidos de Git.
+En bash/macOS/Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[test]'
+export STOCKSMART_DATABASE_URL='postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart'
+export STOCKSMART_TEST_DATABASE_URL='postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart_test'
+alembic -c alembic.ini upgrade head
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+[`.env.example`](backend/.env.example) solo muestra los nombres de configuración: la aplicación lee **variables de entorno**, no carga un archivo `.env` automáticamente. Los archivos `.env` y datos de bases están excluidos de Git.
 
 `STOCKSMART_CORS_ORIGINS` lista, separados por comas, los orígenes del frontend que pueden llamar a la API desde el navegador (por ejemplo `http://localhost:5173,https://stocksmart-nine.vercel.app`). Sin esa variable la API no acepta llamadas de otros orígenes.
 
@@ -68,14 +85,24 @@ Aplica migraciones desde una base vacía y ejecuta la API:
 
 La API queda en `http://127.0.0.1:8000`; `/health` comprueba PostgreSQL, `/openapi.json` entrega el contrato JSON y `/docs` muestra la documentación interactiva generada por FastAPI. El usuario final del backend no necesita una interfaz creada en este repositorio.
 
+La migración aditiva `0004_scrape_config` agrega únicamente `supplier_products.scrape_config`, nullable, con los parámetros ya definidos por el normalizador de Rodrigo (SKU, marca, tokens y `PackSpec`). Las tablas de Pedro y los datos existentes se conservan. Configuración, ejemplos y reglas de recepción: [INTEGRACION_BACKEND.md](docs/INTEGRACION_BACKEND.md).
+
+Worker PostgreSQL, desde `backend/` y con la base de aplicación configurada:
+
+```powershell
+.\.venv\Scripts\python.exe -m scraper.postgres --item-id 1
+```
+
+En bash usa `python -m scraper.postgres --item-id 1`. El worker comparte adaptadores, persistencia, bloqueo y pausas entre solicitudes con `POST /prices/{item_id}/refresh`. `STOCKSMART_PRICE_EVIDENCE_DIR` permite elegir el directorio de capturas públicas; por defecto usa una carpeta temporal del sistema. El cron de Render queda a cargo de Pedro.
+
 ## Tests y calidad
 
 Desde `backend/`, con `STOCKSMART_TEST_DATABASE_URL` configurada:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\ruff.exe check app tests migrations
-.\.venv\Scripts\ruff.exe format --check app tests migrations
+.\.venv\Scripts\ruff.exe check app scraper tests migrations
+.\.venv\Scripts\ruff.exe format --check app scraper tests migrations
 ```
 
 Los tests de integración usan PostgreSQL real. **Al iniciar la suite se elimina y recrea el esquema `public` de la base `_test` indicada** y se aplican las migraciones desde cero. Nunca apuntes esa variable a una base con datos que deban conservarse. La suite incluye concurrencia, rollback e inmutabilidad mediante triggers PostgreSQL. La migración `0002_balance_guard` también se aplica sobre una base existente en `0001_inventory`: verifica primero que los saldos ya coincidan y luego instala un trigger diferido que exige `items.current_stock = suma de efectos de movimientos` al confirmar cada transacción. Un `UPDATE` SQL aislado del saldo se rechaza. Las consultas de estado bloquean la fila del insumo mientras leen saldo e historial para entregar una visión coherente.

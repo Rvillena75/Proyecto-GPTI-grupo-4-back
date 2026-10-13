@@ -1,0 +1,542 @@
+{
+  "days": 28,
+  "end_date": "2026-07-26",
+  "full_service_assumption": "Recipe demand assumed fully served in prior period; no prior inventory/merma modeled",
+  "provenance": "SYNTHETIC_PREPERIOD_CONSUMPTION_NOT_OBSERVED_BUSINESS",
+  "rows": [
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 39,
+      "date": "2026-06-29",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 32,
+          "recipe": "omelette",
+          "servings": 16
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 7,
+          "recipe": "porcion_reposteria",
+          "servings": 7
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 43,
+      "date": "2026-06-30",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 32,
+          "recipe": "omelette",
+          "servings": 16
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 11,
+          "recipe": "porcion_reposteria",
+          "servings": 11
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 54,
+      "date": "2026-07-01",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 42,
+          "recipe": "omelette",
+          "servings": 21
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 12,
+          "recipe": "porcion_reposteria",
+          "servings": 12
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 47,
+      "date": "2026-07-02",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 36,
+          "recipe": "omelette",
+          "servings": 18
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 11,
+          "recipe": "porcion_reposteria",
+          "servings": 11
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 65,
+      "date": "2026-07-03",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 50,
+          "recipe": "omelette",
+          "servings": 25
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 15,
+          "recipe": "porcion_reposteria",
+          "servings": 15
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 70,
+      "date": "2026-07-04",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 54,
+          "recipe": "omelette",
+          "servings": 27
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 16,
+          "recipe": "porcion_reposteria",
+          "servings": 16
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 39,
+      "date": "2026-07-05",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 30,
+          "recipe": "omelette",
+          "servings": 15
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 9,
+          "recipe": "porcion_reposteria",
+          "servings": 9
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 43,
+      "date": "2026-07-06",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 34,
+          "recipe": "omelette",
+          "servings": 17
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 9,
+          "recipe": "porcion_reposteria",
+          "servings": 9
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 48,
+      "date": "2026-07-07",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 38,
+          "recipe": "omelette",
+          "servings": 19
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 10,
+          "recipe": "porcion_reposteria",
+          "servings": 10
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 50,
+      "date": "2026-07-08",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 38,
+          "recipe": "omelette",
+          "servings": 19
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 12,
+          "recipe": "porcion_reposteria",
+          "servings": 12
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 56,
+      "date": "2026-07-09",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 44,
+          "recipe": "omelette",
+          "servings": 22
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 12,
+          "recipe": "porcion_reposteria",
+          "servings": 12
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 67,
+      "date": "2026-07-10",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 52,
+          "recipe": "omelette",
+          "servings": 26
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 15,
+          "recipe": "porcion_reposteria",
+          "servings": 15
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 64,
+      "date": "2026-07-11",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 48,
+          "recipe": "omelette",
+          "servings": 24
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 16,
+          "recipe": "porcion_reposteria",
+          "servings": 16
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 32,
+      "date": "2026-07-12",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 24,
+          "recipe": "omelette",
+          "servings": 12
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 8,
+          "recipe": "porcion_reposteria",
+          "servings": 8
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 40,
+      "date": "2026-07-13",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 32,
+          "recipe": "omelette",
+          "servings": 16
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 8,
+          "recipe": "porcion_reposteria",
+          "servings": 8
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 50,
+      "date": "2026-07-14",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 40,
+          "recipe": "omelette",
+          "servings": 20
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 10,
+          "recipe": "porcion_reposteria",
+          "servings": 10
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 55,
+      "date": "2026-07-15",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 42,
+          "recipe": "omelette",
+          "servings": 21
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 13,
+          "recipe": "porcion_reposteria",
+          "servings": 13
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 56,
+      "date": "2026-07-16",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 44,
+          "recipe": "omelette",
+          "servings": 22
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 12,
+          "recipe": "porcion_reposteria",
+          "servings": 12
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 65,
+      "date": "2026-07-17",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 50,
+          "recipe": "omelette",
+          "servings": 25
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 15,
+          "recipe": "porcion_reposteria",
+          "servings": 15
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 69,
+      "date": "2026-07-18",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 54,
+          "recipe": "omelette",
+          "servings": 27
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 15,
+          "recipe": "porcion_reposteria",
+          "servings": 15
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 39,
+      "date": "2026-07-19",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 32,
+          "recipe": "omelette",
+          "servings": 16
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 7,
+          "recipe": "porcion_reposteria",
+          "servings": 7
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 35,
+      "date": "2026-07-20",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 28,
+          "recipe": "omelette",
+          "servings": 14
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 7,
+          "recipe": "porcion_reposteria",
+          "servings": 7
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 45,
+      "date": "2026-07-21",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 34,
+          "recipe": "omelette",
+          "servings": 17
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 11,
+          "recipe": "porcion_reposteria",
+          "servings": 11
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 53,
+      "date": "2026-07-22",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 42,
+          "recipe": "omelette",
+          "servings": 21
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 11,
+          "recipe": "porcion_reposteria",
+          "servings": 11
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 50,
+      "date": "2026-07-23",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 38,
+          "recipe": "omelette",
+          "servings": 19
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 12,
+          "recipe": "porcion_reposteria",
+          "servings": 12
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 67,
+      "date": "2026-07-24",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 52,
+          "recipe": "omelette",
+          "servings": 26
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 15,
+          "recipe": "porcion_reposteria",
+          "servings": 15
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 68,
+      "date": "2026-07-25",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 52,
+          "recipe": "omelette",
+          "servings": 26
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 16,
+          "recipe": "porcion_reposteria",
+          "servings": 16
+        }
+      ]
+    },
+    {
+      "base_unit": "unidad",
+      "consumed_quantity": 31,
+      "date": "2026-07-26",
+      "recipe_details": [
+        {
+          "eggs_per_serving": 2,
+          "quantity": 24,
+          "recipe": "omelette",
+          "servings": 12
+        },
+        {
+          "eggs_per_serving": 1,
+          "quantity": 7,
+          "recipe": "porcion_reposteria",
+          "servings": 7
+        }
+      ]
+    }
+  ],
+  "seed": 20260629,
+  "start_date": "2026-06-29"
+}

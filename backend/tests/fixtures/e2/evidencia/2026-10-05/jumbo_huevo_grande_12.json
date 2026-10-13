@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-10-06T02:33:29.6817047+00:00",
+  "acquisition": "PUBLIC_HTTP_GET",
+  "status": 200,
+  "redirects_followed": false,
+  "sha256": "774f1e74611e7586f7efd2d20105bb8277b41f8b276848aff7f881014a59d5ed",
+  "bytes": 1419542,
+  "url": "https://www.jumbo.cl/huevos-grandes-blancos-cintazul-bandeja-12-unid/p",
+  "content_type": "text/html; charset=utf-8"
+}

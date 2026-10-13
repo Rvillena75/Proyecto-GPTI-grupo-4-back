@@ -167,7 +167,7 @@ def run_pipeline(
                             )
                         raw = adapter.parse(body_bytes.decode("utf-8"), supplier["url"])
                         observed = datetime.fromisoformat(metadata["observed_at"])
-                        # Verify redacted artifact bytes; retain the original acquisition/quote hash.
+                        # Verify artifact bytes and retain the original acquisition/quote hash.
                         # sha256 identifies the raw HTTP response kept in the private backup.
                         digest = metadata["sha256"]
                     else:

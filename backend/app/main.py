@@ -10,6 +10,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.api.procurement_routes import router as procurement_router
 from app.api.routes import router
 from app.config import cors_origins
 from app.domain.errors import RuleViolation
@@ -19,11 +20,12 @@ app = FastAPI(
     title="StockSmart inventory API",
     version="0.1.0",
     description=(
-        "Backend-only P1–P5 API. Prices, suppliers, orders and pilot metrics "
-        "are outside this slice."
+        "Inventory, suppliers, public scraped prices and order receipt API. "
+        "Suggestion/approval and JWT authentication are pending. E3 metrics are deferred."
     ),
 )
 app.include_router(router)
+app.include_router(procurement_router)
 
 
 def add_cors(application: FastAPI, origins: list[str]) -> None:

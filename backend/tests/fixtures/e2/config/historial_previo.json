@@ -1,0 +1,24 @@
+{
+  "base_unit": "kg",
+  "days": 7,
+  "provenance": "SYNTHETIC_PREPERIOD_CONSUMPTION_ASSUMED_FULLY_SERVED_NOT_BUSINESS_OBSERVATIONS",
+  "recipes": [
+    {
+      "customer_model": "POISSON",
+      "name": "sandwich_pechuga_asada",
+      "quantity_per_serving": "75",
+      "unit": "g",
+      "weekday_servings": [
+        5,
+        5,
+        6,
+        6,
+        7,
+        8,
+        5
+      ]
+    }
+  ],
+  "seed": 20260720,
+  "start_date": "2026-07-20"
+}

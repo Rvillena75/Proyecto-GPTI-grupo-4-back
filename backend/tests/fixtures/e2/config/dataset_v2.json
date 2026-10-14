@@ -1,0 +1,160 @@
+{
+  "age_at_receipt_days": 2,
+  "allocation_policy": "FEFO",
+  "days": 70,
+  "expiry_basis": "CLOSED70_REFERENCE_PF_CATALOGUE2022_NOT_ACTUAL_BATCH_LABEL; OPENED5_CATEGORY_FOODSAFETY_GUIDANCE_NOT_MANUFACTURER_GUARANTEE",
+  "opened_shelf_life_days": 5,
+  "opening_packs": 1,
+  "opening_supplier_id": 1,
+  "order_price_basis": "SYNTHETIC_CONSTANT_ANCHORED_TO_2026_10_07_PUBLIC_SNAPSHOT_NOT_HISTORICAL_PRICES",
+  "price_snapshot": "../evidencia/2026-10-07/asada/observed_prices.json",
+  "provenance": "SYNTHETIC_E2_TEST_DATA_NOT_A_REAL_BUSINESS",
+  "purchase_plan": [
+    {
+      "day_offset": 0,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 5,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 10,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 15,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 20,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 25,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 30,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 35,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 40,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 45,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 50,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 55,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 60,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    },
+    {
+      "day_offset": 65,
+      "delay_days": 0,
+      "packs": 1,
+      "reason": "manual_fixed_five_day_order_from_independent_prior_consumption_nearest_complete_piece",
+      "supplier_id": 1
+    }
+  ],
+  "purchase_plan_basis": {
+    "as_of": "2026-07-26T20:00:00-04:00",
+    "daily_estimate_kg": "0.4392857142857142857142857143",
+    "history_days": 7,
+    "history_end": "2026-07-26",
+    "history_seed": 20260720,
+    "history_sha256": "6b2b08dc71cb29568c8c41bdc079ba0c5ee802a769a458a2d722e8c45a250ccf",
+    "history_snapshot": "../Historial_previo/consumo_previo.json",
+    "history_start": "2026-07-20",
+    "interval_calendar_days": 5,
+    "no_future_realization_or_stocksmart_rules": true,
+    "nominal_piece_kg": "2.5",
+    "ordered_nominal_kg": "2.5",
+    "pieces_per_order": 1,
+    "provenance": "CALCULATED_FROM_INDEPENDENT_SYNTHETIC_PREPERIOD_NOT_REAL_MEASUREMENTS",
+    "requested_nominal_kg": "2.196428571428571428571428572",
+    "rounding": "NEAREST_COMPLETE_PIECE_HALF_UP_MINIMUM1_FOR_POSITIVE_DEMAND",
+    "total_consumed_kg": "3.075000"
+  },
+  "purchase_plan_notes": "SYNTHETIC MANUAL BASE, frozen before future KPI: preceding7-day kg consumption3.075000 /7 x5=2.196428571428571428571428572, nearest whole2.5kg commercial piece =>1 pieces every5 calendar days. No stock/alerts/safe-stock/future realization/price or target KPI used. Poisson customer counts from recipe weekday means;75g per sandwich. Piece weights2450..2550g are independently seeded synthetic scale records, NOT manufacturer tolerance/real observed weights. Closed reference70 days from PF catalogue, actual batch label unverified; opening window5 calendar days from first actual use (upper institutional3-5-day opened luncheon-meat guidance). Never open all deliveries on reception. FEFO, receipt-only ENTRY, weekly counts and28-day automatic safe stock preserved. No E3.",
+  "recipes": [
+    {
+      "customer_model": "POISSON",
+      "name": "sandwich_pechuga_asada",
+      "quantity_per_serving": "75",
+      "unit": "g",
+      "weekday_servings": [
+        5,
+        5,
+        6,
+        6,
+        7,
+        8,
+        5
+      ]
+    }
+  ],
+  "schema_version": "2.0",
+  "seed": 20261007,
+  "shelf_life_days": 70,
+  "start_date": "2026-07-27",
+  "storage": "SYNTHETIC_CONTINUOUS_REFRIGERATION_AT_OR_BELOW4C_NO_FREEZING",
+  "synthetic_piece_weight_g_range": [
+    2450,
+    2550
+  ],
+  "timezone": "America/Santiago",
+  "weight_seed": 20260727
+}

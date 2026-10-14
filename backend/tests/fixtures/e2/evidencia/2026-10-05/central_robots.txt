@@ -1,0 +1,18 @@
+User-agent: *
+
+Disallow: /newCustomer/*
+Disallow: /orderType/*
+Disallow: /newAddress/*
+Disallow: /selectStore/*
+Disallow: /checkout*
+
+User-agent: Googlebot
+Disallow:
+User-agent: AdsBot-Google
+Disallow:
+User-agent: Googlebot-Image
+Disallow:
+User-agent: GoogleBot Mobile
+Disallow:
+
+Sitemap: https://www.centralmayorista.cl/sitemaps/central_mayorista/sitemap.xml

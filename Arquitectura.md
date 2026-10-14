@@ -1,4 +1,6 @@
 # Documento de Arquitectura — StockSmart · Grupo 4
+
+**Estado integrado 12/10/2026:** se conserva el documento de Pedro v1.2 y sus decisiones. Inventario, C1/C5/C12 y modelo `0003` se integran con los módulos E2 de Rodrigo, proveedores/productos, persistencia de precios y recepción/historial. Detalle actual en `docs/INTEGRACION_BACKEND.md`; las tablas de estado del cuerpo reflejan su fecha original. `0004` agrega solo la configuración opcional de scraping por producto. Sugerencias, aprobación y JWT siguen pendientes. Los fixtures actuales de E2 usan pechuga asada; huevos es histórico. La vida útil pertenece a los supuestos explícitos del fixture, sin introducir campos de lote obligatorios en la API.
 IIC3113-1 · Entrega 2 · Pedro Irarrázaval (líder de desarrollo + backend)
 Versión 1.2 · 2026-10-06 — ajustada al repo `Proyecto-GPTI-grupo-4-back` y a las decisiones del equipo hasta el 06-10.
 **El modelo de datos (§4) y el contrato de la API (§5) se congelan el miércoles 07-10.** Desde ahí, cualquier cambio se avisa a la jefa de proyecto, a Nati y a Sofi.
@@ -372,7 +374,9 @@ Detalle y evidencia en `E2 Planificacion/Validacion scraping (Pedro).md` y `Evid
 
 | Qué | Asistente | Para qué | Cómo se validó |
 |---|---|---|---|
-| Código del backend (`AGENTS.md`) | **Por completar (Rodrigo)** | Implementar P1–P5 y D1–D7 | Por completar (Rodrigo): tests escritos, revisión del código |
+| Parte técnica y auditoría de Rodrigo | Codex (OpenAI) | Análisis documental/código, investigación pública, programación/refactorización, tests y documentación de E2; revisión crítica de los cambios | Fuente v1.1 y código original contrastados; validación/replay PostgreSQL y regresiones ejecutados; catering sin respaldo retirado, núcleo de Pedro restaurado salvo composición transaccional mínima. Revisión humana de Rodrigo/Nati/Pedro pendiente |
 | Este documento, la validación de proveedores y la estimación de HH | Claude (Claude Code, Anthropic) | Revisar el repo contra el DRS y el mockup, redactar el documento, probar el acceso a los sitios y armar la estimación | Pedro: corrió los tests (54 passed), comparó cada decisión con el DRS, el mockup y el Acta, verificó los precios en los sitios y revisó el texto |
 | CORS (commit `758db32`: `app/config.py`, `app/main.py`, `tests/unit/test_cors.py`) | Claude (Claude Code, Anthropic) | Escribir el middleware CORS con el origen por variable de entorno y sus 4 tests | Pedro: revisó el código, corrió la suite completa contra PostgreSQL (58 passed) y `ruff` sin observaciones |
 | Migración `0003_procurement` (modelo v1.2), `GET/PATCH /items`, historial con `balance_after`/`created_by`, alerta C1/C12 con órdenes en tránsito y sus tests | Claude (Claude Code, Anthropic) | Implementar el modelo congelado y los endpoints de la integración 1 | Pedro: revisó el código; suite completa contra PostgreSQL (67 passed), `ruff` sin observaciones, migración probada de ida y vuelta |
+
+Las salidas de IA fueron contrastadas técnicamente con fuentes, código y pruebas; eso no acredita una aprobación humana. El equipo conserva autoría y responsabilidad final. Demanda/compras/fechas/plazos y vida útil del dataset son supuestos sintéticos explícitos; precios públicos conservan evidencia fechada. No se inventan confirmaciones de Pedro, horas humanas registradas ni resultados de las metas E1. No se implementó ni ejecutó E3.

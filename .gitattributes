@@ -1,0 +1,2 @@
+# Preserve public fixture artifacts byte for byte, including intentional whitespace.
+backend/tests/fixtures/** -text -whitespace

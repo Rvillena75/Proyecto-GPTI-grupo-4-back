@@ -168,6 +168,8 @@ class SupplierProduct(Base):
     pack_quantity: Mapped[Decimal] = mapped_column(AMOUNT, nullable=False)
     min_packs: Mapped[int] = mapped_column(Integer, nullable=False)
     is_active: Mapped[bool] = mapped_column(nullable=False)
+    # Optional parameters of Rodrigo's existing public-page normalizer (PackSpec/SKU/brand).
+    scrape_config: Mapped[dict | None] = mapped_column(JSONB)
 
 
 class ScrapeRun(Base):

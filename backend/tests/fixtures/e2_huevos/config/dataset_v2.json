@@ -1,0 +1,99 @@
+{
+  "age_at_receipt_days": 5,
+  "allocation_policy": "FEFO",
+  "days": 70,
+  "expiry_basis": "ASSUMPTION_CATEGORY_EVIDENCE_NOT_A_VERIFIED_SKU_LABEL",
+  "opening_packs": 10,
+  "opening_supplier_id": 2,
+  "order_price_basis": "SYNTHETIC_CONSTANT_ANCHORED_TO_2026_10_05_PUBLIC_SNAPSHOT_NOT_HISTORICAL_PRICES",
+  "price_snapshot": "../evidencia/2026-10-05/observed_prices.json",
+  "provenance": "SYNTHETIC_E2_TEST_DATA_NOT_A_REAL_BUSINESS",
+  "purchase_plan": [
+    {
+      "delay_days": 0,
+      "packs": 24,
+      "reason": "fixed_two_week_manual_order_from_independent_prior_consumption",
+      "supplier_id": 1,
+      "week": 0
+    },
+    {
+      "delay_days": 0,
+      "packs": 24,
+      "reason": "fixed_two_week_manual_order_from_independent_prior_consumption",
+      "supplier_id": 1,
+      "week": 2
+    },
+    {
+      "delay_days": 0,
+      "packs": 24,
+      "reason": "fixed_two_week_manual_order_from_independent_prior_consumption",
+      "supplier_id": 1,
+      "week": 4
+    },
+    {
+      "delay_days": 0,
+      "packs": 24,
+      "reason": "fixed_two_week_manual_order_from_independent_prior_consumption",
+      "supplier_id": 1,
+      "week": 6
+    },
+    {
+      "delay_days": 0,
+      "packs": 24,
+      "reason": "fixed_two_week_manual_order_from_independent_prior_consumption",
+      "supplier_id": 1,
+      "week": 8
+    }
+  ],
+  "purchase_plan_basis": {
+    "as_of": "2026-07-26T20:00:00-04:00",
+    "base_quantity_per_order": "720",
+    "commercial_basket_minimum_not_used": true,
+    "estimate_snapshot": "estimacion_operacional_preperiodo.json",
+    "estimate_snapshot_sha256": "27f9750805a794be78337c0a681a9dc07bc022d2adbd98c8f617ddc02962ab26",
+    "estimated_eggs_per_week": "360.0000000000000000000000000",
+    "estimated_interval_quantity": "720.0000000000000000000000000",
+    "interval_calendar_days": 14,
+    "no_lookahead": true,
+    "pack_quantity": "30",
+    "packs_per_order": 24,
+    "type": "INDEPENDENT_SYNTHETIC_PREPERIOD_CONSUMPTION_ESTIMATE"
+  },
+  "purchase_plan_notes": "SYNTHETIC BASE: fixed14-day manual order from preceding28 complete days2026-06-29..2026-07-26, independent seed20260629. Prior consumed total1440 /4=360.0000000000000000000000000 weekly; x2=720.0000000000000000000000000; ceiling to24 packs of30=720. Recipe nominal true mean is NOT read by purchaser. Shared stable-business recipe/demand-generation assumptions remain and are explicitly audited as low-variance synthetic assumptions. Future20261005 seed, future recipes/jitter, FEFO, life30 category assumption, age5, opening120, lead times,14-day cadence and pipeline unchanged. No price/alert/safe-stock/KPI tuning; no E3. Future realization not used to set order quantity; one prior history draw and one canonical dataset.",
+  "recipes": [
+    {
+      "customer_jitter": 2,
+      "eggs_per_serving": 2,
+      "name": "omelette",
+      "weekday_servings": [
+        16,
+        18,
+        19,
+        20,
+        24,
+        26,
+        14
+      ]
+    },
+    {
+      "customer_jitter": 1,
+      "eggs_per_serving": 1,
+      "name": "porcion_reposteria",
+      "weekday_servings": [
+        8,
+        10,
+        12,
+        12,
+        16,
+        16,
+        8
+      ]
+    }
+  ],
+  "schema_version": "2.0",
+  "seed": 20261005,
+  "shelf_life_days": 30,
+  "start_date": "2026-07-27",
+  "storage": "SYNTHETIC_CONTINUOUS_REFRIGERATION_AT_OR_BELOW_4_C",
+  "timezone": "America/Santiago"
+}

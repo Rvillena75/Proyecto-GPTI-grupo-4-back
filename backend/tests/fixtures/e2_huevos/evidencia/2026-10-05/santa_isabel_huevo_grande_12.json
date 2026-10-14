@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-10-06T02:33:33.1194044+00:00",
+  "acquisition": "PUBLIC_HTTP_GET",
+  "status": 200,
+  "redirects_followed": false,
+  "sha256": "efab29005a7faecfe0c76c0432f7ac1c411b15bccd0403b30d3da0cbbbad9abe",
+  "bytes": 94786,
+  "url": "https://www.santaisabel.cl/huevos-grandes-blancos-cintazul-bandeja-12-unid/p",
+  "content_type": "text/html; charset=utf-8"
+}

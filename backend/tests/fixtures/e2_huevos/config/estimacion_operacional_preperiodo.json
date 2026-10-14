@@ -1,0 +1,33 @@
+{
+  "as_of": "2026-07-26T20:00:00-04:00",
+  "estimated_eggs_per_interval": "720.0000000000000000000000000",
+  "estimated_eggs_per_week": "360.0000000000000000000000000",
+  "estimator": "Historical consumed quantities only, divided by28 then multiplied by7; no reading of future recipe centres or true generator mean",
+  "historical_total": "1440",
+  "history_days": 28,
+  "history_end": "2026-07-26",
+  "history_seed": 20260629,
+  "history_snapshot": "../Historial_previo/consumo_previo.json",
+  "history_snapshot_sha256": "d0101e8b7debc07db8b97647679f5510146ad84bbc660189747822861ae40912",
+  "history_start": "2026-06-29",
+  "interval_basis": "EX_ANTE_LIFE25: longest of weekly/biweekly/three-week options retaining >=7 days overlap, aligned with existing weekly physical counts; no KPI alternatives generated",
+  "not_used": [
+    "future_realized_demand",
+    "stock_safe",
+    "alerts",
+    "waste",
+    "lost_sales",
+    "basket_minimum_clp",
+    "prices",
+    "E1_reference_rates"
+  ],
+  "opening_balance": "120 eggs from preperiod retail receipt is preserved; not recalculated by this policy",
+  "ordering_interval_calendar_days": 14,
+  "pack_size_eggs": 30,
+  "policy": "Fixed14-day manual order from independent prior synthetic kitchen consumption; no live-stock/future-demand feedback",
+  "provenance": "CALCULATED_FROM_SYNTHETIC_PREPERIOD_CONSUMPTION_NOT_OBSERVED_BUSINESS",
+  "rounded_packs": 24,
+  "rounded_quantity_eggs": "720",
+  "rounding": "CEILING_TO_WHOLE_PACKS",
+  "timezone": "America/Santiago"
+}

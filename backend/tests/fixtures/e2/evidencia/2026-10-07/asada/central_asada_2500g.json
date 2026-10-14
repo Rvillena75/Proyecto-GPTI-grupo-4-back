@@ -1,0 +1,18 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 531202,
+  "content_type": "text/html; charset=utf-8",
+  "observed_at": "2026-10-07T04:06:16.891771+00:00",
+  "redirects_followed": false,
+  "sha256": "b1c904fb33f38990bebc7d319cacd8a335c514c418b147bf892124b835c99dce",
+  "status": 200,
+  "url": "https://www.centralmayorista.cl/p/pza-pech-pollo-asada-25kg-receta-abuelo-880521",
+  "artifact_sha256": "bfc60f994a5b846b3569fa4a341517ee95c6b7cbebe61428d9961559e37fe202",
+  "redaction": {
+    "reason": "Public provider HTML contained credential-like strings unrelated to the product offer",
+    "aws_access_key_ids": 2,
+    "provider_tokens": 3,
+    "original_response_sha256": "b1c904fb33f38990bebc7d319cacd8a335c514c418b147bf892124b835c99dce",
+    "original_location": "Private local audit backup; never published"
+  }
+}

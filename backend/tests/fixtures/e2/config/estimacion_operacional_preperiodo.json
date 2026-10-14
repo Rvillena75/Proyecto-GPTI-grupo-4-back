@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-07-26T20:00:00-04:00",
+  "daily_estimate_kg": "0.4392857142857142857142857143",
+  "history_days": 7,
+  "history_end": "2026-07-26",
+  "history_seed": 20260720,
+  "history_sha256": "6b2b08dc71cb29568c8c41bdc079ba0c5ee802a769a458a2d722e8c45a250ccf",
+  "history_snapshot": "../Historial_previo/consumo_previo.json",
+  "history_start": "2026-07-20",
+  "interval_calendar_days": 5,
+  "no_future_realization_or_stocksmart_rules": true,
+  "nominal_piece_kg": "2.5",
+  "ordered_nominal_kg": "2.5",
+  "pieces_per_order": 1,
+  "provenance": "CALCULATED_FROM_INDEPENDENT_SYNTHETIC_PREPERIOD_NOT_REAL_MEASUREMENTS",
+  "requested_nominal_kg": "2.196428571428571428571428572",
+  "rounding": "NEAREST_COMPLETE_PIECE_HALF_UP_MINIMUM1_FOR_POSITIVE_DEMAND",
+  "total_consumed_kg": "3.075000"
+}

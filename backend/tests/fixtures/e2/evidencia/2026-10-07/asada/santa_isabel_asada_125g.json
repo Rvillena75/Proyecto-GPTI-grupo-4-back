@@ -1,0 +1,10 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 99529,
+  "content_type": "text/html; charset=utf-8",
+  "observed_at": "2026-10-07T04:06:25.160095+00:00",
+  "redirects_followed": false,
+  "sha256": "930fd41c7639153030b89c68c7527d773bcedbd554a261ad9c1ffae4d74d7bef",
+  "status": 200,
+  "url": "https://www.santaisabel.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p"
+}

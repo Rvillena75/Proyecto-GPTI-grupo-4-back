@@ -1,0 +1,10 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 1450,
+  "content_type": "text/plain",
+  "observed_at": "2026-10-07T04:06:17.586730+00:00",
+  "redirects_followed": false,
+  "sha256": "ed1b6d75ff7380bece404325902b4e26208227a9f1d23e3e5fb9718d0b58c9d4",
+  "status": 200,
+  "url": "https://www.jumbo.cl/robots.txt"
+}

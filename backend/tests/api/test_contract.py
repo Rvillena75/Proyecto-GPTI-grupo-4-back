@@ -12,7 +12,11 @@ def test_health_openapi_and_scope(api_client: tuple[TestClient, object]) -> None
     assert "/movements" in spec["paths"]
     assert "/counts" in spec["paths"]
     assert "/alerts" in spec["paths"]
-    assert not any("price" in route or "supplier" in route for route in spec["paths"])
+    assert "/prices/{item_id}" in spec["paths"]
+    assert "/suppliers" in spec["paths"]
+    assert "/orders" in spec["paths"]
+    assert "/metrics" not in spec["paths"]
+    assert not any("manual" in route and "price" in route for route in spec["paths"])
     assert "delete" not in spec["paths"]["/items/{item_id}/movements"]
     movement_errors = spec["paths"]["/movements"]["post"]["responses"]
     for status in ("404", "409", "422"):

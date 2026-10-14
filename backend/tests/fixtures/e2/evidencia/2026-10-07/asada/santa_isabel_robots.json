@@ -1,0 +1,10 @@
+{
+  "acquisition": "PUBLIC_HTTP_GET",
+  "bytes": 1005,
+  "content_type": "text/plain; charset=utf-8",
+  "observed_at": "2026-10-07T04:06:22.756479+00:00",
+  "redirects_followed": false,
+  "sha256": "f1a87bd07fa1256e3eb281c83cfcaa284cc614216f54e8152752e824bfa62f70",
+  "status": 200,
+  "url": "https://www.santaisabel.cl/robots.txt"
+}

@@ -24,6 +24,9 @@ test = ["pytest>=8,<10", "ruff>=0.11,<1"]
 where = ["."]
 include = ["app*", "scraper*"]
 
+[tool.setuptools.package-data]
+scraper = ["certs/*.pem"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

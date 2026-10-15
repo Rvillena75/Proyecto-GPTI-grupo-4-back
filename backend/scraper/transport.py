@@ -16,6 +16,17 @@ from scraper.contracts import ALLOWED_HOSTS, ScrapeError
 from scraper.normalize import validate_public_product_url
 from scraper.store import save
 
+# Intermediate CA that www.centralmayorista.cl omits from its TLS chain (verified 2026-10-15).
+# Browsers fetch it on their own; OpenSSL (local Python, Render) does not.
+EXTRA_INTERMEDIATES = Path(__file__).parent / "certs" / "globalsign_rsa_ov_ssl_ca_2018.pem"
+
+
+def public_tls_context() -> ssl.SSLContext:
+    """System trust store plus the public intermediates some suppliers fail to send."""
+    context = ssl.create_default_context()
+    context.load_verify_locations(cafile=EXTRA_INTERMEDIATES)
+    return context
+
 
 @dataclass(frozen=True)
 class PublicResponse:
@@ -84,7 +95,7 @@ class PublicTransport:
         self.evidence_dir = evidence_dir
         evidence_dir.mkdir(parents=True, exist_ok=True)
         self.client = client or httpx.Client(
-            verify=ssl.create_default_context(),
+            verify=public_tls_context(),
             follow_redirects=False,
             timeout=25,
             headers={"User-Agent": "StockSmart-Academic-E2/2.0 (public pages; no retries)"},

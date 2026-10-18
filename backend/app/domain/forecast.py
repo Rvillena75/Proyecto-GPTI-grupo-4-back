@@ -32,6 +32,7 @@ class StockAssessment:
     projected_stock_at_arrival: Decimal | None = None
     in_transit_quantity: Decimal = Decimal(0)
     order_by_at: datetime | None = None
+    required_quantity: Decimal | None = None
 
 
 def local_day_start(day: date, zone: ZoneInfo) -> datetime:
@@ -102,7 +103,7 @@ def assess_stock(
     )
     daily = weekly / 7 if weekly is not None else None
     lead = Decimal(lead_time_days or 0)
-    projected = max(Decimal(0), current_stock - daily * lead) if daily is not None else None
+    projected = current_stock - daily * lead if daily is not None else None
     compared = projected if projected is not None else current_stock
     if safe is None:
         alert_status, is_low = "INSUFFICIENT_HISTORY", None
@@ -113,11 +114,14 @@ def assess_stock(
         else:
             alert_status = "IN_TRANSIT" if in_transit > 0 else "LOW_STOCK"
     target = weekly * 2 if weekly is not None else None
-    suggested = (
+    required = (
         max(Decimal(0), target - projected - in_transit)
         if target is not None and projected is not None
         else None
     )
+    suggested = Decimal(0) if in_transit > 0 else required
+    if in_transit > 0:
+        alert_status = "IN_TRANSIT"
     order_by = None
     if safe is not None and daily is not None and daily > 0:
         order_by = _after_days(reference_at, (current_stock - safe) / daily - lead)
@@ -145,4 +149,5 @@ def assess_stock(
         projected,
         in_transit,
         order_by,
+        required,
     )

@@ -63,7 +63,7 @@ def test_history_has_balance_after_in_occurrence_order(
         "/movements", json={"item_id": item["id"], "kind": "EXIT", "quantity": "4", "unit": "kg"}
     )
     assert exit_.json()["balance_after"] == "6.000000"
-    assert exit_.json()["created_by"] is None
+    assert exit_.json()["created_by"] == {"id": 1, "name": "Test Admin"}
     # Recorded later but occurred before the exit: it changes the exit's balance_after too.
     retro = client.post(
         "/movements",

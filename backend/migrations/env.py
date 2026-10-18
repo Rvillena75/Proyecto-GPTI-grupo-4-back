@@ -5,7 +5,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import create_engine, pool
 
-from app.config import database_url
+from app.config import connection_timeout, database_url
 from app.persistence.models import Base
 
 config = context.config
@@ -15,7 +15,14 @@ target_metadata = Base.metadata
 
 
 def run_migrations_online() -> None:
-    engine = create_engine(database_url(), poolclass=pool.NullPool)
+    engine = create_engine(
+        database_url(),
+        poolclass=pool.NullPool,
+        connect_args={
+            "connect_timeout": connection_timeout(),
+            "options": "-c statement_timeout=60000 -c lock_timeout=5000",
+        },
+    )
     with engine.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():

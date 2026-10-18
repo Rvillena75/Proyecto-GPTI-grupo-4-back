@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from app.config import cors_origins
-from app.main import add_cors
+from app.main import add_cors, correlation
 
 FRONTEND = "https://stocksmart-nine.vercel.app"
 
@@ -47,3 +47,20 @@ def test_unknown_origin_gets_no_cors_header() -> None:
     response = client_for([FRONTEND]).get("/ping", headers={"Origin": "https://evil.example"})
     assert response.status_code == 200
     assert "access-control-allow-origin" not in response.headers
+
+
+def test_sanitized_unexpected_errors_remain_readable_to_allowed_origin():
+    application = FastAPI()
+    application.middleware("http")(correlation)
+    add_cors(application, [FRONTEND])
+
+    @application.get("/broken")
+    def broken():
+        raise ValueError("private-error-marker")
+
+    with TestClient(application) as client:
+        response = client.get("/broken", headers={"Origin": FRONTEND})
+    assert response.status_code == 500
+    assert response.headers["access-control-allow-origin"] == FRONTEND
+    assert response.headers["X-Request-ID"]
+    assert "private-error-marker" not in response.text

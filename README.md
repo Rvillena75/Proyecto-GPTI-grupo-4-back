@@ -1,6 +1,6 @@
 # StockSmart — backend de inventario y compras
 
-**Estado de la rama de integración, 12/10/2026:** núcleo de inventario de Pedro integrado con proveedores/productos, precios persistidos y recepción/historial de órdenes de Rodrigo. Los fixtures E2 vigentes usan pechuga asada; huevos se conserva como fixture histórico. [Contrato de integración](docs/INTEGRACION_BACKEND.md) y [guía histórica E2](docs/E2_Rodrigo.md).
+**Estado técnico 18/10/2026:** correcciones de la auditoría E2, JWT/roles, sugerencias persistidas, decisiones ADMIN y recepción integral. [Informe y trazabilidad](docs/e2/INFORME_IMPLEMENTACION.md), [operación y Render](docs/e2/OPERACION.md) y [contrato](docs/INTEGRACION_BACKEND.md). Los fixtures E2 de pechuga asada permanecen congelados. El funcionamiento remoto en Render sigue sin verificar.
 
 Este repositorio contiene **solo el backend**. Al 28 de septiembre de 2026, el Goal 1 implementa el núcleo de inventario **P1–P5 y D1–D7**: insumos y stock, movimientos y conteos, consumo, proyección, alertas y cantidad base a reponer. No incluye frontend. Las reglas funcionales están en [`PLAN_BACKEND_STOCKSMART.md`](PLAN_BACKEND_STOCKSMART.md) y las precisiones D1–D7 en [`docs/decisions.md`](docs/decisions.md).
 
@@ -17,21 +17,24 @@ Este repositorio contiene **solo el backend**. Al 28 de septiembre de 2026, el G
 - Gestión de proveedores y productos; desactivación mediante `PATCH is_active=false`, conservando referencias históricas.
 - Adaptadores públicos Central/Jumbo/Santa Isabel y persistencia PostgreSQL de precios y corridas; vigencia original de siete días, comparación por formatos y al menos dos proveedores.
 - `GET /orders` y `POST /orders/{id}/receipt`: recepción completa, atómica e idempotente, con peso real obligatorio en formatos variables configurados.
+- JWT propio y bcrypt, roles ADMIN/WAREHOUSE, usuario activo y autoría; aprovisionamiento privado por CLI.
+- `POST/GET /suggestions` y decisión ADMIN con motivo de rechazo, snapshot y creación atómica de una orden.
+- `GET /metrics` por período, por unidad compatible y con definiciones observacionales; comparación de impacto E3 no verificable sin línea base.
+- Worker diario definido, coordinación PostgreSQL entre servicios, snapshots comerciales durables y códigos de salida observables.
+- Herramienta de backups privados/retención de siete copias y restauración protegida en bases vacías `*_test`; cron propuesto, no provisionado.
 
-**Pendiente de implementar:**
+**Dependencias externas y verificación pendiente:**
 
-- **P6:** configurar los proveedores/productos operacionales y programar el worker; los fixtures no se cargan automáticamente.
-- **P7/P8 (Pedro):** generación/persistencia de sugerencias y aprobación/rechazo; JWT, roles y permisos. Las tablas existen, sus rutas todavía no están implementadas. El flujo completo queda pendiente de estos módulos.
-- **P9:** carga/gestión de línea base y métricas comparativas completas del piloto. La reducción matemática implementada no incluye la gestión de esa línea base.
-- **P10:** respaldos automáticos, retención y prueba de restauración.
-- **P11:** conectar el frontend al contrato OpenAPI y completar las rutas de sugerencias, decisiones y auth. Las métricas se postergan a E3.
-- **P12 (Pedro):** `render.yaml` está preparado; el repositorio no documenta una URL pública verificada ni un servicio creado. Esta rama requiere revisión e integración antes de desplegarse. Las rutas actuales todavía no exigen autorización.
+- Aprobar presupuesto/provisionar PostgreSQL con continuidad, cron de precios y almacenamiento privado de respaldos. No se ha modificado ningún servicio remoto.
+- Confirmar URL/commit/variables/logs y funcionamiento remoto de Render. Definir usuarios y catálogo operacionales mediante los procedimientos documentados.
+- Definir/aprobar el protocolo comparativo de E3 y aportar su línea base. Los tests técnicos y el Dataset v2 no demuestran metas 30/20/5.
+- Integración externa: enviar Bearer y consumir los nuevos contratos. No se modifica el frontend.
 
 El alcance y el estado detallado por requisito están en [`PLAN_BACKEND_STOCKSMART.md`](PLAN_BACKEND_STOCKSMART.md). Las metas de reducción de quiebres, merma y ahorro siguen siendo métricas pendientes de evaluación con datos comparables, no resultados del software.
 
 ## Requisitos y base de datos
 
-- Python 3.11 o posterior y PostgreSQL 17 o posterior.
+- Python 3.12.15 recomendado/configurado; PostgreSQL 17 y 18 verificados. DRS permite Python ≥3.11.
 - Una base de aplicación y otra base **exclusiva para tests**, cuyo nombre termine en `_test`.
 - Credenciales locales propias. No uses datos reales del negocio para pruebas.
 
@@ -55,9 +58,11 @@ Desde `backend/`, en PowerShell:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[test]"
+.\.venv\Scripts\python.exe -m pip install --require-hashes -r requirements-test.lock
+.\.venv\Scripts\python.exe -m pip install --no-deps -e .
 $env:STOCKSMART_DATABASE_URL = "postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart"
 $env:STOCKSMART_TEST_DATABASE_URL = "postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart_test"
+$env:STOCKSMART_JWT_SECRET = & .\.venv\Scripts\python.exe -c "import secrets;print(secrets.token_urlsafe(48))"
 ```
 
 En bash/macOS/Linux:
@@ -65,10 +70,13 @@ En bash/macOS/Linux:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[test]'
+python -m pip install --require-hashes -r requirements-test.lock
+python -m pip install --no-deps -e .
 export STOCKSMART_DATABASE_URL='postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart'
 export STOCKSMART_TEST_DATABASE_URL='postgresql+psycopg://stocksmart:<clave>@localhost:5432/stocksmart_test'
+export STOCKSMART_JWT_SECRET="$(python -c 'import secrets;print(secrets.token_urlsafe(48))')"
 alembic -c alembic.ini upgrade head
+python -m app.manage_users admin@example.test --name 'Administrador local' --role ADMIN
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -80,6 +88,7 @@ Aplica migraciones desde una base vacía y ejecuta la API:
 
 ```powershell
 .\.venv\Scripts\alembic.exe -c alembic.ini upgrade head
+.\.venv\Scripts\python.exe -m app.manage_users admin@example.test --name "Administrador local" --role ADMIN
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
 
@@ -93,7 +102,7 @@ Worker PostgreSQL, desde `backend/` y con la base de aplicación configurada:
 .\.venv\Scripts\python.exe -m scraper.postgres --item-id 1
 ```
 
-En bash usa `python -m scraper.postgres --item-id 1`. El worker comparte adaptadores, persistencia, bloqueo y pausas entre solicitudes con `POST /prices/{item_id}/refresh`. `STOCKSMART_PRICE_EVIDENCE_DIR` permite elegir el directorio de capturas públicas; por defecto usa una carpeta temporal del sistema. El cron de Render queda a cargo de Pedro.
+En bash usa `python -m scraper.postgres --item-id 1`; `--all-active` procesa el catálogo configurado. API y CLI comparten bloqueo y temporización en PostgreSQL antes del HTTP. El Blueprint define la corrida diaria. Los snapshots comerciales se guardan con la quote; el HTML temporal se limpia al terminar. Exit codes: 0 completo, 1 fracaso/sin configuración, 2 parcial, 3 ocupado.
 
 ## Tests y calidad
 
@@ -109,17 +118,9 @@ Los tests de integración usan PostgreSQL real. **Al iniciar la suite se elimina
 
 ## Despliegue en Render
 
-[`render.yaml`](render.yaml) describe la API y su PostgreSQL, ambos en el plan gratuito:
-en Render, **New → Blueprint** y elegir este repositorio. Al arrancar, el servicio corre
-`alembic upgrade head` y después `uvicorn`; si una migración falla, la API no levanta.
+[`render.yaml`](render.yaml) propone API, PostgreSQL con continuidad y dos cron (precios/respaldo), ligados explícitamente a `main`, con autodeploy desactivado. Requiere aprobación de presupuesto y despliegue en una etapa posterior. Esta implementación no provisiona ni modifica recursos remotos.
 
-- `STOCKSMART_DATABASE_URL` se enlaza a la base de Render; la URL `postgresql://` que entrega
-  Render se convierte sola a `postgresql+psycopg://`.
-- `STOCKSMART_CORS_ORIGINS` trae el frontend de Vercel y el de desarrollo local. Para agregar
-  otro origen se edita en el panel de Render (o en `render.yaml`) y se redespliega.
-- La salud del servicio se revisa en `/health`.
-- Plan gratuito: la API se duerme tras 15 minutos sin uso (la primera llamada tarda cerca de un
-  minuto) y la base gratuita vence a los 30 días de creada (riesgo R14).
+Instala dependencias con hashes, aplica `alembic upgrade head` y sirve en `0.0.0.0:$PORT`. `/ready` y `/health` verifican conexión y revisión/esquema; `/live` sólo verifica el proceso. Configurar JWT, usuarios controlados, catálogo y bucket privado es obligatorio para operar. Procedimiento completo y verificaciones pendientes: [OPERACION.md](docs/e2/OPERACION.md).
 
 ## Contrato REST JSON
 
@@ -160,4 +161,4 @@ Una corrección descubierta después de un conteo conserva intacto ese conteo. E
 
 `INSUFFICIENT_HISTORY` significa que todavía no hay un día calendario completo observado; no equivale a consumo cero. Con umbral manual puede evaluarse la alerta aun cuando consumo y cantidad sugerida sean no calculables. La ventana P4 usa días completos en la zona horaria configurada del insumo, excluye el día actual y nunca empieza antes de `observation_started_at`. `assessment.depletion_status` distingue `INSUFFICIENT_HISTORY`, `ZERO_CONSUMPTION`, `PROJECTED` y `OUT_OF_RANGE`. En este último caso el consumo y `remaining_days` siguen calculados, mientras `depletion_at` es `null`: no se presenta una fecha máxima artificial.
 
-La fórmula matemática P3 de reducción de tasa frente a una línea base está implementada y probada. La carga/gestión de la línea base y la evaluación de métricas comparativas del piloto corresponden a P9; todavía no existen en esta API.
+`GET /metrics?start=...&end=...` devuelve indicadores operacionales para ADMIN. La comparación causal de E3 requiere una línea base/protocolo aprobado y devuelve `NOT_VERIFIABLE`; no se deduce de los tests ni del Dataset v2. Ver las definiciones del contrato.

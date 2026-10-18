@@ -1,9 +1,8 @@
-# Despliegue en Render (Blueprint): API + PostgreSQL, ambos en el plan gratuito.
-# Render > New > Blueprint > este repositorio. Las migraciones corren al arrancar
-# porque el plan gratuito no tiene comando previo al despliegue.
+# Proposed infrastructure. Applying the Blueprint requires a separate deployment decision.
+# Paid PostgreSQL avoids the free database's 30-day lifetime. Editing does not provision it.
 databases:
   - name: stocksmart-db
-    plan: free
+    plan: basic-256mb
     region: oregon
     databaseName: stocksmart
     user: stocksmart
@@ -14,19 +13,70 @@ services:
   - type: web
     name: stocksmart-api
     runtime: python
-    plan: free
+    plan: starter # Operator shell for controlled user provisioning; requires budget approval.
     region: oregon
+    branch: main
     rootDir: backend
-    buildCommand: pip install .
+    buildCommand: pip install --require-hashes -r requirements.lock && pip install --no-deps .
     startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /health
-    autoDeploy: true
+    healthCheckPath: /ready
+    autoDeployTrigger: "off"
     envVars:
       - key: PYTHON_VERSION
-        value: "3.12.7"
+        value: "3.12.15"
+      - key: STOCKSMART_ENVIRONMENT
+        value: production
+      - key: STOCKSMART_JWT_SECRET
+        generateValue: true
+      - key: STOCKSMART_JWT_TTL_MINUTES
+        value: "30"
       - key: STOCKSMART_DATABASE_URL
         fromDatabase:
           name: stocksmart-db
           property: connectionString
       - key: STOCKSMART_CORS_ORIGINS
-        value: https://stocksmart-nine.vercel.app,http://localhost:5173
+        value: https://stocksmart-nine.vercel.app
+
+  - type: cron
+    name: stocksmart-daily-prices
+    runtime: python
+    plan: starter
+    region: oregon
+    branch: main
+    rootDir: backend
+    schedule: "0 10 * * *" # UTC; independent of DST/web service sleeping.
+    buildCommand: pip install --require-hashes -r requirements.lock && pip install --no-deps .
+    startCommand: python -m scraper.postgres --all-active
+    autoDeployTrigger: "off"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.15"
+      - key: STOCKSMART_DATABASE_URL
+        fromDatabase:
+          name: stocksmart-db
+          property: connectionString
+
+  - type: cron
+    name: stocksmart-daily-backup
+    runtime: docker
+    plan: starter
+    region: oregon
+    branch: main
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    schedule: "0 8 * * *"
+    dockerCommand: python -m app.backups
+    autoDeployTrigger: "off"
+    envVars:
+      - key: STOCKSMART_DATABASE_URL
+        fromDatabase:
+          name: stocksmart-db
+          property: connectionString
+      - key: STOCKSMART_BACKUP_BUCKET
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_DEFAULT_REGION
+        value: us-west-2

@@ -1,0 +1,717 @@
+{
+  "generated_at": "2026-10-18T20:05:40.352171-03:00",
+  "scope": "LOCAL_ISOLATED_BACKEND; NO_PRODUCTION_DEPLOYMENT",
+  "baseline_commit": "5333503b530251e945427b864f08b0ab7db1d300",
+  "branch": "fix/backend-e2-audit-completion",
+  "tests": {
+    "postgresql_17": {
+      "tests": 357,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 113.649,
+      "junit_sha256": "dab3b7847ade2c8f39790b0a43e090eae2afb16722cc923dea3b1a8105622f87",
+      "groups": {
+        "api": 163,
+        "integration": 48,
+        "unit": 146
+      }
+    },
+    "postgresql_18": {
+      "tests": 357,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 113.649,
+      "junit_sha256": "edda34e41d98ffaa404cc2ab547ecd6eb3435dd2dad47fa18ee3302809d1900a",
+      "groups": {
+        "api": 163,
+        "integration": 48,
+        "unit": 146
+      }
+    }
+  },
+  "ci": {
+    "status": "PASS",
+    "checked_at": "2026-10-18T20:05:30.766331-03:00",
+    "tested_commit": "307d994217bbf5183b308110f7d16e44413dcf83",
+    "tree": "ab89949857425df5e87c5ce7af47af7595e18464",
+    "runs": [
+      {
+        "conclusion": "success",
+        "databaseId": 39174844250,
+        "event": "pull_request",
+        "headSha": "307d994217bbf5183b308110f7d16e44413dcf83",
+        "status": "completed",
+        "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250",
+        "jobs": [
+          {
+            "name": "backend (17)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250/job/117815285536",
+            "startedAt": "2026-10-18T23:03:01Z",
+            "completedAt": "2026-10-18T23:04:33Z"
+          },
+          {
+            "name": "backend (18)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250/job/117815285783",
+            "startedAt": "2026-10-18T23:03:01Z",
+            "completedAt": "2026-10-18T23:04:59Z"
+          }
+        ],
+        "passed_tests_per_job": 357,
+        "log_sha256": "c652883fcfeada84314c578b403e065c9145e8379ba811255027b0a67a5e1bf6"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 39174807563,
+        "event": "push",
+        "headSha": "307d994217bbf5183b308110f7d16e44413dcf83",
+        "status": "completed",
+        "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563",
+        "jobs": [
+          {
+            "name": "backend (18)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563/job/117815179722",
+            "startedAt": "2026-10-18T23:02:32Z",
+            "completedAt": "2026-10-18T23:04:32Z"
+          },
+          {
+            "name": "backend (17)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563/job/117815179994",
+            "startedAt": "2026-10-18T23:02:32Z",
+            "completedAt": "2026-10-18T23:04:03Z"
+          }
+        ],
+        "passed_tests_per_job": 357,
+        "log_sha256": "2d4cd6d7f39a211a3c6b37481e68a3ca220be7ca6f8c7c0f4cd8c3ee0f99b639"
+      }
+    ],
+    "production_deployed": false,
+    "publication": "New correction branch and PR only; no merge or deployment; commits use [skip render].",
+    "validated": [
+      "Linux Python 3.12.15",
+      "PostgreSQL 17 and 18, 357 tests each",
+      "locked dependencies and pip check",
+      "Ruff check and format",
+      "runtime dependency audit",
+      "production wheel build",
+      "backup Docker image build (PostgreSQL 18 job)"
+    ]
+  },
+  "known_code_blockers_p0_p1": 0,
+  "baseline_test_and_dataset_preservation": {
+    "baseline": {
+      "sha256": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+      "summary": {
+        "automatic_safe_stock_at_reference": "3.393750000000000000000000000",
+        "demand_quantity": "31.800000",
+        "expiry_waste_percent_of_available": "13.92953639549503758593938097",
+        "final_stock": "0.374000",
+        "fulfilled_quantity": "31.800000",
+        "last_28_days_consumption": "13.575000",
+        "provenance": "CALCULATED_DESCRIPTION_OF_SYNTHETIC_E2_FIXTURE_NOT_E3_IMPACT",
+        "received_quantity_including_opening": "37.381",
+        "stockout_days": 0,
+        "unmet_demand_percent": "0",
+        "unmet_quantity": "0.000000",
+        "waste_quantity": "5.207000",
+        "weekly_physical_counts": 10,
+        "zero_stock_episodes": 0
+      }
+    },
+    "current": {
+      "sha256": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+      "summary": {
+        "automatic_safe_stock_at_reference": "3.393750000000000000000000000",
+        "demand_quantity": "31.800000",
+        "expiry_waste_percent_of_available": "13.92953639549503758593938097",
+        "final_stock": "0.374000",
+        "fulfilled_quantity": "31.800000",
+        "last_28_days_consumption": "13.575000",
+        "provenance": "CALCULATED_DESCRIPTION_OF_SYNTHETIC_E2_FIXTURE_NOT_E3_IMPACT",
+        "received_quantity_including_opening": "37.381",
+        "stockout_days": 0,
+        "unmet_demand_percent": "0",
+        "unmet_quantity": "0.000000",
+        "waste_quantity": "5.207000",
+        "weekly_physical_counts": 10,
+        "zero_stock_episodes": 0
+      }
+    },
+    "original_test_nodes": 220,
+    "current_test_nodes": 357,
+    "retained_original_nodes": 220,
+    "renamed_nodes": {
+      "test_projection_never_goes_below_zero_and_order_is_overdue": "test_projection_keeps_uncovered_demand_and_order_is_overdue"
+    }
+  },
+  "production_build": {
+    "wheel": {
+      "name": "stocksmart_backend-0.2.0-py3-none-any.whl",
+      "sha256": "75ff45581c2696c8513229d3dc373b395695fda13a573d2a3ad3f5333f316fb4"
+    },
+    "python": "3.12.15",
+    "identical_resolutions": true,
+    "commands": {
+      "production-wheel-build": {
+        "exit_code": 0
+      },
+      "production-venv-1": {
+        "exit_code": 0
+      },
+      "production-install-1": {
+        "exit_code": 0
+      },
+      "production-package-1": {
+        "exit_code": 0
+      },
+      "production-pip-check-1": {
+        "exit_code": 0
+      },
+      "production-venv-2": {
+        "exit_code": 0
+      },
+      "production-install-2": {
+        "exit_code": 0
+      },
+      "production-package-2": {
+        "exit_code": 0
+      },
+      "production-pip-check-2": {
+        "exit_code": 0
+      }
+    }
+  },
+  "installed_package_http": {
+    "scope": "Only isolated *_test database; no deployment; inventory/receipt synthetic; supplier GETs live",
+    "status": "PASS",
+    "readiness": 200,
+    "live_prices": [
+      {
+        "supplier": "Central Mayorista",
+        "supplier_product_id": 1,
+        "pack_price_clp": "28800.000000",
+        "unit_price_clp": "11520.000000",
+        "observed_at": "2026-10-18T19:54:17.804744-03:00",
+        "state": "CURRENT"
+      },
+      {
+        "supplier": "Jumbo",
+        "supplier_product_id": 2,
+        "pack_price_clp": "2530.000000",
+        "unit_price_clp": "20240.000000",
+        "observed_at": "2026-10-18T19:54:21.084513-03:00",
+        "state": "CURRENT"
+      },
+      {
+        "supplier": "Santa Isabel",
+        "supplier_product_id": 3,
+        "pack_price_clp": "2570.000000",
+        "unit_price_clp": "20560.000000",
+        "observed_at": "2026-10-18T19:54:26.148143-03:00",
+        "state": "CURRENT"
+      }
+    ],
+    "live_runs": [
+      {
+        "id": 1,
+        "status": "OK",
+        "finished_at": "2026-10-18T22:54:18.846065Z"
+      },
+      {
+        "id": 2,
+        "status": "OK",
+        "finished_at": "2026-10-18T22:54:23.927601Z"
+      },
+      {
+        "id": 3,
+        "status": "OK",
+        "finished_at": "2026-10-18T22:54:27.947086Z"
+      }
+    ],
+    "http_workflow": {
+      "suggestion_status": "PENDING",
+      "decision_status": "APPROVED",
+      "receipt_status": "RECEIVED",
+      "single_receipt_movement": 107,
+      "required_qty": "4.726000",
+      "purchased_qty_synthetic_receipt": "5.000000"
+    },
+    "concurrent_reads": {
+      "requests": 28,
+      "workers": 14,
+      "max_ms": 210.585
+    },
+    "database_down": {
+      "status": 503,
+      "milliseconds": 3019.519
+    },
+    "database_recovered_without_application_restart": true
+  },
+  "runtime_dependency_audit": {
+    "dependencies": [
+      {
+        "name": "alembic",
+        "version": "1.20.0",
+        "vulns": []
+      },
+      {
+        "name": "annotated-doc",
+        "version": "0.0.5",
+        "vulns": []
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.8.0",
+        "vulns": []
+      },
+      {
+        "name": "anyio",
+        "version": "4.15.1",
+        "vulns": []
+      },
+      {
+        "name": "bcrypt",
+        "version": "5.0.0",
+        "vulns": []
+      },
+      {
+        "name": "boto3",
+        "version": "1.43.114",
+        "vulns": []
+      },
+      {
+        "name": "botocore",
+        "version": "1.43.114",
+        "vulns": []
+      },
+      {
+        "name": "certifi",
+        "version": "2026.10.18",
+        "vulns": []
+      },
+      {
+        "name": "click",
+        "version": "8.5.0",
+        "vulns": []
+      },
+      {
+        "name": "fastapi",
+        "version": "0.146.0",
+        "vulns": []
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0",
+        "vulns": []
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9",
+        "vulns": []
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1",
+        "vulns": []
+      },
+      {
+        "name": "idna",
+        "version": "3.20",
+        "vulns": []
+      },
+      {
+        "name": "jmespath",
+        "version": "1.1.0",
+        "vulns": []
+      },
+      {
+        "name": "mako",
+        "version": "1.4.3",
+        "vulns": []
+      },
+      {
+        "name": "markupsafe",
+        "version": "3.0.4",
+        "vulns": []
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.45.1",
+        "vulns": []
+      },
+      {
+        "name": "psycopg",
+        "version": "3.3.6",
+        "vulns": []
+      },
+      {
+        "name": "psycopg-binary",
+        "version": "3.3.6",
+        "vulns": []
+      },
+      {
+        "name": "pydantic",
+        "version": "2.14.1",
+        "vulns": []
+      },
+      {
+        "name": "pydantic-core",
+        "version": "2.50.1",
+        "vulns": []
+      },
+      {
+        "name": "pyjwt",
+        "version": "2.15.1",
+        "vulns": []
+      },
+      {
+        "name": "python-dateutil",
+        "version": "2.9.0.post0",
+        "vulns": []
+      },
+      {
+        "name": "s3transfer",
+        "version": "0.19.2",
+        "vulns": []
+      },
+      {
+        "name": "six",
+        "version": "1.17.0",
+        "vulns": []
+      },
+      {
+        "name": "sqlalchemy",
+        "version": "2.1.5",
+        "vulns": []
+      },
+      {
+        "name": "starlette",
+        "version": "1.9.0",
+        "vulns": []
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0",
+        "vulns": []
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4",
+        "vulns": []
+      },
+      {
+        "name": "tzdata",
+        "version": "2026.5",
+        "vulns": []
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0",
+        "vulns": []
+      },
+      {
+        "name": "uvicorn",
+        "version": "0.54.0",
+        "vulns": []
+      }
+    ],
+    "fixes": []
+  },
+  "limitations": [
+    "Docker daemon local no disponible: build Linux/Docker verificado únicamente si CI_RESULTADO PASS lo acredita.",
+    "Sin acceso autenticado ni URL/SHA fiables de Render: producción y programación remotas no verificadas.",
+    "S3 verificado con mocks; no hay bucket productivo provisionado ni siete días reales de operación.",
+    "Una advertencia de deprecación Starlette/httpx en las suites; no se ocultó ni convirtió en error.",
+    "Sin línea base comparable ni simulación causal E3 ejecutada."
+  ],
+  "protected_official_sources": [
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/1.1.1 Caso de Negocio.pptx",
+      "sha256": "25fb5cf3053e9a11e14704c9b28ffed5f62868d8e1c2ee4044818ef39a487539",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/1.2.1 Acta de Constitucion de Proyecto.docx",
+      "sha256": "f0b3ef6400785ade3a3f1d1526e5465d628b1b853e6f8c046249d4b75f1fdfa7",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/1.3 Registro de Interesados - Grupo 4.xlsx",
+      "sha256": "3b75ff576b0d9852dfac4353968104e1087b6e0afaf85ba10fab5985edbd9df3",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/1.4 Acta de Constitucion del Equipo.docx",
+      "sha256": "d7d9e8c10befff2b0f568d662fff5052c1effaa77700f5428f2128b50b6b818c",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/1.5 Reporte de Avance de Proyecto en Primera Entrega.pptx",
+      "sha256": "4cf5ccd9db56e04ce55fd3316bd54876789dae444d72f6cc738fa2b6fec84a5e",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/Guion Video Entrega 1 - StockSmart - Grupo 4_1.docx",
+      "sha256": "a8b7679cf44a350cfbc66fede80f70de641bf5e05209e0e0dfe7199122126522",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/PPT Video.pptx",
+      "sha256": "b7d53ef0bf9a4256c00f4943f44007647c4561a861161d90d7a1d75a30214ad5",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 1/Rubricas Entrega-1.pdf",
+      "sha256": "272e53965350d2bebdf99cd2fef87c8dc323c1a32ad37db4582fd137d87c7a10",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.2 Cronograma Base.pdf",
+      "sha256": "86ab785e1a6ba7157c684edde0239c845d4dab78a19d64f1592c536aa06d5242",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.3 Presupuesto.doc",
+      "sha256": "0c58fd8eea6512f585a6c0e457dff1d131de44252dbfde9a6b42df7f834a6cf3",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.4 Plan de Pruebas.xls",
+      "sha256": "39c30c90aa6e69c586aeea6f02c1d2c65c8c4daffcb257af17ce52c338fc2f72",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.4 Plan de Pruebas.xlsx",
+      "sha256": "9dae6695535e4b1169bccdd813bfe5bcae7e51523421b7ee0832a94f5ac1f665",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.5 Plantilla Registro de Riesgos.xlsx",
+      "sha256": "46507aeeeb23a14a7d9e5ef2f8f38795993975532860b2c2b7c621838b5c8246",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/2.6 Reporte de Avance de Proyecto en Segunda Entrega.pptx",
+      "sha256": "36ae462837f3356aa175a7120e9020171c54ff5c3194d803ae2eadc5812d27f2",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Arquitectura.md",
+      "sha256": "07b036af659be671c2a5614de0e2f80c2cbf3753a2f22e239ac334d068902a42",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Estimacion HH v2 (Pedro).pdf",
+      "sha256": "b2a74917cb087a9235418063c6dd75a09ecac5691e130a875b45801a2c953436",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Reporte de Avance Semanal.pptx",
+      "sha256": "5760487271e401e0257877f9ad0fa014cbfae3dfb24d4bf6a01a3f8cdd962201",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Rubricas Entrega-2.pdf",
+      "sha256": "701f3961dc8c5119e3c6f2b17c889cf4762248b160a9807132c014afee553a81",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/DOCUMENTO DE REQUERIMIENTOS/2.1 Documento de requerimientos de software.docx",
+      "sha256": "a4de7bc93f411cba926e3508ef7a263869f55ddac74eeafbf35eb7b57bca3771",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/DOCUMENTO DE REQUERIMIENTOS/Lista funcionalidades y REQ SS.docx",
+      "sha256": "ed4c9f03c12a5a0dd30202d29e86d92f0caefd052910ede203291c389e66491c",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Mockup frontend/Mockup.html",
+      "sha256": "b17a75094b750edd124b6437216358f5a73700e45783b8e5e429c5d871a9d61a",
+      "unchanged": true
+    },
+    {
+      "source": "Proyecto/Proyecto GPTI/Entrega 2/Mockup frontend/Mockup.pdf",
+      "sha256": "5e2b69b73bbe99eb71e74a41696a322cbb70c29399e817cbfe5d2579c1b21a86",
+      "unchanged": true
+    }
+  ],
+  "formal_test_plan": {
+    "original_sha256": "9dae6695535e4b1169bccdd813bfe5bcae7e51523421b7ee0832a94f5ac1f665",
+    "original_preserved": true,
+    "requirements": 17,
+    "acceptance_cells": 17,
+    "procedure_cells": 17,
+    "output": "C:/Users/rodri.LAPTOP-H80NMMK8/Villevault/GPTI/Proyecto/github/docs/e2/Plan_Pruebas_Backend_E2.xlsx",
+    "current_sha256": "6f496cea4527b067e2a220b3711e0aaad43108111643d5e05c2faf976afb4b26",
+    "visual_review": "Five unchanged renders reviewed; four requirement views and complexity sheet."
+  },
+  "tested_backend_files": {
+    ".github/workflows/backend.yml": "9117c429520be694e857ea53c5d048e2ee7989892e5e6deafd4b27f371c956da",
+    "backend/.dockerignore": "1c2b8b9a495da9ea7e84ab2a68bfc3b1e5cbe4c857ae64809af10851bd6777a0",
+    "backend/.env.example": "48c3a1613297844d2a79a2bc610ffcd9e1b24a198c934aa63d9b004b70b15a9b",
+    "backend/Dockerfile": "b85426cfc0e0c931bab9fbdf9884b3a4cfa9707381d13ac583efe0153d2d2d39",
+    "backend/alembic.ini": "2c7e81faf5b07a795476916b271eff738b2ed7da08fef661210b15d395fd0f27",
+    "backend/app/__init__.py": "c0353e891aee2ba176214c0b7d8d977cf25d45b25f7003be8d8a9c4b98e006a9",
+    "backend/app/api/__init__.py": "0589d51bd7fc1fabb259411b2dd7efe085d792b74b410dac50b52c7a9721a663",
+    "backend/app/api/auth.py": "9d2833d1a9471febb38a3c3ecb2c595d42b102603ec33e37e8e3d55e839e2369",
+    "backend/app/api/metrics.py": "e9981f1a59116c80785cb20a147fb8a70569d7ac06c2f31fa1e578e1484e17cc",
+    "backend/app/api/procurement_routes.py": "a9006665b25664f05980b07f44adfb0a2ac30b0a4452878e0034ef491db0b940",
+    "backend/app/api/procurement_schemas.py": "b647327b4e05ad74ace9961ae1cce1d03132ea13215a6603f657fe9918c26b7c",
+    "backend/app/api/routes.py": "9b1bd7bdff029fc2937d93062ed1220139fd0f82a4b58e828f3a6c5d5f8304ae",
+    "backend/app/api/schemas.py": "6b304e7d800297933b9ba09644d71cc542e78a5f3e035dc7925649ffee960b5d",
+    "backend/app/api/suggestions.py": "e618a0926527bd60284f8a8c2548f3888b25f5df7cfe00b3a0f89612073831d3",
+    "backend/app/backups.py": "d110bb324c43668e6a03ce80919fe3a66e0385612ec524ef788da70aacb5b444",
+    "backend/app/config.py": "c6d484b98ef337f0855a8efe213b5e828d253ccde8cfe28955ed830009a8ee71",
+    "backend/app/demo.py": "df54dbec157531fbb178681ed81b243e1feb674dc4dbf44b210d90abebacdd67",
+    "backend/app/domain/__init__.py": "7b00deaec584ff20d8f8764ecbf82a490b3b754bc1bea772a96c29b4dff00ee2",
+    "backend/app/domain/commercial.py": "54ce68d37f623871f52c996ba25872adb8fe59804f4b55a441af9544339d135e",
+    "backend/app/domain/errors.py": "77f29ecfb7fad664eb5ccfd4ce38680e522446a287edc7d793bc51aeef076f53",
+    "backend/app/domain/forecast.py": "5a1a15964168a1235583d957e63ba09450cdf0d2052be529be34b0f59c9b421e",
+    "backend/app/domain/history.py": "5f70a718ec3c75d14812d2ba9d793cd49703e1327b8433c5e1face96021492f4",
+    "backend/app/domain/replenishment.py": "16a796bee755c15f4bd8a71ac7fc2830c3b8251d2a57e71e4ecbabe45686b1d0",
+    "backend/app/domain/shortage.py": "4dc58d7e6123d66e8dbcdd1641ffb2b13a8b8d8373e94858952c0fdb652c87f8",
+    "backend/app/domain/units.py": "282b597aada6f7ae0c48cae31087dce7e2069a6852980a42b4cc4fb1b1a474ea",
+    "backend/app/e2/__init__.py": "ac281d05ef335fd9e95a92eb19bd039c886f7ad60a779f211a97a0e45e63a1e9",
+    "backend/app/e2/contracts.py": "3aeaaff475dd84ab25dce5ca0093629abb2b724a7bd8ddd57b2b8cb305743cc6",
+    "backend/app/e2/dataset.py": "a4adc109e3143e6dfee06877dfe851fa0a53f5dc148d6cd7c47de4fa746ca7c6",
+    "backend/app/e2/demand.py": "66d1deeff7ced9817efe5d333c1959eb63aee04337db98e63c1c73c3f2ccfa7e",
+    "backend/app/e2/receipts.py": "ccdb4c3857a174d073ce057da538c2885ace40f97432f0eb08b6821e45ff962e",
+    "backend/app/e2/replay.py": "838d4c30bad6d82a13cfc5c57b60ca98c3ba4e520e0716abf4ab5b133aedb0ba",
+    "backend/app/e2/validation.py": "00ae64ec007a9519cfeb2232fde3335bc613f2f4376e2de5e7f4c3d09b24e34a",
+    "backend/app/main.py": "09c137aed7962f3b471e473615b294d2d468e113ca52acbeb240b19879bac5ba",
+    "backend/app/manage_users.py": "817511bed453b575889a59002d4ae3ddad21422b3af21d2f41f43ce014fe33a5",
+    "backend/app/persistence/__init__.py": "482ea497e5e268914156167f4bf7550530cadb8f5ccd0fdce67f4005992d80f7",
+    "backend/app/persistence/database.py": "77bbb73951e4125b4ea4a180b2bbc75be339e5cb6d19903cb77fe52d89b4f695",
+    "backend/app/persistence/models.py": "767551dc7fb4eefdadba045f3cd30a97dc646bdb312d3c76951edd3bdf86d7fd",
+    "backend/app/services/__init__.py": "7e2d48734cce251768446c6734749756d109ee0c57dcc1cb4df09e580a3921d0",
+    "backend/app/services/auth.py": "038443a2e5756b7b793d23e7cc3f98361caa44c443dc3f0eef16b27d8a89f0f9",
+    "backend/app/services/catalog.py": "53e540a20cb1c8b273b79182a1e2ce71176fa605090308884297526a934022bb",
+    "backend/app/services/inventory.py": "22efdf9bcc327a2fd266a0180cea381062add013e3466795b2a4f770b2aed421",
+    "backend/app/services/metrics.py": "1e01ffbdb431a309e71a5a5acaf81f3257898622b98a83c93e876ee46604ae5d",
+    "backend/app/services/orders.py": "d8a1249769f3a05c1948e09f6e612fb4640bc5c84164e4bb9cdd494813a1c47a",
+    "backend/app/services/prices.py": "4203081203d55fbad67aa13482152f79e189a3e74abd8fbc79edba3a7e437f23",
+    "backend/app/services/suggestions.py": "09476a2f2603d8f0c0d0283feceb5f782d773d2a9db0bc1124c2f6898b5f384b",
+    "backend/migrations/env.py": "f1020cb40ae4f91c8372eba1773e563c7c29bf984c871f30ce107cedff799f4f",
+    "backend/migrations/versions/0001_inventory.py": "4d827cfac7427c3bbf641dfa2691f6dc27c1b281a86365990db077a6fd1ef152",
+    "backend/migrations/versions/0002_balance_guard.py": "92ddb0a2179ef518e539ce34ddd052c0d67aacef26195d318d31bdd20c69813a",
+    "backend/migrations/versions/0003_procurement.py": "af13ba3e378ea304133cdcda8f2315d6625616ea609baf5da01c9f38dc07086f",
+    "backend/migrations/versions/0004_scrape_config.py": "3cc4cfa9d3b68f2b11666a60320f9c2db29bffdb9da6f28f3d5fc02b079dcec0",
+    "backend/migrations/versions/0005_e2_completion.py": "6ddcd86ccf5e146a7e7db9bb6b5f2327fde41a960ff7021f1e484e4d9718dc26",
+    "backend/pyproject.toml": "1b4b4d7ca25c9395ba98c072348125c05fdc45c0719a02d76cf705dd2fe90e75",
+    "backend/requirements-test.lock": "7d5208b29c62d613015242acfa8b99b5f468c80bde58e4a79127aa95c962b4cc",
+    "backend/requirements.lock": "51bd698932a13d76b784798ad2d265f91e1c56d858d2a939c18886f62c5c4e09",
+    "backend/scraper/__init__.py": "c54dc29014899daeac866e1f4dd503a554802c0c639f21d30a1d3055d9ab9368",
+    "backend/scraper/adaptadores/__init__.py": "4782c91df72298f156485b5eb500de469ecf4cd3442cabed29939ae4f652f4b1",
+    "backend/scraper/adaptadores/central.py": "ea6df800f81cc2fb1ced17a2c7e3d5dba3ff34eccb5bf611cff8030c809aabc2",
+    "backend/scraper/adaptadores/jumbo.py": "c1effe0f7d0fea2ea264f3d668e6261fb5403557fbeb09a3dbb52241441b1da3",
+    "backend/scraper/adaptadores/public_html.py": "86dd04e483a6e5c42e824daaac37566d769b7d1d0725236d6f9fd03caa385258",
+    "backend/scraper/adaptadores/santa_isabel.py": "66e906e1cda6ac249fcac62468510c0ff2ec50ddac8cb3fb417d2223bc23adb7",
+    "backend/scraper/certs/globalsign_rsa_ov_ssl_ca_2018.pem": "1413ea69e0a43737dd4d7f904255e2908b6ffe14191ba1f1353aeb826204b47d",
+    "backend/scraper/contracts.py": "cb1489668e80e256ec8eafdeeef89c47d428a6d1e3c9da12c651f3afe2fec9bf",
+    "backend/scraper/coordination.py": "5ffdffa1c4e2f17edb4307a1e93b0e4f3069994250e39ddf996b3b7647eca7cb",
+    "backend/scraper/normalize.py": "554e999ed1179a4dbeb614c619b37452085285b88a8af84034bb64be93bc2ba1",
+    "backend/scraper/pipeline.py": "ecdf7152e914f9dee5216bedb6359702fabea13ff2722a9b6a52e53dafd22ede",
+    "backend/scraper/postgres.py": "627c46147d7c1e768543e8b4e1b151b7f2a11a3c7bf706b347cb9cc580e98c9a",
+    "backend/scraper/runtime.py": "12115ffda232c23a343f345ca1249c08121de06da50af7407bc877907494c9f5",
+    "backend/scraper/store.py": "d666572d43f6e92a9aac298824dc3593f632a2e0af95187c81c393801f09154c",
+    "backend/scraper/transport.py": "c7309df16bf2d0b67dd9c9147396b3c7f81f90a5370a9cd370446342df3ae7f3",
+    "backend/tests/api/test_auth_security.py": "e0df9e8f0dbe4ae885e731b5d6de97d3976c4b5dc69a51724fcefe9277776113",
+    "backend/tests/api/test_contract.py": "51a99b009ce23256ed7eb39d6c94bf8dfc7da32496067652b80ed3b4bae25d9b",
+    "backend/tests/api/test_demo.py": "ff089b0b1ed3208f3c0bf517ef454d9745d9b63616fc13013e828862226fd539",
+    "backend/tests/api/test_e2_completion.py": "b7c6fabd3a4852de69631bcbcbf206af01aedc41b45db122c96da39d0c8562d2",
+    "backend/tests/api/test_integration_1.py": "99077df9ababb76fed881893ca78163d7d16e097b3b735d94bea9511e3bafc50",
+    "backend/tests/api/test_operations.py": "ecfb50058e9e151aeadd68f611a129829df648009b522e2ee657262d7409a64b",
+    "backend/tests/api/test_procurement.py": "4fb174f471a64951548ed0cabc2b4edd6d78526aaf9b023a4cd9ea931b5f2d8e",
+    "backend/tests/api/test_rules_health_metrics.py": "6325017c442a46152bd3427582d34905004f28992da8f4751815810e690a3228",
+    "backend/tests/conftest.py": "2ba11026781f52a21747dc3385c8e9c47590fa06aadfd2240d722913e6db0cd3",
+    "backend/tests/fixtures/e2/Historial_previo/consumo_previo.csv": "ad3fb9c34fd9cd564ce890152e0823ab25030212331b328d90fe8e7472bf49c5",
+    "backend/tests/fixtures/e2/Historial_previo/consumo_previo.json": "6b2b08dc71cb29568c8c41bdc079ba0c5ee802a769a458a2d722e8c45a250ccf",
+    "backend/tests/fixtures/e2/README.md": "2f3e20ddc9b2c234c90f0918c67a49c8d285998da40178e3256a3dd64e722212",
+    "backend/tests/fixtures/e2/config/dataset_v2.json": "eac94276b5a6df012cb9cfe52dc32db0a71c2ea670180235c4a7eeb9a6716ffe",
+    "backend/tests/fixtures/e2/config/estimacion_operacional_preperiodo.json": "8bbe6d8aba4da2a53b676828cc017eff479b8fa4aa81ef04960acdb20a879a60",
+    "backend/tests/fixtures/e2/config/historial_previo.json": "8ebcc31cccf52991681dea543d2a7b1db12cc67e9257a6b4a64993a2a253fb14",
+    "backend/tests/fixtures/e2/config/products.json": "88b1d184a97c6548ca88fbfc42d684fdd39b5f6ccd473a9d7a8581f96948b80d",
+    "backend/tests/fixtures/e2/evidencia/2026-10-03/central_browser_condiciones_final.json": "1146cacb37fabbec936f24e6bd9fe288b466e22f2cf2f763f0ad3610779c3372",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/central_huevo_grande_30.html": "0152f4df8c8cf176eefe576330eb12dcb699234fe62165c2aa2b916a92058fde",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/central_huevo_grande_30.json": "87653b62bbea88c5cc4590c2dd689e13ed9d46115c756ed4108f218f211a0e95",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/central_robots.txt": "94a4464928fa4fcb0edf865e3dc5ee21a1f520a029f312daa3227054cbedf7ac",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/jumbo_huevo_grande_12.html": "774f1e74611e7586f7efd2d20105bb8277b41f8b276848aff7f881014a59d5ed",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/jumbo_huevo_grande_12.json": "c3b6eec444f2f12b624c9b7a9c608616b68c860f0231e3b806d5779671a7cfe8",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/jumbo_robots.txt": "ed1b6d75ff7380bece404325902b4e26208227a9f1d23e3e5fb9718d0b58c9d4",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/observed_prices.json": "0b9371642da841ac781fb99bbde69fcb4b5a81dc465078a5be50f257de4f4a30",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/santa_isabel_huevo_grande_12.html": "efab29005a7faecfe0c76c0432f7ac1c411b15bccd0403b30d3da0cbbbad9abe",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/santa_isabel_huevo_grande_12.json": "dc0747c1d2fa414a72db6a74448197bc4a82782d3f596be3867ce583af7e9008",
+    "backend/tests/fixtures/e2/evidencia/2026-10-05/santa_isabel_robots.txt": "f1a87bd07fa1256e3eb281c83cfcaa284cc614216f54e8152752e824bfa62f70",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/central_asada_2500g.html": "bfc60f994a5b846b3569fa4a341517ee95c6b7cbebe61428d9961559e37fe202",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/central_asada_2500g.json": "887c26d4144649e2483ddb996aac4e93dfc5647f3be1f68256f0830536ddde55",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/central_robots.json": "2e19f04475c48049da240a6d88f26aff88e84a17327b27a717684664b27eaec4",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/central_robots.txt": "94a4464928fa4fcb0edf865e3dc5ee21a1f520a029f312daa3227054cbedf7ac",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/jumbo_asada_125g.html": "b11097df6d88c22ee05ab084dc5bd36b4a56b4c401ebed1cfd9ab80f20772f88",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/jumbo_asada_125g.json": "7210ace598c8bdb479c3589accc7bba30dc444f4aa1b810d69a2e3db004b3137",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/jumbo_robots.json": "cdd8424fa693bd02764bb681508852fabb012560af18529da479a4a03d386e55",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/jumbo_robots.txt": "ed1b6d75ff7380bece404325902b4e26208227a9f1d23e3e5fb9718d0b58c9d4",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/observed_prices.json": "14fc7cbcf4362c0339c0e8bae6795df0d09f5a8a5cc1e963cb2d155caf7b1fb6",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/santa_isabel_asada_125g.html": "930fd41c7639153030b89c68c7527d773bcedbd554a261ad9c1ffae4d74d7bef",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/santa_isabel_asada_125g.json": "11cf0bbdaf184636e5a1acdc021e141e8a2fc7699d4ed0de6f84a4406f8f984d",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/santa_isabel_robots.json": "203af08b4263ecf79883be88f1b7bb0da705fa3df8360829f9a73a8fe3763ae7",
+    "backend/tests/fixtures/e2/evidencia/2026-10-07/asada/santa_isabel_robots.txt": "f1a87bd07fa1256e3eb281c83cfcaa284cc614216f54e8152752e824bfa62f70",
+    "backend/tests/fixtures/e2_huevos/Historial_previo/consumo_previo.csv": "8fbda0ff355cda7b682923e03ce42732265543f9dccefb6291aab06a970aea9b",
+    "backend/tests/fixtures/e2_huevos/Historial_previo/consumo_previo.json": "d0101e8b7debc07db8b97647679f5510146ad84bbc660189747822861ae40912",
+    "backend/tests/fixtures/e2_huevos/README.md": "e827afbaec86e554d399d05d2eefa1ffe83a47f549a19f84ce02e31bd394b012",
+    "backend/tests/fixtures/e2_huevos/config/dataset_v2.json": "d0b58ddcbfe1f4fed4202f4f5f76fb9502b2b8ef5d47f50df0dba9139d88fafc",
+    "backend/tests/fixtures/e2_huevos/config/estimacion_operacional_preperiodo.json": "27f9750805a794be78337c0a681a9dc07bc022d2adbd98c8f617ddc02962ab26",
+    "backend/tests/fixtures/e2_huevos/config/historial_previo.json": "2f10164b120a7198c56a9d48eb51be3956e507d09212d4aa5360c5ecbbf64d3c",
+    "backend/tests/fixtures/e2_huevos/config/products.json": "b020de97580f074f55f16aa33b5716af6e281209dc0909409d543b9c032773b3",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-03/central_browser_condiciones_final.json": "1146cacb37fabbec936f24e6bd9fe288b466e22f2cf2f763f0ad3610779c3372",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/central_huevo_grande_30.html": "0152f4df8c8cf176eefe576330eb12dcb699234fe62165c2aa2b916a92058fde",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/central_huevo_grande_30.json": "87653b62bbea88c5cc4590c2dd689e13ed9d46115c756ed4108f218f211a0e95",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/central_robots.txt": "94a4464928fa4fcb0edf865e3dc5ee21a1f520a029f312daa3227054cbedf7ac",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/jumbo_huevo_grande_12.html": "774f1e74611e7586f7efd2d20105bb8277b41f8b276848aff7f881014a59d5ed",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/jumbo_huevo_grande_12.json": "c3b6eec444f2f12b624c9b7a9c608616b68c860f0231e3b806d5779671a7cfe8",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/jumbo_robots.txt": "ed1b6d75ff7380bece404325902b4e26208227a9f1d23e3e5fb9718d0b58c9d4",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/observed_prices.json": "0b9371642da841ac781fb99bbde69fcb4b5a81dc465078a5be50f257de4f4a30",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/santa_isabel_huevo_grande_12.html": "efab29005a7faecfe0c76c0432f7ac1c411b15bccd0403b30d3da0cbbbad9abe",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/santa_isabel_huevo_grande_12.json": "dc0747c1d2fa414a72db6a74448197bc4a82782d3f596be3867ce583af7e9008",
+    "backend/tests/fixtures/e2_huevos/evidencia/2026-10-05/santa_isabel_robots.txt": "f1a87bd07fa1256e3eb281c83cfcaa284cc614216f54e8152752e824bfa62f70",
+    "backend/tests/integration/test_e2_asada_postgres.py": "8e0d13d8e2ae9a3028355dd6167f3f2b5b3f37be14c6a79ea0a049c655bade1a",
+    "backend/tests/integration/test_e2_receipts_postgres.py": "4e235cf18e5e36393aac6e5f924a61ee359669b88902f5582b61c8b0d8e38ef9",
+    "backend/tests/integration/test_e2_replay_postgres.py": "9f27ff2ffd926e39a3fc5aa6318b54c322ff6176f97c680548dff53904b7d159",
+    "backend/tests/integration/test_inventory_postgres.py": "a6e17d20498d23d54ff168dca195cfd711ae6dcb93d812e923031e835a188e8c",
+    "backend/tests/integration/test_status_queries.py": "366212c870f78b18a5923be7e2961f41b5b986e158dcaafb0be37465d2eb9f50",
+    "backend/tests/unit/test_backups_storage.py": "d6c72d9a79861f1366a09b5ae3cc2ffdadf092a5e2bdb81f760657ea5534410f",
+    "backend/tests/unit/test_config.py": "09f0f2d1af98984d9b33d117df57b6f5f6c46736abb122c67254ec7124270056",
+    "backend/tests/unit/test_cors.py": "71ca62999d9ad6036fa61e0b9f47591ef87f532175f4aaa5b1b12704c4e98bfb",
+    "backend/tests/unit/test_e2_asada.py": "bf84682210bd910c27988a8824b067c10c9c5a6b1002f2afa05127ae42a3996e",
+    "backend/tests/unit/test_e2_commercial_alert.py": "0fe1850a5fb975afcfe01867d40fd91f6ddba21b9c4d470479153ac7648b5dd4",
+    "backend/tests/unit/test_e2_dataset.py": "47d482af359e6cef4e882cf36b043b3463c85851acc05c34beb5be508b1fa9e0",
+    "backend/tests/unit/test_e2_functional_fixtures.py": "8862ef25f168796cb18cff600212077a4487234341b49b5b9476950bb3a996c2",
+    "backend/tests/unit/test_e2_prices.py": "4ca126d670653065c6915b9a1690cd42ec156bd2fc7aa201a126f1c1bd3aa515",
+    "backend/tests/unit/test_fixture_redaction.py": "26a314462202df34ce9e4745a5c86224004b96ef4791af2351f463a152fdf445",
+    "backend/tests/unit/test_forecast.py": "ce7aad11f205d8ce08b9b099e1ff63208caea90881769f3a1022db933562ae38",
+    "backend/tests/unit/test_history.py": "4f0c0f82e2cfe6cab997168c3219fd3a74f8c6dc06d057726374d75424d55ce3",
+    "backend/tests/unit/test_procurement_comparison.py": "e95b981df26937d1967db03157ccac42933cfcd8edd860931e48a54878b97854",
+    "backend/tests/unit/test_replenishment.py": "39066a458ad20707512188edf55b07b271eb8464bd20226ee114d91d19c933b9",
+    "backend/tests/unit/test_shortage.py": "6c02b2bd3ed1ec47025cf06f666224958e0ea44ae2901d0dc2a193b071ebe6d9",
+    "backend/tests/unit/test_tls_context.py": "be3b41b563117974ccdf99d8523f110fa78ade381aec36bf905753001e054c8b",
+    "render.yaml": "ca2acca76416d541bbf2473d7d2e286770dc6cb0b6b960d9d8d7b78e448385a0"
+  },
+  "reviewed_backend_sha256": "b3b6e3ecea593cebf26275b11711a057424f38c38474645a942021dc65b90b6a",
+  "secret_scan": {
+    "scope": "Publishable working-tree text; bounded credential signatures; values never exported",
+    "signature_hits": [],
+    "review_notes": [
+      "CLI/CI/fixtures contain explicit isolated test/example credentials only; no identified active operational credentials.",
+      "Not a proof of universal secret absence or validity of historical strings."
+    ]
+  }
+}

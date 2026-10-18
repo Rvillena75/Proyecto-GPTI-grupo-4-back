@@ -182,7 +182,7 @@ def test_http_failures_are_archived_without_retries_or_redirects(tmp_path, statu
         assert caught.value.code == code
         assert len(calls) == 2
         assert timer.sleeps == [2.0]
-        assert (tmp_path / "central_product.json").exists()
+        assert list(tmp_path.glob("central_product_*.json"))  # Unique capture per URL/instant.
         if status in {403, 429}:
             with pytest.raises(ScrapeError):
                 transport.fetch_product(supplier()["url"], "central")

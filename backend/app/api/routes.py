@@ -6,6 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
+from app.api.auth import Actor, Admin, current_user
 from app.api.schemas import (
     AlertResponse,
     CorrectionCreate,
@@ -25,7 +26,7 @@ from app.api.schemas import (
 from app.persistence.database import get_session
 from app.services.inventory import InventoryService
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(current_user)])
 VALIDATION_ERROR = {422: {"model": ErrorResponse, "description": "Invalid request"}}
 ITEM_ERRORS = {404: {"model": ErrorResponse, "description": "Item not found"}, **VALIDATION_ERROR}
 WRITE_ERRORS = {
@@ -47,6 +48,7 @@ def _alert(state: dict) -> AlertResponse:
     assessment = state["assessment"]
     return AlertResponse(
         item_id=state["id"],
+        base_unit=state["base_unit"],
         current_stock=state["current_stock"],
         safe_stock=assessment.safe_stock,
         alert_source=assessment.alert_source,
@@ -66,9 +68,9 @@ def _alert(state: dict) -> AlertResponse:
     responses=VALIDATION_ERROR,
     tags=["items"],
 )
-def create_item(payload: ItemCreate, db: Db, now: Now) -> dict:
+def create_item(payload: ItemCreate, db: Db, now: Now, actor: Admin) -> dict:
     """Create an item and its non-backdated initial stock in one transaction."""
-    item = InventoryService(db).create_item(
+    item = InventoryService(db, actor.id).create_item(
         payload.name,
         payload.base_unit,
         payload.initial_quantity,
@@ -90,7 +92,7 @@ def list_items(db: Db, now: Now) -> list[dict]:
 @router.patch(
     "/items/{item_id}", response_model=ItemStateResponse, responses=ITEM_ERRORS, tags=["items"]
 )
-def update_item(item_id: int, payload: ItemUpdate, db: Db, now: Now) -> dict:
+def update_item(item_id: int, payload: ItemUpdate, db: Db, now: Now, actor: Admin) -> dict:
     """Edit name and/or manual safe stock. Only the fields sent change (REQ-01)."""
     service = InventoryService(db)
     service.update_item(item_id, payload.model_dump(exclude_unset=True), now)
@@ -112,9 +114,9 @@ def get_item(item_id: int, db: Db, now: Now) -> dict:
     responses=WRITE_ERRORS,
     tags=["items"],
 )
-def replace_initial(item_id: int, payload: InitialStockCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
+def replace_initial(item_id: int, payload: InitialStockCreate, db: Db, now: Now, actor: Admin):
     """Start a new observation after the previous initial stock was validly reversed."""
-    service = InventoryService(db)
+    service = InventoryService(db, actor.id)
     return service.movement_view(
         service.replace_initial(item_id, payload.quantity, payload.unit, now)
     )
@@ -126,7 +128,9 @@ def replace_initial(item_id: int, payload: InitialStockCreate, db: Db, now: Now)
     responses=ITEM_ERRORS,
     tags=["items"],
 )
-def update_safe_stock(item_id: int, payload: SafeStockUpdate, db: Db, now: Now) -> dict:
+def update_safe_stock(
+    item_id: int, payload: SafeStockUpdate, db: Db, now: Now, actor: Admin
+) -> dict:
     """A null value removes the manual override and restores dynamic P5 behavior."""
     service = InventoryService(db)
     service.set_manual_safe_stock(item_id, payload.manual_safe_stock, now)
@@ -140,9 +144,9 @@ def update_safe_stock(item_id: int, payload: SafeStockUpdate, db: Db, now: Now) 
     responses=WRITE_ERRORS,
     tags=["movements"],
 )
-def create_movement(payload: MovementCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
+def create_movement(payload: MovementCreate, db: Db, now: Now, actor: Actor):
     """Post an entry or exit; backdated events are checked against the full ledger and counts."""
-    service = InventoryService(db)
+    service = InventoryService(db, actor.id)
     movement = service.add_movement(
         payload.item_id,
         payload.kind,
@@ -162,9 +166,9 @@ def create_movement(payload: MovementCreate, db: Db, now: Now):  # type: ignore[
     responses=WRITE_ERRORS,
     tags=["movements"],
 )
-def reverse_movement(movement_id: int, payload: ReverseCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
+def reverse_movement(movement_id: int, payload: ReverseCreate, db: Db, now: Now, actor: Actor):
     """Exact inverse only when the effective history remains valid (D1/D6)."""
-    service = InventoryService(db)
+    service = InventoryService(db, actor.id)
     return service.movement_view(service.reverse(movement_id, now, payload.occurred_at))
 
 
@@ -175,9 +179,9 @@ def reverse_movement(movement_id: int, payload: ReverseCreate, db: Db, now: Now)
     responses=WRITE_ERRORS,
     tags=["movements"],
 )
-def create_correction(movement_id: int, payload: CorrectionCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
+def create_correction(movement_id: int, payload: CorrectionCreate, db: Db, now: Now, actor: Actor):
     """Record a present D6 correction with its signed base-unit stock effect."""
-    service = InventoryService(db)
+    service = InventoryService(db, actor.id)
     correction = service.record_correction(movement_id, payload.note, now, payload.stock_effect)
     return service.movement_view(correction)
 
@@ -189,9 +193,9 @@ def create_correction(movement_id: int, payload: CorrectionCreate, db: Db, now: 
     responses=WRITE_ERRORS,
     tags=["counts"],
 )
-def create_count(payload: CountCreate, db: Db, now: Now):  # type: ignore[no-untyped-def]
+def create_count(payload: CountCreate, db: Db, now: Now, actor: Actor):
     """Atomically reconcile theoretical and physical stock; optionally link a correction."""
-    return InventoryService(db).record_count(
+    return InventoryService(db, actor.id).record_count(
         payload.item_id,
         payload.physical_quantity,
         payload.unit,

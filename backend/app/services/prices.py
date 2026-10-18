@@ -1,11 +1,15 @@
 """Persist the existing public adapters' results in Pedro's price/run tables."""
 
+import hashlib
 import json
+import logging
 from collections import defaultdict
+from dataclasses import asdict
 from datetime import UTC, datetime, timedelta
 from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal
 
 from sqlalchemy import select, text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.domain.errors import RuleViolation
@@ -17,6 +21,8 @@ from scraper.contracts import ScrapeError
 from scraper.normalize import normalize, validate_identity
 from scraper.pipeline import compare_offers
 from scraper.store import quote_state
+
+LOG = logging.getLogger("stocksmart.prices")
 
 
 def _configuration(supplier: Supplier, product: SupplierProduct, item: Item) -> dict:
@@ -44,24 +50,38 @@ class PriceService:
     def __init__(self, session: Session):
         self.session = session
 
-    def _availability(self, product_id: int, supplier_id: int) -> tuple[datetime, bool] | None:
-        observations = []
+    def _availability(self, supplier_ids: set[int]) -> dict[int, tuple[datetime, bool]]:
+        observations = {}
         for run in self.session.scalars(
-            select(ScrapeRun).where(ScrapeRun.supplier_id == supplier_id)
+            select(ScrapeRun).where(ScrapeRun.supplier_id.in_(supplier_ids))
         ):
             try:
                 entries = json.loads(run.message or "{}").get("products", [])
             except (ValueError, AttributeError):
                 continue  # Older human-readable run messages carry no availability observation.
+            if not isinstance(entries, list):
+                continue
             for result in entries:
-                if result["supplier_product_id"] == product_id and result["status"] in {
-                    "OK",
-                    "OUT_OF_STOCK",
-                }:
-                    observations.append(
-                        (datetime.fromisoformat(result["observed_at"]), result["status"] == "OK")
-                    )
-        return max(observations) if observations else None
+                if (
+                    isinstance(result, dict)
+                    and type(result.get("supplier_product_id")) is int
+                    and result.get("status")
+                    in {
+                        "OK",
+                        "OUT_OF_STOCK",
+                    }
+                ):
+                    try:
+                        at = datetime.fromisoformat(result["observed_at"])
+                        if at.tzinfo is not None:
+                            product_id = result["supplier_product_id"]
+                            value = (at, result["status"] == "OK")
+                            observations[product_id] = max(
+                                value, observations.get(product_id, value)
+                            )
+                    except (KeyError, ValueError, TypeError):
+                        continue
+        return observations
 
     def catalog(self, item_id: int, now: datetime) -> dict:
         state = InventoryService(self.session).status(item_id, now)
@@ -76,6 +96,7 @@ class PriceService:
             .where(SupplierProduct.item_id == item_id)
             .order_by(SupplierProduct.id)
         ).all()
+        availability = self._availability({supplier.id for _, supplier in rows})
         for product, supplier in rows:
             quote = self.session.scalar(
                 select(PriceQuote)
@@ -97,7 +118,7 @@ class PriceService:
                 }
             )
             price_state = quote_state(normalized, now)
-            latest = self._availability(product.id, supplier.id)
+            latest = availability.get(product.id)
             if (
                 latest
                 and latest[0] <= now
@@ -149,6 +170,8 @@ class PriceService:
             if required is not None
             else {"status": "INSUFFICIENT_HISTORY", "options": [], "recommended": None}
         )
+        if state["assessment"].in_transit_quantity > 0:
+            comparison = {"status": "IN_TRANSIT", "options": [], "recommended": None}
         return {
             "item_id": item_id,
             "required_quantity": required,
@@ -211,6 +234,8 @@ class PriceService:
                 available=quote["available"],
                 observed_at=observed,
                 valid_until=valid_until,
+                evidence_snapshot=quote.get("evidence_snapshot"),
+                evidence_sha256=quote.get("evidence_sha256"),
             )
         )
         self.session.flush()
@@ -244,6 +269,7 @@ class PriceService:
                 )
                 self.session.add(run)
                 self.session.flush()
+                run_id = run.id
             results = []
             for product_id, config in products:
                 result = {"supplier_product_id": product_id}
@@ -263,12 +289,50 @@ class PriceService:
                         result["status"] = "OUT_OF_STOCK"
                     else:
                         quote = normalize(raw, config, response.observed_at, response.sha256)
+                        # Minimum durable commercial evidence, never raw HTML/cookies/scripts.
+                        # Kept with the historical quote in PostgreSQL and included in backups.
+                        snapshot = {
+                            "version": 1,
+                            "raw": asdict(raw),
+                            "configuration": config,
+                            "observed_at": response.observed_at.isoformat(),
+                            "response_sha256": response.sha256,
+                            "normalized": dict(quote),
+                        }
+                        canonical = json.dumps(
+                            snapshot, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+                        )
+                        quote["evidence_snapshot"] = snapshot
+                        quote["evidence_sha256"] = hashlib.sha256(canonical.encode()).hexdigest()
                         with self.session.begin():
                             self._record_quote(quote, run, config)
                         result["status"] = "OK" if raw.available else "OUT_OF_STOCK"
                 except (ScrapeError, RuleViolation) as exc:
                     # Isolate supplier failures and avoid returning raw exceptions or secrets.
                     result.update(status="ERROR", error_code=getattr(exc, "code", "SCRAPE_FAILED"))
+                except SQLAlchemyError:
+                    # Infrastructure failure is not a supplier failure or successful fallback.
+                    self.session.rollback()
+                    LOG.error("price_database_failure run_id=%s product_id=%s", run_id, product_id)
+                    try:
+                        with self.session.begin():
+                            failed = self.session.get(ScrapeRun, run_id)
+                            failed.status, failed.finished_at = "ERROR", datetime.now(UTC)
+                            failed.message = json.dumps(
+                                {"error_code": "DATABASE_FAILURE", "products": results}
+                            )
+                    except SQLAlchemyError:
+                        self.session.rollback()  # A disconnected database cannot record its outage.
+                    raise
+                except Exception as exc:
+                    code = "EVIDENCE_STORAGE_ERROR" if isinstance(exc, OSError) else "PARSING_ERROR"
+                    LOG.error(
+                        "price_source_failure run_id=%s product_id=%s type=%s",
+                        run_id,
+                        product_id,
+                        type(exc).__name__,
+                    )
+                    result.update(status="ERROR", error_code=code)
                 results.append(result)
             completed = sum(result["status"] in {"OK", "OUT_OF_STOCK"} for result in results)
             with self.session.begin():

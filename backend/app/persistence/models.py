@@ -122,6 +122,10 @@ class Count(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
 
+    @property
+    def needs_review(self) -> bool:
+        return self.difference > 0
+
 
 class User(Base):
     __tablename__ = "users"
@@ -134,6 +138,19 @@ class User(Base):
     role: Mapped[str] = mapped_column(String(20), nullable=False)
     is_active: Mapped[bool] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class LoginThrottle(Base):
+    __tablename__ = "login_throttles"
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    attempts: Mapped[int] = mapped_column(Integer, nullable=False)
+    window_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class PriceHostClock(Base):
+    __tablename__ = "price_host_clocks"
+    host: Mapped[str] = mapped_column(String(254), primary_key=True)
+    last_finished_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 
 
 class Supplier(Base):
@@ -155,7 +172,13 @@ class Supplier(Base):
 class SupplierProduct(Base):
     __tablename__ = "supplier_products"
     __table_args__ = (
-        UniqueConstraint("supplier_id", "url", name="uq_supplier_products_supplier_url"),
+        Index(
+            "uq_supplier_products_active_url",
+            "supplier_id",
+            "url",
+            unique=True,
+            postgresql_where=text("is_active"),
+        ),
         CheckConstraint("pack_quantity > 0", name="ck_supplier_products_pack_positive"),
         CheckConstraint("min_packs >= 1", name="ck_supplier_products_min_packs"),
     )
@@ -209,6 +232,8 @@ class PriceQuote(Base):
     available: Mapped[bool] = mapped_column(nullable=False)
     observed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     valid_until: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    evidence_snapshot: Mapped[dict | None] = mapped_column(JSONB)
+    evidence_sha256: Mapped[str | None] = mapped_column(String(64))
 
 
 class Suggestion(Base):
@@ -220,6 +245,12 @@ class Suggestion(Base):
         CheckConstraint("required_qty >= 0", name="ck_suggestions_required_nonnegative"),
         CheckConstraint("in_transit_qty >= 0", name="ck_suggestions_transit_nonnegative"),
         CheckConstraint("packs IS NULL OR packs >= 1", name="ck_suggestions_packs"),
+        Index(
+            "uq_suggestions_pending_item",
+            "item_id",
+            unique=True,
+            postgresql_where=text("status = 'PENDING'"),
+        ),
     )
 
     id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
@@ -236,6 +267,9 @@ class Suggestion(Base):
     inputs_snapshot: Mapped[dict] = mapped_column(JSONB, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decided_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    rejection_reason: Mapped[str | None] = mapped_column(Text)
 
 
 class Order(Base):
@@ -245,7 +279,8 @@ class Order(Base):
         UniqueConstraint("receipt_movement_id", name="uq_orders_receipt_movement"),
         CheckConstraint("status IN ('APPROVED', 'RECEIVED')", name="ck_orders_status"),
         CheckConstraint(
-            "(status = 'RECEIVED') = (received_at IS NOT NULL AND receipt_movement_id IS NOT NULL)",
+            "(status = 'RECEIVED' AND received_at IS NOT NULL AND receipt_movement_id IS NOT NULL) "
+            "OR (status = 'APPROVED' AND received_at IS NULL AND receipt_movement_id IS NULL)",
             name="ck_orders_receipt_consistent",
         ),
     )

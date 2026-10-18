@@ -145,6 +145,13 @@ class CatalogService:
     def create_product(self, supplier_id: int, data: dict) -> SupplierProduct:
         try:
             with self.session.begin():
+                # Item first: INSERT's item FK would otherwise request KEY SHARE after
+                # locking the supplier and deadlock with suggestion item→supplier locks.
+                item = self.session.scalar(
+                    select(Item).where(Item.id == data["item_id"]).with_for_update()
+                )
+                if item is None:
+                    raise RuleViolation("ITEM_NOT_FOUND", "Item does not exist", 404)
                 supplier = self.supplier(supplier_id, lock=True)
                 self._validate_product(supplier, data)
                 product = SupplierProduct(supplier_id=supplier_id, **data)

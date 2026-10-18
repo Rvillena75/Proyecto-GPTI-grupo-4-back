@@ -2,6 +2,8 @@
 
 import os
 
+from sqlalchemy.engine import make_url
+
 
 def database_url() -> str:
     """SQLAlchemy URL for PostgreSQL with the psycopg 3 driver.
@@ -17,6 +19,24 @@ def database_url() -> str:
             value = "postgresql+psycopg://" + value.removeprefix(scheme)
     if not value.startswith("postgresql+psycopg://"):
         raise RuntimeError("STOCKSMART_DATABASE_URL must use postgresql+psycopg")
+    try:
+        parsed = make_url(value)
+        valid = bool(parsed.host and parsed.username and parsed.database)
+        valid = valid and (parsed.port is None or 1 <= parsed.port <= 65535)
+    except Exception:
+        valid = False
+    if not valid:
+        raise RuntimeError("STOCKSMART_DATABASE_URL requires explicit host, user and database")
+    return value
+
+
+def connection_timeout() -> int:
+    try:
+        value = int(os.getenv("STOCKSMART_DB_CONNECT_TIMEOUT", "3"))
+    except ValueError:
+        raise RuntimeError("STOCKSMART_DB_CONNECT_TIMEOUT must be between 1 and 10") from None
+    if not 1 <= value <= 10:
+        raise RuntimeError("STOCKSMART_DB_CONNECT_TIMEOUT must be between 1 and 10")
     return value
 
 

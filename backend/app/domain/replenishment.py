@@ -32,7 +32,6 @@ class ReplenishmentAssessment(StockAssessment):
     lead_time_days: int = 0
     projected_arrival_stock: Decimal | None = None
     in_transit_quantity: Decimal = Decimal(0)
-    required_quantity: Decimal | None = None
 
 
 def assess_replenishment(
@@ -49,34 +48,14 @@ def assess_replenishment(
         raise RuleViolation("INVALID_LEAD_TIME", "Use nonnegative calendar days", 422)
     amount(current_stock, allow_zero=True)
     transit = amount(in_transit_quantity, allow_zero=True)
-    base = assess_stock(current_stock, manual_safe_stock, consumption, reference_at)
-    projected = (
-        current_stock - base.daily_average * lead_time_days
-        if base.daily_average is not None
-        else (current_stock if lead_time_days == 0 else None)
+    base = assess_stock(
+        current_stock, manual_safe_stock, consumption, reference_at, lead_time_days, transit
     )
-    if base.safe_stock is None or projected is None:
-        alert_status, is_low = "INSUFFICIENT_HISTORY", None
-    else:
-        is_low = projected <= base.safe_stock
-        alert_status = "LOW_STOCK" if is_low else "OK"
-    required = (
-        max(Decimal(0), base.target_stock - projected - transit)
-        if base.target_stock is not None and projected is not None
-        else None
-    )
-    suggested = required
-    if transit > 0:
-        alert_status, suggested = "IN_TRANSIT", Decimal(0)
     return ReplenishmentAssessment(
         **{
             **asdict(base),
-            "alert_status": alert_status,
-            "is_low_stock": is_low,
-            "suggested_quantity": suggested,
             "lead_time_days": lead_time_days,
-            "projected_arrival_stock": projected,
+            "projected_arrival_stock": base.projected_stock_at_arrival,
             "in_transit_quantity": transit,
-            "required_quantity": required,
         },
     )

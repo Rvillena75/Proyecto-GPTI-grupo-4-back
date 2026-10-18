@@ -282,7 +282,7 @@
     "acceptance": "Dos instalaciones limpias resuelven la misma versión y CI informa resultados del commit; runtime del paquete incluye CA; revisión de actualización de dependencias.",
     "tests": "Suite, Ruff check/format, pip check, migración vacía y upgrade con datos; escaneo de vulnerabilidades para resolución elegida.",
     "findings": "F20",
-    "final_status": "IMPLEMENTADO SIN VERIFICAR",
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
     "final_components": "requirements*.lock; pyproject.toml; .github/workflows/backend.yml",
     "verification": "dos instalaciones; pip check; pip-audit; CI_RESULTADO.json",
     "result": "Resolución con hashes y Python fijado; workflow Linux con PG17/18 y build Docker. CI se registra después del push."

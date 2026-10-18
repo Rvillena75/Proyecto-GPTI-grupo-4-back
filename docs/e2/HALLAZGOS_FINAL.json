@@ -773,7 +773,7 @@
         "line": 23
       }
     ],
-    "final_status": "IMPLEMENTADO SIN VERIFICAR",
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
     "result": "Resolución con hashes y Python fijado; workflow Linux con PG17/18 y build Docker. CI se registra después del push.",
     "verification": "dos instalaciones; pip check; pip-audit; CI_RESULTADO.json"
   },

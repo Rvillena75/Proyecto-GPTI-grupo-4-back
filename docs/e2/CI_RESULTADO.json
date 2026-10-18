@@ -1,4 +1,75 @@
 {
-  "status": "PENDIENTE_DE_PUBLICACION",
-  "production_deployed": false
+  "status": "PASS",
+  "checked_at": "2026-10-18T20:05:30.766331-03:00",
+  "tested_commit": "307d994217bbf5183b308110f7d16e44413dcf83",
+  "tree": "ab89949857425df5e87c5ce7af47af7595e18464",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 39174844250,
+      "event": "pull_request",
+      "headSha": "307d994217bbf5183b308110f7d16e44413dcf83",
+      "status": "completed",
+      "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250",
+      "jobs": [
+        {
+          "name": "backend (17)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250/job/117815285536",
+          "startedAt": "2026-10-18T23:03:01Z",
+          "completedAt": "2026-10-18T23:04:33Z"
+        },
+        {
+          "name": "backend (18)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174844250/job/117815285783",
+          "startedAt": "2026-10-18T23:03:01Z",
+          "completedAt": "2026-10-18T23:04:59Z"
+        }
+      ],
+      "passed_tests_per_job": 357,
+      "log_sha256": "c652883fcfeada84314c578b403e065c9145e8379ba811255027b0a67a5e1bf6"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39174807563,
+      "event": "push",
+      "headSha": "307d994217bbf5183b308110f7d16e44413dcf83",
+      "status": "completed",
+      "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563",
+      "jobs": [
+        {
+          "name": "backend (18)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563/job/117815179722",
+          "startedAt": "2026-10-18T23:02:32Z",
+          "completedAt": "2026-10-18T23:04:32Z"
+        },
+        {
+          "name": "backend (17)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Rvillena75/Proyecto-GPTI-grupo-4-back/actions/runs/39174807563/job/117815179994",
+          "startedAt": "2026-10-18T23:02:32Z",
+          "completedAt": "2026-10-18T23:04:03Z"
+        }
+      ],
+      "passed_tests_per_job": 357,
+      "log_sha256": "2d4cd6d7f39a211a3c6b37481e68a3ca220be7ca6f8c7c0f4cd8c3ee0f99b639"
+    }
+  ],
+  "production_deployed": false,
+  "publication": "New correction branch and PR only; no merge or deployment; commits use [skip render].",
+  "validated": [
+    "Linux Python 3.12.15",
+    "PostgreSQL 17 and 18, 357 tests each",
+    "locked dependencies and pip check",
+    "Ruff check and format",
+    "runtime dependency audit",
+    "production wheel build",
+    "backup Docker image build (PostgreSQL 18 job)"
+  ]
 }

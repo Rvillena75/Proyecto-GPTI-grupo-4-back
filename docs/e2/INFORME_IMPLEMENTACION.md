@@ -1,6 +1,6 @@
 # Cierre técnico del backend StockSmart — Entrega 2
 
-Fecha de verificación: 2026-10-18T19:58:58.358938-03:00. Rama: `fix/backend-e2-audit-completion`. Base: `5333503b530251e945427b864f08b0ab7db1d300`.
+Fecha de verificación: 2026-10-18T20:05:40.352171-03:00. Rama: `fix/backend-e2-audit-completion`. Base: `5333503b530251e945427b864f08b0ab7db1d300`.
 
 ## Resultado y límites
 
@@ -8,7 +8,7 @@ El backend permite el recorrido autenticado inventario → precios → sugerenci
 
 De 17 requisitos funcionales del DRS evaluados exclusivamente como backend: **16 IMPLEMENTADO Y VERIFICADO** localmente y **1 PARCIALMENTE IMPLEMENTADO** (REQ-07: activación/ejecución automática remota sin acreditar). No se asigna una nota de rúbrica ni se calcula un porcentaje ponderado. La interfaz y la integración visual están fuera del alcance. Las metas 30/20/5 son resultados de negocio pendientes y no criterios satisfechos por estos tests.
 
-No quedan bloqueantes P0/P1 conocidos **en el código revisado**. De los 22 hallazgos originales, los estados finales son {'IMPLEMENTADO Y VERIFICADO': 16, 'PARCIALMENTE IMPLEMENTADO': 5, 'IMPLEMENTADO SIN VERIFICAR': 1}. Los parciales F06/F07/F17/F18/F19 mantienen la prioridad original y están explicados abajo: cron/continuidad/almacenamiento remotos, ensamble de presentación/video y protocolo de E3. No se declaran resueltos por escribir configuración. El estado de la CI posterior a la publicación se conserva en [CI_RESULTADO.json](CI_RESULTADO.json).
+No quedan bloqueantes P0/P1 conocidos **en el código revisado**. De los 22 hallazgos originales, los estados finales son {'IMPLEMENTADO Y VERIFICADO': 17, 'PARCIALMENTE IMPLEMENTADO': 5}. Los hallazgos aún no cerrados por prioridad original son {'P0': 0, 'P1': 3, 'P2': 2, 'P3': 0}. Los parciales F06/F07/F17/F18/F19 mantienen la prioridad original y están explicados abajo: cron/continuidad/almacenamiento remotos, ensamble de presentación/video y protocolo de E3. No se declaran resueltos por escribir configuración. El estado de la CI posterior a la publicación se conserva en [CI_RESULTADO.json](CI_RESULTADO.json).
 
 El código está preparado para una etapa de despliegue autorizada. **El funcionamiento real en Render permanece NO VERIFICADO.** No se aplicó el Blueprint, no se compraron planes, no se ejecutó un despliegue manual y no se modificaron datos operacionales. La publicación se limita a la rama de corrección/PR; no incluye merge.
 
@@ -107,7 +107,7 @@ Los archivos del backend verificado y sus hashes están en VERIFICACION.json. Se
 | F17 | P2 | No existe respaldo diario, retención ni restauración comprobada | PARCIALMENTE IMPLEMENTADO | T17 |
 | F18 | P1 | El Plan de Pruebas formal no contiene aceptación ni procedimientos; evidencia E2 es plantilla | PARCIALMENTE IMPLEMENTADO | T14 |
 | F19 | P2 | Métricas operacionales y comparación E3 no están implementadas | PARCIALMENTE IMPLEMENTADO | T16 |
-| F20 | P3 | Build no reproducible y ausencia de controles CI | IMPLEMENTADO SIN VERIFICAR | T18 |
+| F20 | P3 | Build no reproducible y ausencia de controles CI | IMPLEMENTADO Y VERIFICADO | T18 |
 | F21 | P3 | Lecturas reconstruyen toda la historia y toman bloqueos exclusivos | IMPLEMENTADO Y VERIFICADO | T19 |
 | F22 | P2 | El worker PostgreSQL termina exitosamente aunque todas las corridas fallen | IMPLEMENTADO Y VERIFICADO | T09 |
 
@@ -134,10 +134,10 @@ El [registro JSON](HALLAZGOS_FINAL.json) conserva causa, evidencia original, imp
 | T15 | P2 | Retener evidencia y observar la operación de precios | IMPLEMENTADO Y VERIFICADO | Snapshot mínimo durable canónico/hash, quote/run y nombres únicos; HTML temporal se elimina. | test_e2_completion.py; test_operations.py |
 | T16 | P2 / E3 | Implementar métricas del alcance final sin calibrar el Dataset v2 | PARCIALMENTE IMPLEMENTADO | Indicadores backend observados verificados. Protocolo/línea base y aceptación de definiciones para comparar E3 pendientes; sin simulación E3. | test_rules_health_metrics.py |
 | T17 | P2 / E3 | Implementar backups y demostrar restauración | PARCIALMENTE IMPLEMENTADO | Dump real, nueve fechas simuladas→siete copias, restore/usuarios y fallo seguro probados. S3 remoto/cron y siete días reales pendientes. | test_operations.py; test_backups_storage.py |
-| T18 | P3 | Hacer reproducible el build y automatizar comprobaciones | IMPLEMENTADO SIN VERIFICAR | Resolución con hashes y Python fijado; workflow Linux con PG17/18 y build Docker. CI se registra después del push. | dos instalaciones; pip check; pip-audit; CI_RESULTADO.json |
+| T18 | P3 | Hacer reproducible el build y automatizar comprobaciones | IMPLEMENTADO Y VERIFICADO | Resolución con hashes y Python fijado; workflow Linux con PG17/18 y build Docker. CI se registra después del push. | dos instalaciones; pip check; pip-audit; CI_RESULTADO.json |
 | T19 | P3 | Medir y reducir trabajo repetido sólo donde afecte el MVP | IMPLEMENTADO Y VERIFICADO | 19→16 consultas en el caso de tres insumos sin quitar locks de snapshot; benchmark descriptivo, sin prometer SLA no acordado. | 16 consultas/3 insumos; 28 HTTP/14 clientes concurrentes |
 
-[BACKLOG_FINAL.json](BACKLOG_FINAL.json) conserva además los componentes, dependencias, cambios y criterios de aceptación originales. Conteo: {'IMPLEMENTADO Y VERIFICADO': 12, 'PARCIALMENTE IMPLEMENTADO': 5, 'NO DETERMINABLE': 1, 'IMPLEMENTADO SIN VERIFICAR': 1}. T12 depende de acceso/autoridad remotos; T13 de presupuesto/servicio; T09/T17 de despliegue/almacenamiento; T14 de documentación audiovisual del equipo; T16 del protocolo E3. La implementación local de estos frentes se entrega sin ejecutar las acciones externas prohibidas.
+[BACKLOG_FINAL.json](BACKLOG_FINAL.json) conserva además los componentes, dependencias, cambios y criterios de aceptación originales. Conteo: {'IMPLEMENTADO Y VERIFICADO': 13, 'PARCIALMENTE IMPLEMENTADO': 5, 'NO DETERMINABLE': 1}. T12 depende de acceso/autoridad remotos; T13 de presupuesto/servicio; T09/T17 de despliegue/almacenamiento; T14 de documentación audiovisual del equipo; T16 del protocolo E3. La implementación local de estos frentes se entrega sin ejecutar las acciones externas prohibidas.
 
 ## Verificación ejecutada
 

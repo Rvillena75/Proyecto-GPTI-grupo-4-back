@@ -148,7 +148,7 @@ class OrderService:
                 item.base_unit,
                 now,
                 effective,
-                f"Order receipt {order.code}",
+                f"Recepción {order.code}",
                 _join_transaction=True,
             )
             order.status = "RECEIVED"

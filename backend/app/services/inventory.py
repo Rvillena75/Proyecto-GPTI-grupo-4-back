@@ -1,5 +1,6 @@
 """Transactional inventory use cases. All writes lock the item's PostgreSQL row."""
 
+import json
 from contextlib import nullcontext
 from datetime import datetime
 from decimal import Decimal
@@ -29,6 +30,35 @@ from app.persistence.models import (
 def _aware(value: datetime) -> None:
     if value.tzinfo is None or value.utcoffset() is None:
         raise RuleViolation("INVALID_TIMESTAMP", "Timezone-aware timestamp required", 422)
+
+
+E2_RECEIPT_PREFIX = "E2_RECEIPT:"
+LEGACY_ORDER_RECEIPT_PREFIX = "Order receipt "
+
+
+def format_movement_note(kind: str, note: str | None) -> str | None:
+    """Format technical receipt metadata into a brief user-facing description for API responses."""
+    if note is None:
+        return None
+    cleaned = note.strip()
+    if not cleaned:
+        return None
+    if cleaned.startswith(E2_RECEIPT_PREFIX):
+        try:
+            payload = json.loads(cleaned.removeprefix(E2_RECEIPT_PREFIX))
+        except ValueError:
+            return None
+        if not isinstance(payload, dict):
+            return None
+        for key in ("order_code", "receipt_id", "order_id"):
+            value = payload.get(key)
+            if value is not None and str(value).strip():
+                return f"Recepción {str(value).strip()}"
+        return None
+    if cleaned.startswith(LEGACY_ORDER_RECEIPT_PREFIX):
+        code = cleaned.removeprefix(LEGACY_ORDER_RECEIPT_PREFIX).strip()
+        return f"Recepción {code}" if code else None
+    return note
 
 
 class InventoryService:
@@ -648,7 +678,7 @@ class InventoryService:
                 "occurred_at": m.occurred_at,
                 "created_at": m.created_at,
                 "invalidates_movement_id": m.invalidates_movement_id,
-                "note": m.note,
+                "note": format_movement_note(m.kind, m.note),
                 "balance_after": balances[m.id],
                 "created_by": (
                     {"id": users[m.created_by].id, "name": users[m.created_by].name}

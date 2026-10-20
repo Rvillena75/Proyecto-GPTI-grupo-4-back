@@ -37,6 +37,12 @@ services:
           property: connectionString
       - key: STOCKSMART_CORS_ORIGINS
         value: https://stocksmart-nine.vercel.app
+      - key: STOCKSMART_DAILY_SCRAPE_ENABLED
+        value: "true"
+      - key: STOCKSMART_DAILY_SCRAPE_TIMEZONE
+        value: America/Santiago
+      - key: STOCKSMART_DAILY_SCRAPE_HOUR
+        value: "7"
 
   - type: cron
     name: stocksmart-daily-prices
@@ -45,9 +51,9 @@ services:
     region: oregon
     branch: codex/deploy-render
     rootDir: backend
-    schedule: "0 10 * * *" # UTC; independent of DST/web service sleeping.
+    schedule: "0 10 * * *" # 10:00 UTC = 07:00 America/Santiago (UTC-3 summer) / 06:00 (UTC-4 winter).
     buildCommand: pip install --require-hashes -r requirements.lock && pip install --no-deps .
-    startCommand: python -m scraper.postgres --all-active
+    startCommand: python -m scraper.postgres --all-active --only-if-due
     autoDeployTrigger: "off"
     envVars:
       - key: PYTHON_VERSION

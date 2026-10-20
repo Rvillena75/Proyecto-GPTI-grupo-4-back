@@ -39,6 +39,9 @@ Configurar estas variables en el servicio antes del primer arranque:
 | `STOCKSMART_JWT_TTL_MINUTES` | `30` |
 | `STOCKSMART_DB_CONNECT_TIMEOUT` | `3`, opcional porque es el valor predeterminado |
 | `STOCKSMART_CORS_ORIGINS` | Origen HTTPS real del frontend; varios orígenes separados por coma. El Blueprint conserva `https://stocksmart-nine.vercel.app`, cuya vigencia debe confirmar el equipo. |
+| `STOCKSMART_DAILY_SCRAPE_ENABLED` | `true` (predeterminado en Render cuando `RENDER=true`) para habilitar el programador diario desatendido dentro del Web Service. |
+| `STOCKSMART_DAILY_SCRAPE_TIMEZONE` | `America/Santiago` (predeterminado), maneja automáticamente horario de invierno (UTC-4) y horario de verano (UTC-3) en Chile. |
+| `STOCKSMART_DAILY_SCRAPE_HOUR` | `7` (07:00 hora local de Chile). |
 
 No copiar variables del laboratorio ni definir `STOCKSMART_TEST_DATABASE_URL` en producción. La aplicación no carga `.env` automáticamente. No enviar URLs con credenciales, contraseñas o secretos por chat ni incorporarlos al repositorio. Render aporta `RENDER_GIT_COMMIT` para identificar el código en `/version`.
 
@@ -59,7 +62,7 @@ Activar los jobs después de verificar la API y completar sus insumos externos. 
 
 | Servicio | Configuración |
 |---|---|
-| `stocksmart-daily-prices` | Rama `codex/deploy-render`, runtime Python, Root Directory `backend`, mismo Build Command y Python que la API, `python -m scraper.postgres --all-active`, cron `0 10 * * *` UTC, misma base interna. Requiere catálogo activo y fuentes configuradas. |
+| `stocksmart-daily-prices` | Rama `codex/deploy-render`, runtime Python, Root Directory `backend`, mismo Build Command y Python que la API, `python -m scraper.postgres --all-active --only-if-due`, cron `0 10 * * *` UTC (07:00 Chile verano / 06:00 Chile invierno), `STOCKSMART_DAILY_SCRAPE_TIMEZONE=America/Santiago`, misma base interna. Coordinado mediante advisory lock en PostgreSQL con el programador diario integrado de la API para evitar corridas duplicadas o simultáneas. |
 | `stocksmart-daily-backup` | Rama `codex/deploy-render`, runtime Docker, sin Root Directory, Dockerfile `./backend/Dockerfile`, Docker Context `./backend`, comando `python -m app.backups`, cron `0 8 * * *` UTC, misma base interna. |
 
 El backup requiere `STOCKSMART_BACKUP_BUCKET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` y `AWS_DEFAULT_REGION` (Blueprint: `us-west-2`). Son entradas privadas del servicio de backup. Para un destino S3 compatible existe `STOCKSMART_BACKUP_ENDPOINT` HTTPS opcional. El bucket debe bloquear acceso público y los permisos deben limitarse al uso requerido por la herramienta. El contenedor incorpora cliente PostgreSQL 18 para respaldar servidores 17/18.

@@ -26,6 +26,12 @@ from app.config import connection_timeout, cors_origins, database_url
 from app.domain.errors import RuleViolation
 from app.persistence.database import get_session
 from app.services.auth import signing_key, token_minutes
+from scraper.scheduler import (
+    DailyPriceScheduler,
+    daily_scrape_enabled,
+    daily_scrape_hour,
+    daily_scrape_timezone,
+)
 
 LOG = logging.getLogger("stocksmart.api")
 SCHEMA_REVISION = "0005_e2_completion"
@@ -37,7 +43,18 @@ async def lifespan(application: FastAPI):
     token_minutes()
     database_url()
     connection_timeout()
-    yield
+    scheduler: DailyPriceScheduler | None = None
+    if daily_scrape_enabled():
+        scheduler = DailyPriceScheduler(
+            timezone_name=daily_scrape_timezone(),
+            target_hour=daily_scrape_hour(),
+        )
+        scheduler.start()
+    try:
+        yield
+    finally:
+        if scheduler is not None:
+            scheduler.stop()
 
 
 app = FastAPI(

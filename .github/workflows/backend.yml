@@ -1,7 +1,7 @@
 name: Backend E2
 on:
   push:
-    branches: [main, 'fix/**']
+    branches: [main, 'fix/**', 'codex/deploy-render']
   pull_request:
     branches: [main]
 permissions:
@@ -47,14 +47,24 @@ jobs:
           echo 'STOCKSMART_PG_BIN=/usr/lib/postgresql/18/bin' >> "$GITHUB_ENV"
       - name: Static analysis
         run: |
-          ruff check .
-          ruff format --check .
+          ruff check --config pyproject.toml . ../scripts
+          ruff format --check --config pyproject.toml . ../scripts
       - name: PostgreSQL tests and clean migrations
         run: pytest -q --junitxml=../test-results-${{ matrix.postgres }}.xml
       - name: Audit locked runtime dependencies
         run: pip-audit -r requirements.lock --no-deps --disable-pip
       - name: Build production wheel
         run: pip wheel --no-deps --wheel-dir /tmp/stocksmart-wheel .
+      - name: Installed production package startup
+        env:
+          STOCKSMART_BUILD_SHA: ${{ github.sha }}
+        run: |
+          python -m venv /tmp/stocksmart-render-runtime
+          /tmp/stocksmart-render-runtime/bin/python -m pip install --require-hashes -r requirements.lock
+          /tmp/stocksmart-render-runtime/bin/python -m pip install --no-deps /tmp/stocksmart-wheel/stocksmart_backend-*.whl
+          /tmp/stocksmart-render-runtime/bin/python -m pip check
+          /tmp/stocksmart-render-runtime/bin/python -I ../scripts/check_render_startup.py
       - name: Backup container build
         if: matrix.postgres == '18'
-        run: docker build -t stocksmart-backup:ci .
+        working-directory: .
+        run: docker build -t stocksmart-backup:ci --file backend/Dockerfile backend

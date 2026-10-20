@@ -76,11 +76,11 @@ Laboratorio de restore: descargar una copia a directorio privado y verificar el 
 
 ## Render: etapa posterior autorizada
 
-El Blueprint define `main`, autodeploy `off`, Python fijado, región común, PostgreSQL 17 con plan no gratuito, web y dos cron. El almacenamiento privado y las credenciales se configuran fuera de Git. Los planes con costo son una propuesta, no una compra ni un cambio aplicado. [Referencia Blueprint](https://render.com/docs/blueprint-spec), [cron](https://render.com/docs/cronjobs), [despliegues y rama vinculada](https://render.com/docs/deploys).
+En la rama preparada el 19/10/2026, el Blueprint define `codex/deploy-render` para API y ambos cron, autodeploy `off`, Python fijado, región común y PostgreSQL 17 con plan no gratuito. Ver [guía de despliegue](../DEPLOY_RENDER.md) y [auditoría de ramas](../AUDITORIA_RAMAS_2026-10-19.md). El informe y la verificación del 18/10 conservan su carácter de evidencia histórica del cierre `66422a0`. El almacenamiento privado y las credenciales se configuran fuera de Git. Los planes con costo son una propuesta, no una compra ni un cambio aplicado. [Referencia Blueprint](https://render.com/docs/blueprint-spec), [cron](https://render.com/docs/cronjobs), [despliegues y rama vinculada](https://render.com/docs/deploys).
 
 Antes de aplicar: confirmar propietario/servicios existentes para evitar duplicación; presupuesto; fecha de creación/expiración y plan real de BD; backup/restore; origen real; secretos; commit; permisos; bucket privado; cliente pg_dump; orden de activación. Migrar y verificar API antes de activar jobs. No mantener una base free con vencimiento anterior a E3 sin transición probada. No se conocen aquí la URL, plan, fecha o SHA remotos actuales.
 
-Tras autorización de despliegue: guardar SHA de `/version` y logs de build/start, revisión Alembic, HTTPS, CORS, login/GET autenticado, persistencia tras reinicio en un entorno autorizado de prueba, corrida diaria y evidencia de siete backups/restore. Probar escrituras sólo sobre datos de demostración autorizados. El push de esta entrega se limita a una nueva rama de corrección y no hace merge. La configuración futura no cambia automáticamente un servicio ya conectado a otra rama.
+Tras autorización de despliegue: guardar SHA de `/version` y logs de build/start, revisión Alembic, HTTPS, CORS, login/GET autenticado, persistencia tras reinicio en un entorno autorizado de prueba, corrida diaria y evidencia de siete backups/restore. Probar escrituras sólo sobre datos de demostración autorizados. La publicación de `codex/deploy-render` prepara la rama y no hace merge a `main`. La configuración futura no cambia automáticamente un servicio ya conectado a otra rama.
 
 ## Alcance de métricas
 

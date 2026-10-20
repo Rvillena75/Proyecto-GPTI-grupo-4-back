@@ -1,4 +1,5 @@
-# Proposed infrastructure. Applying the Blueprint requires a separate deployment decision.
+# Release branch: codex/deploy-render. No resources are provisioned by this file alone.
+# Applying the Blueprint requires a separate deployment and budget decision.
 # Paid PostgreSQL avoids the free database's 30-day lifetime. Editing does not provision it.
 databases:
   - name: stocksmart-db
@@ -15,7 +16,7 @@ services:
     runtime: python
     plan: starter # Operator shell for controlled user provisioning; requires budget approval.
     region: oregon
-    branch: main
+    branch: codex/deploy-render
     rootDir: backend
     buildCommand: pip install --require-hashes -r requirements.lock && pip install --no-deps .
     startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -42,7 +43,7 @@ services:
     runtime: python
     plan: starter
     region: oregon
-    branch: main
+    branch: codex/deploy-render
     rootDir: backend
     schedule: "0 10 * * *" # UTC; independent of DST/web service sleeping.
     buildCommand: pip install --require-hashes -r requirements.lock && pip install --no-deps .
@@ -61,9 +62,9 @@ services:
     runtime: docker
     plan: starter
     region: oregon
-    branch: main
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
+    branch: codex/deploy-render
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     schedule: "0 8 * * *"
     dockerCommand: python -m app.backups
     autoDeployTrigger: "off"

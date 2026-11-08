@@ -34,6 +34,8 @@ class SuggestionResponse(BaseModel):
     supplier_product_id: int | None
     packs: int | None
     purchased_qty: Decimal | None
+    subtotal_clp: Decimal | None
+    shipping_cost_clp: Decimal | None
     total_clp: Decimal | None
     next_best_total_clp: Decimal | None
     savings_clp: Decimal | None

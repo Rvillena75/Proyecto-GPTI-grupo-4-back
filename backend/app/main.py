@@ -34,7 +34,7 @@ from scraper.scheduler import (
 )
 
 LOG = logging.getLogger("stocksmart.api")
-SCHEMA_REVISION = "0005_e2_completion"
+SCHEMA_REVISION = "0006_shipping_cost"
 
 
 @asynccontextmanager

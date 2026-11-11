@@ -52,7 +52,8 @@ def clean_db(db_factory: sessionmaker[Session]) -> sessionmaker[Session]:
     with db_factory.kw["bind"].begin() as connection:
         connection.execute(
             text(
-                "TRUNCATE orders, suggestions, price_quotes, scrape_runs, supplier_products, "
+                "TRUNCATE csv_imports, orders, suggestions, price_quotes, scrape_runs, "
+                "supplier_products, "
                 "suppliers, counts, movements, observations, items, users, login_throttles, "
                 "price_host_clocks "
                 "RESTART IDENTITY CASCADE"

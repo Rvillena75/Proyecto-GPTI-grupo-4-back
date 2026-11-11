@@ -32,6 +32,8 @@ class OrderService:
             "supplier_product_id": suggestion.supplier_product_id,
             "packs": suggestion.packs,
             "purchased_qty": suggestion.purchased_qty,
+            "subtotal_clp": suggestion.subtotal_clp,
+            "shipping_cost_clp": suggestion.shipping_cost_clp,
             "total_clp": suggestion.total_clp,
             "decided_by": order.decided_by,
             "decided_at": order.decided_at,
@@ -148,7 +150,7 @@ class OrderService:
                 item.base_unit,
                 now,
                 effective,
-                f"Order receipt {order.code}",
+                f"Recepción {order.code}",
                 _join_transaction=True,
             )
             order.status = "RECEIVED"

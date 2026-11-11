@@ -28,6 +28,7 @@ class SupplierCreate(InputModel):
     name: str = Field(min_length=1, max_length=200)
     price_source_url: str | None = Field(default=None, max_length=1000)
     lead_time_days: StrictInt = Field(ge=0, le=2_147_483_647)
+    shipping_cost_clp: Decimal = Field(default=Decimal(0), ge=0, max_digits=18, decimal_places=6)
     adapter: Literal["central", "jumbo", "santa_isabel"] | None = None
     is_active: StrictBool = True
 
@@ -36,6 +37,7 @@ class SupplierUpdate(InputModel):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     price_source_url: str | None = Field(default=None, max_length=1000)
     lead_time_days: StrictInt | None = Field(default=None, ge=0, le=2_147_483_647)
+    shipping_cost_clp: Decimal | None = Field(default=None, ge=0, max_digits=18, decimal_places=6)
     adapter: Literal["central", "jumbo", "santa_isabel"] | None = None
     is_active: StrictBool | None = None
 
@@ -47,6 +49,7 @@ class SupplierResponse(BaseModel):
     name: str
     price_source_url: str | None
     lead_time_days: int
+    shipping_cost_clp: Decimal
     adapter: str | None
     is_active: bool
     created_at: datetime
@@ -131,6 +134,8 @@ class OrderResponse(BaseModel):
     supplier_product_id: int | None
     packs: int | None
     purchased_qty: Decimal | None
+    subtotal_clp: Decimal | None
+    shipping_cost_clp: Decimal | None
     total_clp: Decimal | None
     decided_by: int | None
     decided_at: datetime

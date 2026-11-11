@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException
 
 from app.api.auth import router as auth_router
+from app.api.csv_imports import router as csv_router
 from app.api.metrics import router as metrics_router
 from app.api.procurement_routes import router as procurement_router
 from app.api.routes import router
@@ -26,9 +27,15 @@ from app.config import connection_timeout, cors_origins, database_url
 from app.domain.errors import RuleViolation
 from app.persistence.database import get_session
 from app.services.auth import signing_key, token_minutes
+from scraper.scheduler import (
+    DailyPriceScheduler,
+    daily_scrape_enabled,
+    daily_scrape_hour,
+    daily_scrape_timezone,
+)
 
 LOG = logging.getLogger("stocksmart.api")
-SCHEMA_REVISION = "0005_e2_completion"
+SCHEMA_REVISION = "0007_csv_imports"
 
 
 @asynccontextmanager
@@ -37,7 +44,18 @@ async def lifespan(application: FastAPI):
     token_minutes()
     database_url()
     connection_timeout()
-    yield
+    scheduler: DailyPriceScheduler | None = None
+    if daily_scrape_enabled():
+        scheduler = DailyPriceScheduler(
+            timezone_name=daily_scrape_timezone(),
+            target_hour=daily_scrape_hour(),
+        )
+        scheduler.start()
+    try:
+        yield
+    finally:
+        if scheduler is not None:
+            scheduler.stop()
 
 
 app = FastAPI(
@@ -58,6 +76,7 @@ app.include_router(procurement_router)
 app.include_router(auth_router)
 app.include_router(suggestion_router)
 app.include_router(metrics_router)
+app.include_router(csv_router)
 
 
 def add_cors(application: FastAPI, origins: list[str]) -> None:

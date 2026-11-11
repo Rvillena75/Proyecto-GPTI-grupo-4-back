@@ -439,3 +439,28 @@ def test_concurrent_full_receipt_increments_stock_once(api_client, clean_db):
     assert results[0]["receipt_movement_id"] == results[1]["receipt_movement_id"]
     with clean_db() as session:
         assert session.get(Item, item["id"]).current_stock == D("3.25")
+
+
+def test_supplier_shipping_defaults_to_zero_and_rejects_negative_or_null(api_client):
+    client, _ = api_client
+    created = client.post("/suppliers", json={"name": "Jumbo", "lead_time_days": 2})
+    assert created.status_code == 201
+    assert D(created.json()["shipping_cost_clp"]) == 0
+    identifier = created.json()["id"]
+    changed = client.patch(f"/suppliers/{identifier}", json={"shipping_cost_clp": "2990"})
+    assert changed.status_code == 200
+    assert D(changed.json()["shipping_cost_clp"]) == 2990
+    assert (
+        client.patch(f"/suppliers/{identifier}", json={"shipping_cost_clp": "-1"}).status_code
+        == 422
+    )
+    assert (
+        client.patch(f"/suppliers/{identifier}", json={"shipping_cost_clp": None}).status_code
+        == 422
+    )
+    assert (
+        client.post(
+            "/suppliers", json={"name": "Otro", "lead_time_days": 1, "shipping_cost_clp": "-5"}
+        ).status_code
+        == 422
+    )

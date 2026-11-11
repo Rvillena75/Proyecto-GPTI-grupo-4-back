@@ -25,6 +25,15 @@ class Base(DeclarativeBase):
     pass
 
 
+class CsvImport(Base):
+    __tablename__ = "csv_imports"
+
+    digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    movement_ids: Mapped[list] = mapped_column(JSONB, nullable=False)
+    created_by: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
 AMOUNT = Numeric(24, 6)
 
 
@@ -157,12 +166,17 @@ class Supplier(Base):
     __tablename__ = "suppliers"
     __table_args__ = (
         CheckConstraint("lead_time_days >= 0", name="ck_suppliers_lead_time_nonnegative"),
+        CheckConstraint("shipping_cost_clp >= 0", name="ck_suppliers_shipping_nonnegative"),
     )
 
     id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
     name: Mapped[str] = mapped_column(String(200), nullable=False, unique=True)
     price_source_url: Mapped[str | None] = mapped_column(String(1000))
     lead_time_days: Mapped[int] = mapped_column(Integer, nullable=False)
+    # Fixed dispatch fee in CLP, charged once per purchase from this supplier.
+    shipping_cost_clp: Mapped[Decimal] = mapped_column(
+        AMOUNT, nullable=False, default=Decimal(0), server_default="0"
+    )
     adapter: Mapped[str | None] = mapped_column(String(50))
     is_active: Mapped[bool] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
@@ -261,6 +275,8 @@ class Suggestion(Base):
     supplier_product_id: Mapped[int | None] = mapped_column(ForeignKey("supplier_products.id"))
     packs: Mapped[int | None] = mapped_column(Integer)
     purchased_qty: Mapped[Decimal | None] = mapped_column(AMOUNT)
+    subtotal_clp: Mapped[Decimal | None] = mapped_column(AMOUNT)
+    shipping_cost_clp: Mapped[Decimal | None] = mapped_column(AMOUNT)
     total_clp: Mapped[Decimal | None] = mapped_column(AMOUNT)
     next_best_total_clp: Mapped[Decimal | None] = mapped_column(AMOUNT)
     savings_clp: Mapped[Decimal | None] = mapped_column(AMOUNT)

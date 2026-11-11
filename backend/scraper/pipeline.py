@@ -57,7 +57,8 @@ def compare_offers(quotes: list[dict], suppliers: list[dict], required: Decimal)
         pack: CommercialPack = PackSpec.model_validate(supplier["pack"]).to_pack()
         count = pack.packs_for(required, supplier["min_packs"])
         shipping = Decimal(supplier["shipping_cost_clp"]) if count else Decimal(0)
-        total = count * Decimal(quote["pack_price_clp"]) + shipping
+        subtotal = count * Decimal(quote["pack_price_clp"])
+        total = subtotal + shipping
         options.append(
             {
                 "supplier_id": supplier["supplier_id"],
@@ -67,6 +68,7 @@ def compare_offers(quotes: list[dict], suppliers: list[dict], required: Decimal)
                 "packs": count,
                 "purchased_quantity": str(pack.pack_quantity * count),
                 "base_unit": pack.base_unit,
+                "subtotal_clp": str(subtotal),
                 "total_clp": str(total),
                 "shipping_cost_clp": str(shipping),
                 "observed_at": quote["observed_at"],

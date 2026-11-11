@@ -70,7 +70,10 @@ class CatalogService:
     def update_supplier(self, supplier_id: int, changes: dict, now: datetime) -> Supplier:
         if not changes:
             raise RuleViolation("EMPTY_UPDATE", "Send at least one field to change", 422)
-        if any(changes.get(key, True) is None for key in ("lead_time_days", "is_active")):
+        if any(
+            changes.get(key, True) is None
+            for key in ("lead_time_days", "shipping_cost_clp", "is_active")
+        ):
             raise RuleViolation(
                 "INVALID_UPDATE", "Delivery time and active flag cannot be null", 422
             )

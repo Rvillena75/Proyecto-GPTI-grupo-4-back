@@ -42,7 +42,7 @@ def _configuration(supplier: Supplier, product: SupplierProduct, item: Item) -> 
         "name_on_site": product.name_on_site,
         "min_packs": product.min_packs,
         "is_active": supplier.is_active and product.is_active,
-        "shipping_cost_clp": "0",  # C4: dispatch is outside the MVP.
+        "shipping_cost_clp": str(supplier.shipping_cost_clp),
     }
 
 
@@ -153,7 +153,7 @@ class PriceService:
                     "name": supplier.name,
                     "min_packs": product.min_packs,
                     "is_active": supplier.is_active and product.is_active,
-                    "shipping_cost_clp": "0",
+                    "shipping_cost_clp": str(supplier.shipping_cost_clp),
                     "pack": {
                         "commercial_format": product.name_on_site,
                         "content_quantity": str(product.pack_quantity),

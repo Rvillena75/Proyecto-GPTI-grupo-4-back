@@ -9,6 +9,7 @@ __pycache__/
 *.egg-info/
 *.log
 outputs/
+build/
 pgdata/
 *.dump
 *.bundle

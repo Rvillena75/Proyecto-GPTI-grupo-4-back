@@ -111,7 +111,7 @@ class SuggestionService:
                     for p in products
                 ],
                 "taxes": "VAT_INCLUDED",
-                "dispatch": "EXCLUDED",
+                "dispatch": "FIXED_PER_SUPPLIER_ONCE",
             }
             suggestion = Suggestion(
                 item_id=item_id,
@@ -121,6 +121,8 @@ class SuggestionService:
                 supplier_product_id=best["supplier_product_id"],
                 packs=best["packs"],
                 purchased_qty=amount(Decimal(best["purchased_quantity"])),
+                subtotal_clp=amount(Decimal(best["subtotal_clp"])),
+                shipping_cost_clp=amount(Decimal(best["shipping_cost_clp"]), allow_zero=True),
                 total_clp=amount(Decimal(best["total_clp"])),
                 next_best_total_clp=amount(Decimal(comparison["next_best_total_clp"])),
                 savings_clp=amount(Decimal(comparison["savings_clp"]), allow_zero=True),
@@ -247,5 +249,10 @@ class SuggestionService:
             frozen = next(
                 p for p in suggestion.inputs_snapshot["products"] if p["id"] == product.id
             )
+            frozen_shipping = Decimal(option["shipping_cost_clp"])
+            if Decimal(self.session.get(Supplier, product.supplier_id).shipping_cost_clp) != (
+                frozen_shipping
+            ):
+                raise RuleViolation("STALE_SHIPPING", "Cambió el despacho; vuelva a generar")
             if product.min_packs != frozen["min_packs"]:
                 raise RuleViolation("STALE_FORMAT", "Cambió el mínimo de compra; vuelva a generar")

@@ -168,7 +168,7 @@ def main():
                     version = request(base, "/version")
                     if (
                         version["commit"] != build
-                        or version["expected_schema_revision"] != "0006_shipping_cost"
+                        or version["expected_schema_revision"] != "0007_csv_imports"
                     ):
                         raise SmokeFailure("Build/schema identity mismatch")
                     request(base, "/items", status=401)
@@ -213,7 +213,7 @@ def main():
                         "installed_wheel": True,
                         "production_dependencies_only": True,
                         "bind": "0.0.0.0:$PORT",
-                        "migration": "0006_shipping_cost",
+                        "migration": "0007_csv_imports",
                         "commit": build,
                         "checks": [
                             "ready",

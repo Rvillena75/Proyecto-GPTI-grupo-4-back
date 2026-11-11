@@ -165,7 +165,10 @@ def test_daily_scheduler_and_worker_update_last_scrape_respect_chile_tz_and_isol
 
     # Re-running on the same Chile calendar day skips execution without duplicating runs.
     assert postgres.main(["--all-active", "--only-if-due", "--timezone", "America/Santiago"]) == 0
-    code_same_day, payload_same_day = daily.run_once(now=now_utc)
+    # Exercise the completed-today branch after the target hour, independent of test wall time.
+    code_same_day, payload_same_day = daily.run_once(
+        now=now_utc.astimezone(chile_tz).replace(hour=12)
+    )
     assert code_same_day == 0 and payload_same_day["status"] == "SKIPPED"
     assert payload_same_day["reason"] == "ALREADY_COMPLETED_TODAY"
     with clean_db() as session:

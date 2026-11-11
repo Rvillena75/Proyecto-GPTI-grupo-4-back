@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException
 
 from app.api.auth import router as auth_router
+from app.api.csv_imports import router as csv_router
 from app.api.metrics import router as metrics_router
 from app.api.procurement_routes import router as procurement_router
 from app.api.routes import router
@@ -34,7 +35,7 @@ from scraper.scheduler import (
 )
 
 LOG = logging.getLogger("stocksmart.api")
-SCHEMA_REVISION = "0006_shipping_cost"
+SCHEMA_REVISION = "0007_csv_imports"
 
 
 @asynccontextmanager
@@ -75,6 +76,7 @@ app.include_router(procurement_router)
 app.include_router(auth_router)
 app.include_router(suggestion_router)
 app.include_router(metrics_router)
+app.include_router(csv_router)
 
 
 def add_cors(application: FastAPI, origins: list[str]) -> None:

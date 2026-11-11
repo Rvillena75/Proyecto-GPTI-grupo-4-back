@@ -77,7 +77,10 @@ def test_worker_crash_releases_postgresql_lock(clean_db, tmp_path):
         " time.sleep(30)\n"
     )
     process = subprocess.Popen(
-        [sys.executable, str(script)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        [sys.executable, "-c", script.read_text()],
+        env=env,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
     try:
         deadline = time.monotonic() + 10

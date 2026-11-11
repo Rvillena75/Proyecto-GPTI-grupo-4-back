@@ -1,5 +1,7 @@
 # StockSmart — backend de inventario y compras
 
+**Entrega E3:** [importación atómica CSV REQ-18/RN-19](docs/CSV_E3.md) con migración aditiva `0007_csv_imports`, integrada con el cierre E2, scheduler diario y despacho fijo. La integración del código y su CI no acreditan un despliegue productivo; la actualización de servicios y base de datos requiere una operación separada.
+
 **Rama para Render: `codex/deploy-render`.** Parte del cierre técnico `66422a0`; API y cron apuntan a esta misma rama. Ver [auditoría de ramas](docs/AUDITORIA_RAMAS_2026-10-19.md) y [configuración de despliegue](docs/DEPLOY_RENDER.md). La CI comprueba PostgreSQL 17/18, construcción del paquete, arranque HTTP del wheel instalado y build del contenedor de backups. La preparación de esta rama no aplica ni modifica servicios en Render.
 
 **Estado técnico 18/10/2026:** correcciones de la auditoría E2, JWT/roles, sugerencias persistidas, decisiones ADMIN y recepción integral. [Informe y trazabilidad](docs/e2/INFORME_IMPLEMENTACION.md), [operación y Render](docs/e2/OPERACION.md) y [contrato](docs/INTEGRACION_BACKEND.md). Los fixtures E2 de pechuga asada permanecen congelados. El funcionamiento remoto en Render sigue sin verificar.

@@ -5,6 +5,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
+from app.api.auth import Actor, Admin, current_user
 from app.api.procurement_schemas import (
     OrderReceiptCreate,
     OrderResponse,
@@ -27,7 +28,7 @@ from scraper.runtime import price_transport
 from scraper.store import WorkerBusyError
 from scraper.transport import PublicTransport
 
-router = APIRouter(responses=WRITE_ERRORS)
+router = APIRouter(responses=WRITE_ERRORS, dependencies=[Depends(current_user)])
 
 
 def get_price_transport() -> Iterator[PublicTransport]:
@@ -55,12 +56,12 @@ def get_supplier(supplier_id: int, db: Db):
 
 
 @router.post("/suppliers", response_model=SupplierResponse, status_code=201, tags=["suppliers"])
-def create_supplier(payload: SupplierCreate, db: Db, now: Now):
+def create_supplier(payload: SupplierCreate, db: Db, now: Now, actor: Admin):
     return CatalogService(db).create_supplier(payload.model_dump(mode="python"), now)
 
 
 @router.patch("/suppliers/{supplier_id}", response_model=SupplierResponse, tags=["suppliers"])
-def update_supplier(supplier_id: int, payload: SupplierUpdate, db: Db, now: Now):
+def update_supplier(supplier_id: int, payload: SupplierUpdate, db: Db, now: Now, actor: Admin):
     return CatalogService(db).update_supplier(
         supplier_id, payload.model_dump(exclude_unset=True), now
     )
@@ -81,7 +82,7 @@ def list_supplier_products(supplier_id: int, db: Db):
     status_code=201,
     tags=["suppliers"],
 )
-def create_supplier_product(supplier_id: int, payload: SupplierProductCreate, db: Db):
+def create_supplier_product(supplier_id: int, payload: SupplierProductCreate, db: Db, actor: Admin):
     return CatalogService(db).create_product(supplier_id, payload.model_dump(mode="python"))
 
 
@@ -91,7 +92,7 @@ def create_supplier_product(supplier_id: int, payload: SupplierProductCreate, db
     tags=["suppliers"],
 )
 def update_supplier_product(
-    supplier_id: int, product_id: int, payload: SupplierProductUpdate, db: Db
+    supplier_id: int, product_id: int, payload: SupplierProductUpdate, db: Db, actor: Admin
 ):
     return CatalogService(db).update_product(
         supplier_id, product_id, payload.model_dump(exclude_unset=True)
@@ -111,7 +112,7 @@ def get_prices(item_id: int, db: Db, now: Now):
 
 
 @router.post("/prices/{item_id}/refresh", response_model=PriceRefreshResponse, tags=["prices"])
-def refresh_prices(item_id: int, db: Db, now: Now, transport: Transport):
+def refresh_prices(item_id: int, db: Db, now: Now, actor: Admin, transport: Transport):
     return PriceService(db).refresh(item_id, now, transport)
 
 
@@ -122,7 +123,11 @@ def list_orders(db: Db):
 
 
 @router.post("/orders/{order_id}/receipt", response_model=OrderResponse, tags=["orders"])
-def receive_order(order_id: int, db: Db, now: Now, payload: OrderReceiptCreate | None = None):
+def receive_order(
+    order_id: int, db: Db, now: Now, actor: Actor, payload: OrderReceiptCreate | None = None
+):
     """Full receipt; an empty body suffices for fixed-content approved packs."""
     data = payload or OrderReceiptCreate()
-    return OrderService(db).receive(order_id, now, data.received_at, data.received_quantity)
+    return OrderService(db, actor.id).receive(
+        order_id, now, data.received_at, data.received_quantity
+    )

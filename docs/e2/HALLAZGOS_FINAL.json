@@ -1,0 +1,854 @@
+[
+  {
+    "id": "F01",
+    "p": "P0",
+    "title": "La API permite escritura anónima y omite roles y autoría",
+    "req": "REQ-14, REQ-10, RNF-03/09; contrato de autoría REQ-16",
+    "refs": [
+      [
+        "backend/app/api/routes.py",
+        "Db ="
+      ],
+      [
+        "backend/app/api/procurement_routes.py",
+        "router ="
+      ],
+      [
+        "backend/app/persistence/models.py",
+        "class User"
+      ],
+      [
+        "backend/app/api/schemas.py",
+        "Null until authentication"
+      ]
+    ],
+    "evidence": "V01/V02: no securitySchemes; /auth/* 404; POST /items sin token y POST /movements con token inválido devuelven 201; created_by=null.",
+    "impact": "Una exposición pública permite alterar inventario, proveedores, conteos y recepciones. No se atribuyen operaciones a una persona.",
+    "trigger": "Cualquier cliente que alcance las rutas. La gravedad P0 aplica a su publicación con datos operacionales; no se afirma que hoy exista ese despliegue.",
+    "solution": "Implementar JWT, hash, usuario activo y matriz de permisos por ruta; inyectar actor en todos los escritores. Proteger refresh y recepción además de configuración y decisión.",
+    "accept": "Sin token/expirado/inválido → 401 sin cambios; usuario inactivo rechazado; WAREHOUSE no configura ni decide (403); ADMIN permitido; movimiento/conteo/decisión conserva autor.",
+    "deps": "Matriz de roles del DRS; mecanismo controlado de usuarios iniciales.",
+    "effort": "L",
+    "task": "T02",
+    "locations": [
+      {
+        "file": "backend/app/api/routes.py",
+        "line": 42
+      },
+      {
+        "file": "backend/app/api/procurement_routes.py",
+        "line": 30
+      },
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 126
+      },
+      {
+        "file": "backend/app/api/schemas.py",
+        "line": 158
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "16 rutas mutantes protegidas (login es público); 401/403, identidad/rol actual, bcrypt, JWT y autoría.",
+    "verification": "test_auth_security.py; test_e2_completion.py"
+  },
+  {
+    "id": "F02",
+    "p": "P1",
+    "title": "No se generan ni consultan sugerencias persistidas",
+    "req": "REQ-09; P7/P11; arquitectura §5.3",
+    "refs": [
+      [
+        "backend/app/persistence/models.py",
+        "class Suggestion"
+      ],
+      [
+        "backend/app/api/procurement_routes.py",
+        "def get_prices"
+      ]
+    ],
+    "evidence": "V01: POST /suggestions y GET /suggestions/1 responden 404. Sólo hay comparación transitoria y tabla.",
+    "impact": "El caso central alerta→precios→sugerencia se interrumpe; no hay snapshot revisable ni identificador para decidir.",
+    "trigger": "Intentar generar una recomendación que deba pasar a aprobación.",
+    "solution": "Añadir servicio/rutas y snapshot de consumo, stock, L/T, productos, precios, formatos y costos; estado PENDING; proteger concurrencia por insumo y tránsito.",
+    "accept": "Con dos ofertas vigentes genera una sugerencia explicable persistida; lectura por id coincide; con un proveedor, historia insuficiente o tránsito responde estado/rechazo documentado sin nueva sugerencia.",
+    "deps": "T01, T02, T03; contratos de comparación ya existentes.",
+    "effort": "L",
+    "task": "T05",
+    "locations": [
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 214
+      },
+      {
+        "file": "backend/app/api/procurement_routes.py",
+        "line": 109
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Snapshot persistido, PENDING única y veto por tránsito/historia/precios insuficientes.",
+    "verification": "test_e2_completion.py"
+  },
+  {
+    "id": "F03",
+    "p": "P1",
+    "title": "No hay decisión humana HTTP ni persistencia completa del rechazo",
+    "req": "REQ-10; RN-18; C3/C8/C11",
+    "refs": [
+      [
+        "backend/app/persistence/models.py",
+        "class Suggestion"
+      ],
+      [
+        "backend/app/persistence/models.py",
+        "class Order"
+      ],
+      [
+        "backend/tests/api/test_procurement.py",
+        "def approved_order"
+      ]
+    ],
+    "evidence": "V01: /suggestions/1/decision 404. Los tests insertan sugerencias y órdenes aprobadas con SQLAlchemy; Suggestion carece de motivo y fecha/actor de rechazo.",
+    "impact": "No se puede producir una orden aprobada usando el contrato de la API ni auditar rechazos. Una tabla orders no resuelve el caso de uso.",
+    "trigger": "Un administrador intenta aprobar o rechazar.",
+    "solution": "Servicio de decisión ADMIN sobre PENDING con motivo no vacío para REJECT; persistir decisión/actor/fecha y crear order una sola vez al aprobar, en transacción.",
+    "accept": "Aprobación crea exactamente una orden, no cambia stock; rechazo con motivo crea cero órdenes; carrera/reintento no duplica; sin permisos falla; decisión queda consultable.",
+    "deps": "T02 y T05; migración aditiva para auditoría del rechazo.",
+    "effort": "L",
+    "task": "T06",
+    "locations": [
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 214
+      },
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 241
+      },
+      {
+        "file": "backend/tests/api/test_procurement.py",
+        "line": 130
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Actor/fecha/motivo y decisión/OC en una transacción; carrera, retry y rollback.",
+    "verification": "test_e2_completion.py"
+  },
+  {
+    "id": "F04",
+    "p": "P1",
+    "title": "Un JSON-LD inesperado aborta todos los proveedores y deja la corrida abierta",
+    "req": "REQ-07; RNF-06; arquitectura §5.4",
+    "refs": [
+      [
+        "backend/scraper/adaptadores/public_html.py",
+        "types = obj.get(\"@type\""
+      ],
+      [
+        "backend/app/services/prices.py",
+        "except (ScrapeError, RuleViolation)"
+      ]
+    ],
+    "evidence": "V07: HTML sintético con JSON válido {\"@type\":null} provoca TypeError; HTTP 500; primer run RUNNING/finished_at null; siguientes proveedores sin runs. La suite de 220 casos pasa.",
+    "impact": "Un cambio de estructura en un proveedor rompe el refresco conjunto y el cierre/registro de fallos comprometido.",
+    "trigger": "Tipo JSON inesperado u otra excepción de parsing no convertida en ScrapeError; también deben manejarse de forma explícita fallos del almacenamiento de capturas.",
+    "solution": "Validar formas/tipos en la frontera de parsing, traducir fallos esperables a ScrapeError y cerrar siempre la corrida. Aislar fallos por producto/proveedor; tratar caída de BD como error de infraestructura.",
+    "accept": "@type null/número, offers mal formado y fallo controlado de captura no devuelven éxito falso ni omiten proveedores sanos; runs terminan ERROR/PARTIAL con finished_at y código; quotes previas conservan vigencia original.",
+    "deps": "Ninguna para corrección local; T10 para sobre de error de infraestructura.",
+    "effort": "M",
+    "task": "T03",
+    "locations": [
+      {
+        "file": "backend/scraper/adaptadores/public_html.py",
+        "line": 56
+      },
+      {
+        "file": "backend/app/services/prices.py",
+        "line": 269
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Parser y fallos aislados; runs cerradas, timestamp/TTL conservados y fallo de BD observable.",
+    "verification": "test_e2_completion.py; test_rules_health_metrics.py"
+  },
+  {
+    "id": "F05",
+    "p": "P1",
+    "title": "La proyección y reposición contradicen el DRS; hay dos evaluadores incompatibles",
+    "req": "REQ-06/08/09; RN-07; arquitectura §4.3",
+    "refs": [
+      [
+        "backend/app/domain/forecast.py",
+        "projected = max"
+      ],
+      [
+        "backend/app/domain/replenishment.py",
+        "def assess_replenishment"
+      ],
+      [
+        "docs/decisions.md",
+        "max(0, stock"
+      ],
+      [
+        "Arquitectura.md",
+        "**Stock proyectado a la llegada**"
+      ]
+    ],
+    "evidence": "V04: S=1,W=7,L=4. DRS: P=-3,Q=17. HTTP: P=0,Q=14. El evaluador E2 devuelve required_quantity=17, projected_arrival_stock=-3 pero hereda projected_stock_at_arrival=1 y order_by_at con L=0. test_replenishment valida el recorte a cero.",
+    "impact": "Cantidad y costos para reposición tardía quedan subestimados respecto del compromiso formal; pruebas de dos capas certifican reglas distintas.",
+    "trigger": "Stock insuficiente para cubrir el plazo; divergencias adicionales al consumir assess_replenishment como contrato completo.",
+    "solution": "Aplicar la fórmula de mayor jerarquía del DRS y actualizar docs/decisions y tests. Unificar cálculo compartido y campos de retorno; mantener distinción entre stock físico no negativo y proyección de demanda.",
+    "accept": "Casos S=1/W=7/L=4 y S=9/W=7/L=4 dan P/Q exactos del DRS; API, evaluador, precios y futura sugerencia coinciden; order_by_at incluye L; pruebas normales y de DST siguen pasando.",
+    "deps": "T01 antes de T05/T06; no introducir otra regla sin cambio formal de requisitos.",
+    "effort": "M",
+    "task": "T01",
+    "locations": [
+      {
+        "file": "backend/app/domain/forecast.py",
+        "line": 105
+      },
+      {
+        "file": "backend/app/domain/replenishment.py",
+        "line": 38
+      },
+      {
+        "file": "docs/decisions.md",
+        "line": 88
+      },
+      {
+        "file": "Arquitectura.md",
+        "line": 142
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Regla RN-07 unificada; Q=17 sin hardcode. Se corrige una expectativa original contraria al DRS.",
+    "verification": "test_replenishment.py; test_e2_commercial_alert.py; test_rules_health_metrics.py"
+  },
+  {
+    "id": "F06",
+    "p": "P1",
+    "title": "El repositorio no define ni acredita la ejecución diaria del worker",
+    "req": "REQ-07, DRS automatización; arquitectura §2; HH v2 pp.3–4",
+    "refs": [
+      [
+        "render.yaml",
+        "services:"
+      ],
+      [
+        "backend/scraper/postgres.py",
+        "def main"
+      ],
+      [
+        "docs/INTEGRACION_BACKEND.md",
+        "La programación diaria"
+      ]
+    ],
+    "evidence": "Blueprint sólo contiene un web service y una BD; no cron/schedule ni planificador en app. CLI y botón manual sí funcionan. No hay acceso a un eventual job configurado manualmente en Render; su existencia remota es NO DETERMINABLE.",
+    "impact": "Sin llamadas manuales no se actualizan precios; tras siete días quedan vencidos y no hay comparación. El despliegue del web service no crea el cron.",
+    "trigger": "Operación normal sin POST de refresco o sin un servicio externo configurado.",
+    "solution": "Provisionar en trabajo posterior una tarea diaria que ejecute scraper.postgres para insumos configurados, con las mismas variables y control distribuido. Definir presupuesto del scheduler.",
+    "accept": "Definición versionada del job, registro de ejecución automática, resultado por proveedor, fallo observable y ausencia de ejecución duplicada con el botón.",
+    "deps": "T09 para bloqueo/pacing entre servicios; URL interna de BD y catálogo configurado; autorización de despliegue fuera de esta auditoría.",
+    "effort": "M",
+    "task": "T09",
+    "locations": [
+      {
+        "file": "render.yaml",
+        "line": 13
+      },
+      {
+        "file": "backend/scraper/postgres.py",
+        "line": 13
+      },
+      {
+        "file": "docs/INTEGRACION_BACKEND.md",
+        "line": 55
+      }
+    ],
+    "final_status": "PARCIALMENTE IMPLEMENTADO",
+    "result": "Implementado y probado localmente; activación/horario real del cron dependen de despliegue autorizado.",
+    "verification": "test_operations.py"
+  },
+  {
+    "id": "F07",
+    "p": "P1",
+    "title": "El PostgreSQL gratuito no cubre continuidad hasta la E3",
+    "req": "RNF-07; P10/P12; riesgo R14",
+    "refs": [
+      [
+        "render.yaml",
+        "plan: free"
+      ]
+    ],
+    "evidence": "Configuración usa base free. Documentación oficial consultada: expira a 30 días, sin backups administrados; no existe fecha de creación remota verificada.",
+    "impact": "Si la base se crea el 17/10, vence aproximadamente el 16/11, antes de E3 24/11; servicio puede quedar inaccesible y eventualmente perder datos. No es un error de arranque del código.",
+    "trigger": "Mantener la base free más de 30 días sin cambio de plan o transición comprobada.",
+    "solution": "Elegir una BD/plan con continuidad suficiente o un plan de traslado/restauración probado antes de la expiración; registrar fecha real y responsables.",
+    "accept": "Evidencia de retención/disponibilidad que abarque E3, calendario de expiración controlado y recuperación probada; presupuesto actualizado.",
+    "deps": "T13 y T17; elección de infraestructura del equipo.",
+    "effort": "M",
+    "task": "T13",
+    "locations": [
+      {
+        "file": "render.yaml",
+        "line": 6
+      }
+    ],
+    "final_status": "PARCIALMENTE IMPLEMENTADO",
+    "result": "Se propone BD no gratuita y región común. Presupuesto, plan/fecha real y continuidad remota requieren decisión externa.",
+    "verification": "Configuración inspeccionada; restore aislado"
+  },
+  {
+    "id": "F08",
+    "p": "P2",
+    "title": "El reemplazo de un producto con historial queda bloqueado por su URL",
+    "req": "Gestión de catálogo para REQ-07/13; contrato INTEGRACION_BACKEND §Proveedores y productos",
+    "refs": [
+      [
+        "backend/app/services/catalog.py",
+        "identity ="
+      ],
+      [
+        "backend/app/persistence/models.py",
+        "UniqueConstraint(\"supplier_id\", \"url\""
+      ]
+    ],
+    "evidence": "V11: PATCH scrape_config de producto con quote → 409 PRODUCT_IN_USE; desactivar → 200; registrar sustituto con misma URL → 409 PRODUCT_EXISTS.",
+    "impact": "No se puede reparar vía API una configuración/SKU que cambió ni completar configuración de un producto legado con quotes, siguiendo la solución que devuelve el propio servidor.",
+    "trigger": "Cambio de metadata/formato bajo la misma página pública después de adquirir el primer precio.",
+    "solution": "Diseñar versionado de producto consistente: preservar referencias históricas y permitir reemplazo activo con misma URL mediante restricción acorde a versiones/actividad; migración aditiva.",
+    "accept": "Producto usado conserva quotes/órdenes; se desactiva y crea sustituto con misma URL; sólo una versión activa participa; recepción de órdenes antiguas usa formato original.",
+    "deps": "T04 antes de configurar catálogo definitivo y conectar decisiones.",
+    "effort": "M",
+    "task": "T04",
+    "locations": [
+      {
+        "file": "backend/app/services/catalog.py",
+        "line": 190
+      },
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 158
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Una URL activa por proveedor; versión histórica preservada; recepción antigua conserva formato.",
+    "verification": "test_e2_completion.py; test_status_queries.py"
+  },
+  {
+    "id": "F09",
+    "p": "P2",
+    "title": "Falta indicador de revisión para conteo mayor al teórico",
+    "req": "REQ-11; RN-16; C10; HH v2 p.3",
+    "refs": [
+      [
+        "backend/app/api/schemas.py",
+        "class CountResponse"
+      ],
+      [
+        "backend/app/services/inventory.py",
+        "def record_count"
+      ]
+    ],
+    "evidence": "V03: teórico 9, físico 12, difference=3, shortage=0; respuesta no contiene needs_review. Modelo y respuestas de historial tampoco lo exponen.",
+    "impact": "El backend no entrega el estado de revisión comprometido; el cálculo de faltante en sí es correcto.",
+    "trigger": "Conteo con difference>0.",
+    "solution": "Exponer needs_review calculado a partir de difference en creación y consultas, sin guardar un valor redundante si no es necesario.",
+    "accept": "Mayor→true y shortage=0; igual/menor→false; mismo resultado en POST y GET; tasa de merma conserva su fórmula.",
+    "deps": "T08; no necesita alterar historial inmutable.",
+    "effort": "S",
+    "task": "T08",
+    "locations": [
+      {
+        "file": "backend/app/api/schemas.py",
+        "line": 161
+      },
+      {
+        "file": "backend/app/services/inventory.py",
+        "line": 347
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "needs_review en POST/GET y base_unit en ambas alertas; kg/L/unidad.",
+    "verification": "test_auth_security.py; test_rules_health_metrics.py"
+  },
+  {
+    "id": "F10",
+    "p": "P2",
+    "title": "La respuesta de alerta no incluye la unidad comprometida",
+    "req": "Contrato de integración; HH v2 p.1 punto 7 y p.3",
+    "refs": [
+      [
+        "backend/app/api/schemas.py",
+        "class AlertResponse"
+      ],
+      [
+        "backend/app/api/routes.py",
+        "def _alert"
+      ]
+    ],
+    "evidence": "V03 y OpenAPI: /alerts y /items/{id}/alert carecen de base_unit, aunque ItemStateResponse sí la entrega.",
+    "impact": "El contrato de alerta por sí solo no permite interpretar cantidad de kg/L/unidad; el consumidor necesita otra consulta.",
+    "trigger": "Consumir la colección de alertas directamente.",
+    "solution": "Añadir base_unit al schema y mapper desde el insumo y actualizar ejemplos/OpenAPI.",
+    "accept": "Ambas rutas incluyen unidad válida del ítem; pruebas para kg, L y unidad, sin valores fijos del piloto.",
+    "deps": "T08.",
+    "effort": "S",
+    "task": "T08",
+    "locations": [
+      {
+        "file": "backend/app/api/schemas.py",
+        "line": 184
+      },
+      {
+        "file": "backend/app/api/routes.py",
+        "line": 46
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "needs_review en POST/GET y base_unit en ambas alertas; kg/L/unidad.",
+    "verification": "test_auth_security.py; test_rules_health_metrics.py"
+  },
+  {
+    "id": "F11",
+    "p": "P2",
+    "title": "En tránsito convive con cantidad positiva y nueva recomendación de compra",
+    "req": "RN-06; arquitectura §4.3; contrato E2 de tránsito",
+    "refs": [
+      [
+        "backend/app/domain/forecast.py",
+        "alert_status = \"IN_TRANSIT\""
+      ],
+      [
+        "backend/app/services/prices.py",
+        "comparison ="
+      ]
+    ],
+    "evidence": "V05: tránsito=2, estado IN_TRANSIT, sugerida=12; /prices recomienda 12 packs y /alerts oculta el ítem. No se creó otra orden en esta prueba.",
+    "impact": "Dos contratos presentan acciones distintas sobre el mismo insumo; la futura generación podría usar la cantidad positiva y duplicar una sugerencia si no aplica RN-06.",
+    "trigger": "Orden aprobada sin recibir que cubre sólo parte de la reposición calculada.",
+    "solution": "Distinguir cantidad teórica explicativa y permiso de generar compra; aplicar veto transaccional de sugerencia con tránsito. Publicar estado explícito y consistente.",
+    "accept": "T>0 mantiene trazabilidad de necesidad pero no genera sugerencia ni otra orden; carreras de sugerencia/aprobación/recepción respetan la misma regla; el catálogo explica el estado.",
+    "deps": "T01 y T05/T06.",
+    "effort": "M",
+    "task": "T05",
+    "locations": [
+      {
+        "file": "backend/app/domain/forecast.py",
+        "line": 114
+      },
+      {
+        "file": "backend/app/services/prices.py",
+        "line": 147
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Snapshot persistido, PENDING única y veto por tránsito/historia/precios insuficientes.",
+    "verification": "test_e2_completion.py"
+  },
+  {
+    "id": "F12",
+    "p": "P2",
+    "title": "Bloqueo y pausas son locales al filesystem de cada servicio",
+    "req": "RNF-08; arquitectura API + cron",
+    "refs": [
+      [
+        "backend/scraper/runtime.py",
+        "root = Path"
+      ],
+      [
+        "backend/scraper/store.py",
+        "def worker_lock"
+      ],
+      [
+        "backend/scraper/transport.py",
+        "persisted_times"
+      ]
+    ],
+    "evidence": "V10 adquiere dos locks simultáneos con raíces distintas. Pacing usa .request_times.json. pg_advisory_xact_lock en precios ocurre después del HTTP y sólo protege persistencia.",
+    "impact": "Al agregar cron en Render, API y cron no comparten filesystem; podrían consultar el mismo host a menos de dos segundos o duplicar trabajo. No se afirma concurrencia real remota.",
+    "trigger": "Dos instancias/servicios de precios con directorios independientes.",
+    "solution": "Coordinar adquisición y marca de última consulta en un recurso compartido, como PostgreSQL; controlar también colisión API/cron antes del HTTP.",
+    "accept": "Dos procesos con carpetas separadas comparten exclusión y respetan ≥2 s por host; caída libera bloqueo; no bloqueo indefinido de inventario.",
+    "deps": "T09 antes de activar el job.",
+    "effort": "M",
+    "task": "T09",
+    "locations": [
+      {
+        "file": "backend/scraper/runtime.py",
+        "line": 16
+      },
+      {
+        "file": "backend/scraper/store.py",
+        "line": 24
+      },
+      {
+        "file": "backend/scraper/transport.py",
+        "line": 107
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Implementado y probado localmente; activación/horario real del cron dependen de despliegue autorizado.",
+    "verification": "test_operations.py"
+  },
+  {
+    "id": "F13",
+    "p": "P2",
+    "title": "La evidencia de precios queda en almacenamiento efímero y sin retención",
+    "req": "Trazabilidad de precios comprometida en INTEGRACION_BACKEND §Precios; operación Render",
+    "refs": [
+      [
+        "backend/scraper/runtime.py",
+        "STOCKSMART_PRICE_EVIDENCE_DIR"
+      ],
+      [
+        "backend/scraper/transport.py",
+        "write_bytes(encoded)"
+      ],
+      [
+        "backend/app/services/prices.py",
+        "evidence_sha256"
+      ]
+    ],
+    "evidence": "Capturas van a tempfile por defecto; BD conserva hash en mensaje, no cuerpo. No hay almacenamiento persistente ni política de retención en Blueprint. Cada refresh crea directorio nuevo. Además, el nombre de captura adapter_product se reutiliza para varios productos del mismo proveedor en una corrida y puede sobrescribir evidencia anterior.",
+    "impact": "Tras reinicio/spin-down se pierden las capturas para reconstruir una recomendación; refrescos acumulados también consumen filesystem. Las quotes PostgreSQL sí persisten.",
+    "trigger": "Reinicio, redeploy o suspensión del servicio free; crecimiento de consultas.",
+    "solution": "Definir retención y almacenamiento privado duradero o snapshot mínimo auditable; enlazar evidencia con quote/run; límites y limpieza de temporales. Usar nombres por producto/URL/observación, no sólo por adapter.",
+    "accept": "Una quote sigue siendo verificable por hash y contenido tras reinicio; limpieza respeta retención; no guarda credenciales ni expone capturas mediante API.",
+    "deps": "T15; decisión de almacenamiento compatible con presupuesto.",
+    "effort": "M",
+    "task": "T15",
+    "locations": [
+      {
+        "file": "backend/scraper/runtime.py",
+        "line": 18
+      },
+      {
+        "file": "backend/scraper/transport.py",
+        "line": 150
+      },
+      {
+        "file": "backend/app/services/prices.py",
+        "line": 260
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Snapshot mínimo durable canónico/hash, quote/run y nombres únicos; HTML temporal se elimina.",
+    "verification": "test_e2_completion.py; test_operations.py"
+  },
+  {
+    "id": "F14",
+    "p": "P2",
+    "title": "Health check sólo verifica conectividad, no disponibilidad funcional",
+    "req": "P12/operación Render; requisito de servidor saludable",
+    "refs": [
+      [
+        "backend/app/main.py",
+        "def health"
+      ],
+      [
+        "backend/app/persistence/database.py",
+        "create_engine(database_url()"
+      ]
+    ],
+    "evidence": "V14: BD aislada sin migraciones → /health 200 {status:ok}; /items 500. El arranque por Blueprint sí intenta migrar antes de servir. V17, HTTP real con BD temporal detenida, terminó ReadTimeout del cliente (límite 4 s; 4,609 s observados), sin 503 comprobado. El intento V16 de arnés TestClient quedó incompleto y fue terminado; no se cuenta como éxito.",
+    "impact": "Un green health no certifica esquema correcto ni versión desplegada. Sin tiempos de conexión/consulta configurados, la respuesta depende de defaults del driver.",
+    "trigger": "BD equivocada/esquema incompleto o arranque fuera del comando previsto; conexión que no responde.",
+    "solution": "Separar o ampliar readiness con revisión de migración/esquema mínimo y límites de tiempo; registrar fallos sin secretos. Mantener migraciones antes de iniciar.",
+    "accept": "BD vacía/esquema incompatible→503 readiness; BD correcta→200; fallo de conexión responde en plazo acordado y reconecta sin reiniciar manualmente.",
+    "deps": "T10; no atribuir a este fallo que el Blueprint actual no pueda iniciar.",
+    "effort": "M",
+    "task": "T10",
+    "locations": [
+      {
+        "file": "backend/app/main.py",
+        "line": 82
+      },
+      {
+        "file": "backend/app/persistence/database.py",
+        "line": 13
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Readiness/esquema y conexión limitada; JSON sanitizado/Request-ID; caída/reconexión real en laboratorio.",
+    "verification": "test_rules_health_metrics.py; test_config.py; ensayo HTTP real"
+  },
+  {
+    "id": "F15",
+    "p": "P2",
+    "title": "La restricción de recepción admite metadatos de media recepción",
+    "req": "REQ-15; integridad de estados y C3",
+    "refs": [
+      [
+        "backend/app/persistence/models.py",
+        "ck_orders_receipt_consistent"
+      ],
+      [
+        "backend/migrations/versions/0003_procurement.py",
+        "ck_orders_receipt_consistent"
+      ]
+    ],
+    "evidence": "V12 inserta por SQLAlchemy una orden APPROVED con received_at no nulo y receipt_movement_id nulo; commit permitido y GET /orders la devuelve.",
+    "impact": "La BD no garantiza que APPROVED tenga ambos datos de recepción ausentes. La API actual de recepción no produce ese estado; riesgo de futura integración o scripts.",
+    "trigger": "Escritura directa por un componente con permisos de BD que complete sólo uno de los campos.",
+    "solution": "Endurecer check con dos ramas completas: APPROVED y ambos null, RECEIVED y ambos no null; revisar consistencia de vínculos al crear órdenes.",
+    "accept": "Pruebas SQL rechazan ambas combinaciones parciales; estados válidos y recepción idempotente pasan; migración detecta datos anteriores inconsistentes.",
+    "deps": "T06/T07, migración aditiva; no modificar migración ya aplicada.",
+    "effort": "S",
+    "task": "T07",
+    "locations": [
+      {
+        "file": "backend/app/persistence/models.py",
+        "line": 249
+      },
+      {
+        "file": "backend/migrations/versions/0003_procurement.py",
+        "line": 145
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Cadena HTTP completa y una ENTRY; checks de media recepción; peso variable e idempotencia.",
+    "verification": "test_e2_completion.py; test_procurement.py"
+  },
+  {
+    "id": "F16",
+    "p": "P2",
+    "title": "El sobre JSON de errores no cubre fallos no controlados",
+    "req": "Arquitectura §5.1; contrato de integración de errores",
+    "refs": [
+      [
+        "backend/app/main.py",
+        "@app.exception_handler(RuleViolation)"
+      ],
+      [
+        "backend/app/main.py",
+        "@app.exception_handler(RequestValidationError)"
+      ]
+    ],
+    "evidence": "V07 devuelve texto Internal Server Error; V09 devuelve {detail:...} para 404 de ruta y 405. Sólo errores de dominio/validación tienen ErrorResponse.",
+    "impact": "Los clientes de la API no pueden tratar todos los errores con el contrato anunciado. No se observó fuga de traceback en la respuesta HTTP de producción local.",
+    "trigger": "Excepción no controlada, ruta inexistente o método no permitido.",
+    "solution": "Añadir manejo sanitizado para HTTPException/errores de infraestructura/no controlados, con códigos estables y correlación en logs; mantener códigos HTTP correctos.",
+    "accept": "400/401/403/404/405/409/422/500/503 pertinentes usan sobre documentado; 500 no contiene SQL, credenciales ni traceback; logs permiten correlación.",
+    "deps": "T03 y T10.",
+    "effort": "M",
+    "task": "T10",
+    "locations": [
+      {
+        "file": "backend/app/main.py",
+        "line": 47
+      },
+      {
+        "file": "backend/app/main.py",
+        "line": 54
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Readiness/esquema y conexión limitada; JSON sanitizado/Request-ID; caída/reconexión real en laboratorio.",
+    "verification": "test_rules_health_metrics.py; test_config.py; ensayo HTTP real"
+  },
+  {
+    "id": "F17",
+    "p": "P2",
+    "title": "No existe respaldo diario, retención ni restauración comprobada",
+    "req": "RNF-07; P10; HH v2 p.4 (E3)",
+    "refs": [
+      [
+        "README.md",
+        "**P10:**"
+      ],
+      [
+        "render.yaml",
+        "databases:"
+      ]
+    ],
+    "evidence": "Sin job de backup, almacenamiento privado, retención ni scripts de restore en archivos rastreados. El plan free no incorpora backups. Ningún restore se ejecutó porque no hay mecanismo propio.",
+    "impact": "No se cumple recuperación comprometida. No bloquea el arranque local ni se convierte en requisito de restauración ya vencido de E2.",
+    "trigger": "Pérdida, expiración, corrupción o necesidad de recuperar la base.",
+    "solution": "Implementar copia de esquema/datos y usuarios recuperables cada 24h, siete copias privadas y prueba de restauración en otra BD.",
+    "accept": "Evidencia fechada de copias/retención y restore aislado con conteos, integridad, usuarios y acceso; nunca probar contra datos reales sin autorización.",
+    "deps": "T13 y T17; política de usuarios de T02.",
+    "effort": "M",
+    "task": "T17",
+    "locations": [
+      {
+        "file": "README.md",
+        "line": 26
+      },
+      {
+        "file": "render.yaml",
+        "line": 4
+      }
+    ],
+    "final_status": "PARCIALMENTE IMPLEMENTADO",
+    "result": "Dump real, nueve fechas simuladas→siete copias, restore/usuarios y fallo seguro probados. S3 remoto/cron y siete días reales pendientes.",
+    "verification": "test_operations.py; test_backups_storage.py"
+  },
+  {
+    "id": "F18",
+    "p": "P1",
+    "title": "El Plan de Pruebas formal no contiene aceptación ni procedimientos; evidencia E2 es plantilla",
+    "req": "Rúbrica E2 p.5 y pp.7–8; trazabilidad de los 17 REQ",
+    "refs": [],
+    "evidence": "Plan xlsx: D6:E22 vacíos o espacios; hoja Nivel de complejidad sin descripciones. XLS es plantilla. Reporte 2.6 diap.6/13 no incluye arquitectura concreta ni link/video real; conserva instrucciones.",
+    "impact": "Los 220 tests no se trazan formalmente a criterios de aceptación de la entrega. La carpeta indicada no acredita por esos artefactos el avance/backend que sí existe.",
+    "trigger": "Presentar esos archivos tal como están para justificar pruebas y evidencia del backend.",
+    "solution": "Completar en trabajo posterior los campos técnicos del plan con esta matriz, casos/resultados reales y pendientes E3; agregar evidencia de backend y arquitectura al reporte. Coordinar responsables documentales.",
+    "accept": "17 REQ tienen criterios/procedimiento/prioridad/evidencia; nada no ejecutado marcado aprobado; rúbrica distingue video de avance o link; artefactos coherentes con commit auditado.",
+    "deps": "T14 tras correcciones; no requiere evaluar ni modificar frontend.",
+    "effort": "M",
+    "task": "T14",
+    "locations": [],
+    "final_status": "PARCIALMENTE IMPLEMENTADO",
+    "result": "Copia técnica completa. Incorporar arquitectura/evidencia y grabar/enlazar video en presentación formal corresponde al equipo; original no modificado.",
+    "verification": "17 criterios/procedimientos y cinco renders; original preservado"
+  },
+  {
+    "id": "F19",
+    "p": "P2",
+    "title": "Métricas operacionales y comparación E3 no están implementadas",
+    "req": "REQ-12; P9; HH v2 p.4 (E3)",
+    "refs": [
+      [
+        "backend/tests/api/test_contract.py",
+        "assert \"/metrics\" not"
+      ],
+      [
+        "backend/app/domain/shortage.py",
+        "def shortage_reduction"
+      ]
+    ],
+    "evidence": "V01 /metrics 404; sólo tasa por insumo y matemáticas/dataset E2. No hay agregador por período, línea base ni comparación operacional.",
+    "impact": "Backend final no puede entregar indicadores de negocio comprometidos. Dataset sintético y 0% quiebres no demuestran metas 30/20/5.",
+    "trigger": "Intentar consultar el panel/API de métricas o declarar metas cumplidas.",
+    "solution": "Planificar REQ-12 para E3 con indicadores, denominadores y suficiencia; decidir registro de eventos/snapshots para alertas. Mantener dataset E2 congelado.",
+    "accept": "Endpoint por período con resultados independientes verificables, null/insuficiente cuando corresponde; sin porcentajes fabricados ni simulación E3 ejecutada como parte de E2.",
+    "deps": "T16 después de T05/T06/T07 y protocolo de medición del equipo.",
+    "effort": "L",
+    "task": "T16",
+    "locations": [
+      {
+        "file": "backend/tests/api/test_contract.py",
+        "line": 18
+      },
+      {
+        "file": "backend/app/domain/shortage.py",
+        "line": 38
+      }
+    ],
+    "final_status": "PARCIALMENTE IMPLEMENTADO",
+    "result": "Indicadores backend observados verificados. Protocolo/línea base y aceptación de definiciones para comparar E3 pendientes; sin simulación E3.",
+    "verification": "test_rules_health_metrics.py"
+  },
+  {
+    "id": "F20",
+    "p": "P3",
+    "title": "Build no reproducible y ausencia de controles CI",
+    "req": "Recomendación de confiabilidad; no requisito funcional nuevo",
+    "refs": [
+      [
+        "backend/pyproject.toml",
+        "dependencies ="
+      ],
+      [
+        "render.yaml",
+        "autoDeploy: true"
+      ]
+    ],
+    "evidence": "Dependencias con rangos amplios, sin lock/constraints; no .github/workflows; GitHub workflows total_count=0. Instalación actual y pip-audit pasan.",
+    "impact": "Un próximo build puede resolver versiones distintas sin pruebas automáticas previas a autoDeploy. No hay fallo de dependencias demostrado hoy.",
+    "trigger": "Publicación de nueva dependencia o commit hacia rama conectada a Render.",
+    "solution": "Guardar resolución reproducible y ejecutar CI en Linux/Python 3.12/PostgreSQL 17 con tests/lint/migraciones; revisar política de autodeploy.",
+    "accept": "Build repetible desde limpio y pipeline verde asociado al SHA; versiones auditadas registradas; no global installs.",
+    "deps": "T18; no bloquear demo local por una preferencia de tooling.",
+    "effort": "M",
+    "task": "T18",
+    "locations": [
+      {
+        "file": "backend/pyproject.toml",
+        "line": 9
+      },
+      {
+        "file": "render.yaml",
+        "line": 23
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Resolución con hashes y Python fijado; workflow Linux con PG17/18 y build Docker. CI se registra después del push.",
+    "verification": "dos instalaciones; pip check; pip-audit; CI_RESULTADO.json"
+  },
+  {
+    "id": "F21",
+    "p": "P3",
+    "title": "Lecturas reconstruyen toda la historia y toman bloqueos exclusivos",
+    "req": "Recomendación de rendimiento/operación; riesgo al crecer",
+    "refs": [
+      [
+        "backend/app/api/routes.py",
+        "def list_items"
+      ],
+      [
+        "backend/app/services/inventory.py",
+        "def status"
+      ],
+      [
+        "backend/app/services/prices.py",
+        "def _availability"
+      ]
+    ],
+    "evidence": "V13: GET /items equivalente ejecuta 19 sentencias para tres insumos; status usa FOR UPDATE y _facts carga historia completa; disponibilidad recorre corridas por producto.",
+    "impact": "Con más insumos/historial puede aumentar latencia y esperas de escrituras. No se observó incumplimiento de rendimiento en el MVP de un insumo y diez semanas.",
+    "trigger": "Crecimiento de catálogo/historia o solicitudes concurrentes.",
+    "solution": "Medir primero con horizonte esperado; agrupar consultas/indexar caminos necesarios conservando consistencia. No añadir caché ni paginación sin contrato/necesidad.",
+    "accept": "Benchmark reproducible y límites acordados; no regresión de snapshot/concurrencia; menos consultas si la medición justifica el cambio.",
+    "deps": "T19 después del flujo esencial.",
+    "effort": "M",
+    "task": "T19",
+    "locations": [
+      {
+        "file": "backend/app/api/routes.py",
+        "line": 84
+      },
+      {
+        "file": "backend/app/services/inventory.py",
+        "line": 439
+      },
+      {
+        "file": "backend/app/services/prices.py",
+        "line": 47
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "19→16 consultas en el caso de tres insumos sin quitar locks de snapshot; benchmark descriptivo, sin prometer SLA no acordado.",
+    "verification": "16 consultas/3 insumos; 28 HTTP/14 clientes concurrentes"
+  },
+  {
+    "id": "F22",
+    "p": "P2",
+    "title": "El worker PostgreSQL termina exitosamente aunque todas las corridas fallen",
+    "req": "Operación/observabilidad del worker de REQ-07; arquitectura cron",
+    "refs": [
+      [
+        "backend/scraper/postgres.py",
+        "print(json.dumps(output"
+      ]
+    ],
+    "evidence": "V15: python -m scraper.postgres --item-id 2, con dos productos de prueba sin metadata, produce dos runs ERROR y exit code 0. No hizo consultas HTTP externas.",
+    "impact": "Un scheduler que observe el exit code puede marcar éxito sin actualizar ningún precio; el usuario debe interpretar el JSON para detectar el fallo.",
+    "trigger": "Todos los proveedores fallan de forma controlada, por ejemplo SCRAPE_CONFIG_REQUIRED o errores HTTP capturados.",
+    "solution": "Definir códigos de salida no cero para fracaso total y estado parcial observable; registrar resumen y alertas. No convertir error de infraestructura en éxito.",
+    "accept": "Todos ERROR → exit no cero y runs cerrados; éxito completo →0; parcial tiene código/estado documentado; monitor del job detecta fracaso.",
+    "deps": "T03 y T09.",
+    "effort": "S",
+    "task": "T09",
+    "locations": [
+      {
+        "file": "backend/scraper/postgres.py",
+        "line": 22
+      }
+    ],
+    "final_status": "IMPLEMENTADO Y VERIFICADO",
+    "result": "Implementado y probado localmente; activación/horario real del cron dependen de despliegue autorizado.",
+    "verification": "test_operations.py"
+  }
+]

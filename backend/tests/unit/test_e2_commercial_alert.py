@@ -88,5 +88,7 @@ def test_insufficient_history_cannot_project_a_manual_threshold() -> None:
     now = datetime(2026, 10, 5, tzinfo=UTC)
     empty = Consumption("INSUFFICIENT_HISTORY", 0, D(0), None, None, None)
     result = assess_replenishment(D(9), D(5), empty, now, lead_time_days=4)
-    assert result.is_low_stock is None
-    assert result.alert_status == "INSUFFICIENT_HISTORY"
+    assert result.is_low_stock is False  # Manual P5 compares current 9 > safe 5 without forecast.
+    assert result.alert_status == "OK"
+    assert result.projected_stock_at_arrival is None
+    assert result.suggested_quantity is None

@@ -15,7 +15,7 @@ def test_health_openapi_and_scope(api_client: tuple[TestClient, object]) -> None
     assert "/prices/{item_id}" in spec["paths"]
     assert "/suppliers" in spec["paths"]
     assert "/orders" in spec["paths"]
-    assert "/metrics" not in spec["paths"]
+    assert "/metrics" in spec["paths"]  # REQ-12; no E3 impact claim.
     assert not any("manual" in route and "price" in route for route in spec["paths"])
     assert "delete" not in spec["paths"]["/items/{item_id}/movements"]
     movement_errors = spec["paths"]["/movements"]["post"]["responses"]
@@ -25,6 +25,24 @@ def test_health_openapi_and_scope(api_client: tuple[TestClient, object]) -> None
         }
     error_schema = spec["components"]["schemas"]["ErrorResponse"]
     assert error_schema["properties"]["error"]["$ref"] == "#/components/schemas/ErrorDetail"
+
+
+def test_all_documented_validation_errors_match_the_runtime_envelope(api_client):
+    client, _ = api_client
+    spec = client.get("/openapi.json").json()
+    for path, methods in spec["paths"].items():
+        for method, operation in methods.items():
+            if method not in {"get", "post", "put", "patch", "delete"}:
+                continue
+            validation = operation["responses"].get("422")
+            if validation:
+                assert validation["content"]["application/json"]["schema"] == {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                }, path
+    for path in ("/health", "/ready"):
+        assert spec["paths"][path]["get"]["responses"]["503"]["content"]["application/json"][
+            "schema"
+        ] == {"$ref": "#/components/schemas/HealthResponse"}
 
 
 def test_item_validation_and_initial_stock_not_backdated(

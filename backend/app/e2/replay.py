@@ -209,8 +209,8 @@ def replay_inventory(data: dict, factory) -> dict:
         "p3_available": str(rate["available"]),
         "p3_rate_percent": str(rate["rate_percent"]),
         "active_max_calendar_lead_time": lead,
-        "order_repository_integration": "VALIDATED_PORT_PENDING_PEDRO_FINAL_MODEL",
-        "existing_http_alert_endpoints": "LEGACY_L0_UNTIL_PEDRO_CONNECTS_SUPPLIERS_AND_OC",
+        "order_repository_integration": "DATASET_TEST_RECEIPT_PORT; OPERATIONAL_HTTP_FLOW_SEPARATE",
+        "existing_http_alert_endpoints": "API_USES_ACTIVE_CATALOG; REPLAY_DOES_NOT_SEED_CATALOG",
         "no_e3_simulation": True,
     }
 

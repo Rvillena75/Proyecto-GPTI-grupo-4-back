@@ -98,6 +98,9 @@ class AssessmentResponse(BaseModel):
     is_low_stock: bool | None
     target_stock: Decimal | None
     suggested_quantity: Decimal | None
+    required_quantity: Decimal | None = Field(
+        description="Theoretical need; action is zero in transit."
+    )
     daily_average: Decimal | None
     remaining_days: Decimal | None
     depletion_at: datetime | None
@@ -108,7 +111,7 @@ class AssessmentResponse(BaseModel):
         description="Longest delivery time (calendar days) among active suppliers; null if none."
     )
     projected_stock_at_arrival: Decimal | None = Field(
-        description="Stock left when an order placed now would arrive (never below zero)."
+        description="Stock minus expected consumption during delivery; may be negative (RN-07)."
     )
     in_transit_quantity: Decimal = Field(
         description="Base-unit quantity in approved orders not yet received."
@@ -155,7 +158,7 @@ class MovementResponse(BaseModel):
         description="Item stock right after this movement, in order of occurrence "
         "(occurred_at, created_at, id)."
     )
-    created_by: UserRef | None = Field(description="Null until authentication exists.")
+    created_by: UserRef | None = Field(description="Author; null only for legacy/imported records.")
 
 
 class CountResponse(BaseModel):
@@ -173,6 +176,9 @@ class CountResponse(BaseModel):
     occurred_at: datetime
     created_at: datetime
 
+    needs_review: bool
+    created_by: int | None
+
 
 class ShortageRateResponse(BaseModel):
     status: Literal["CALCULABLE", "NOT_CALCULABLE"]
@@ -183,6 +189,7 @@ class ShortageRateResponse(BaseModel):
 
 class AlertResponse(BaseModel):
     item_id: int
+    base_unit: Literal["kg", "L", "unidad"]
     current_stock: Decimal
     safe_stock: Decimal | None
     alert_source: str | None
@@ -208,3 +215,7 @@ class ErrorDetail(BaseModel):
 
 class ErrorResponse(BaseModel):
     error: ErrorDetail
+
+
+class HealthResponse(BaseModel):
+    status: Literal["ok", "unavailable"]

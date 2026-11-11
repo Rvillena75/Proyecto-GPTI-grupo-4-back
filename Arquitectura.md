@@ -1,6 +1,6 @@
 # Documento de Arquitectura — StockSmart · Grupo 4
 
-**Estado integrado 12/10/2026:** se conserva el documento de Pedro v1.2 y sus decisiones. Inventario, C1/C5/C12 y modelo `0003` se integran con los módulos E2 de Rodrigo, proveedores/productos, persistencia de precios y recepción/historial. Detalle actual en `docs/INTEGRACION_BACKEND.md`; las tablas de estado del cuerpo reflejan su fecha original. `0004` agrega solo la configuración opcional de scraping por producto. Sugerencias, aprobación y JWT siguen pendientes. Los fixtures actuales de E2 usan pechuga asada; huevos es histórico. La vida útil pertenece a los supuestos explícitos del fixture, sin introducir campos de lote obligatorios en la API.
+**Actualización técnica 18/10/2026:** el cuerpo v1.2 conserva sus tablas históricas. El estado vigente y la extensión aditiva `0005` se documentan en [informe E2](docs/e2/INFORME_IMPLEMENTACION.md), [contrato](docs/INTEGRACION_BACKEND.md) y [operación](docs/e2/OPERACION.md). JWT/bcrypt, sugerencias, decisión y recepción HTTP están implementados. La fórmula conserva P negativa según DRS RN-07. Render remoto sigue sin verificar. El Dataset v2 y la exclusión de lotes/FEFO de la app operacional se conservan.
 IIC3113-1 · Entrega 2 · Pedro Irarrázaval (líder de desarrollo + backend)
 Versión 1.2 · 2026-10-06 — ajustada al repo `Proyecto-GPTI-grupo-4-back` y a las decisiones del equipo hasta el 06-10.
 **El modelo de datos (§4) y el contrato de la API (§5) se congelan el miércoles 07-10.** Desde ahí, cualquier cambio se avisa a la jefa de proyecto, a Nati y a Sofi.

@@ -31,16 +31,17 @@ def test_order_in_transit_attends_the_alert_and_is_discounted() -> None:
     partial = assess_stock(D(9), D(5), WEEKLY_7, NOW, lead_time_days=4, in_transit=D(4))
     assert partial.alert_status == "IN_TRANSIT"
     assert partial.is_low_stock is True
-    assert partial.suggested_quantity == D(5)
+    assert partial.required_quantity == D(5)
+    assert partial.suggested_quantity == D(0)  # RN-06 vetoes a second purchase.
     covered = assess_stock(D(9), D(5), WEEKLY_7, NOW, lead_time_days=4, in_transit=D(9))
     assert covered.suggested_quantity == D(0)
     assert covered.in_transit_quantity == D(9)
 
 
-def test_projection_never_goes_below_zero_and_order_is_overdue() -> None:
+def test_projection_keeps_uncovered_demand_and_order_is_overdue() -> None:
     result = assess_stock(D(2), D(5), WEEKLY_7, NOW, lead_time_days=4)
-    assert result.projected_stock_at_arrival == D(0)
-    assert result.suggested_quantity == D(14)
+    assert result.projected_stock_at_arrival == D(-2)
+    assert result.suggested_quantity == D(16)  # DRS RN-07; physical stock remains 2.
     assert result.order_by_at == NOW - timedelta(days=7)  # should have ordered a week ago
 
 

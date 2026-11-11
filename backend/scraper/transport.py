@@ -89,6 +89,7 @@ class PublicTransport:
         sleep=time.sleep,
         pacing_path: Path | None = None,
         wall_time=time.time,
+        coordinator=None,
     ) -> None:
         if interval < 2:
             raise ValueError("At least two seconds between requests per supplier are required")
@@ -105,6 +106,7 @@ class PublicTransport:
         self.clock, self.sleep = monotonic, sleep
         self.pacing_path, self.wall_time = pacing_path, wall_time
         self.persisted_times = {}
+        self.coordinator = coordinator
         if pacing_path and pacing_path.exists():
             import json
 
@@ -123,6 +125,8 @@ class PublicTransport:
             raise ScrapeError("INVALID_SOURCE", "Only the configured official host is permitted")
         if host in self.blocked:
             raise ScrapeError("ACCESS_BLOCKED", "Supplier stopped after a block; no bypass/retry")
+        if self.coordinator:
+            self.coordinator.before_request(host, self.interval)
         delay = 0.0
         if host in self.last:
             delay = self.interval - (self.clock() - self.last[host])
@@ -137,7 +141,8 @@ class PublicTransport:
             "acquisition": "PUBLIC_HTTP_GET",
             "redirects_followed": False,
         }
-        destination = self.evidence_dir / f"{adapter}_{label}"
+        identity = hashlib.sha256(url.encode()).hexdigest()[:16]
+        destination = self.evidence_dir / f"{adapter}_{label}_{identity}_{time.time_ns()}"
         try:
             response = self.client.get(url)
             metadata["status"] = response.status_code
@@ -178,6 +183,8 @@ class PublicTransport:
             write_json(destination.with_suffix(".json"), metadata)
             raise ScrapeError("NETWORK_ERROR", str(exc)) from exc
         finally:
+            if self.coordinator:
+                self.coordinator.after_request(host)
             self.last[host] = self.clock()
             if self.pacing_path:
                 self.persisted_times[host] = self.wall_time()

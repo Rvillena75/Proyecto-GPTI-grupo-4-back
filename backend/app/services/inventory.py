@@ -32,8 +32,9 @@ def _aware(value: datetime) -> None:
 
 
 class InventoryService:
-    def __init__(self, session: Session) -> None:
+    def __init__(self, session: Session, actor_id: int | None = None) -> None:
         self.session = session
+        self.actor_id = actor_id
 
     def _item(self, item_id: int, *, lock: bool = False) -> Item:
         query = select(Item).where(Item.id == item_id)
@@ -55,13 +56,17 @@ class InventoryService:
             raise RuleViolation("INITIAL_STOCK_REQUIRED", "Active initial stock is required")
         return observation
 
-    def _facts(self, observation_id: int) -> tuple[list[MovementFact], list[CountFact]]:
+    def _facts(
+        self, observation_id: int, *, include_counts: bool = True
+    ) -> tuple[list[MovementFact], list[CountFact]]:
         movements = self.session.scalars(
             select(Movement).where(Movement.observation_id == observation_id)
         ).all()
-        counts = self.session.scalars(
-            select(Count).where(Count.observation_id == observation_id)
-        ).all()
+        counts = (
+            self.session.scalars(select(Count).where(Count.observation_id == observation_id)).all()
+            if include_counts
+            else []
+        )
         return (
             [
                 MovementFact(
@@ -74,6 +79,17 @@ class InventoryService:
                 for c in counts
             ],
         )
+
+    def _facts_for_metrics(self, movements: list[Movement]) -> tuple[list[MovementFact], set[int]]:
+        facts = [
+            MovementFact(
+                m.id, m.kind, m.delta, m.occurred_at, m.created_at, m.invalidates_movement_id
+            )
+            for m in movements
+        ]
+        return facts, {
+            m.invalidates_movement_id for m in movements if m.invalidates_movement_id is not None
+        }
 
     def _validate(self, item: Item, observation: Observation) -> None:
         movements, counts = self._facts(observation.id)
@@ -102,6 +118,7 @@ class InventoryService:
         self.session.add(observation)
         self.session.flush()
         initial = Movement(
+            created_by=self.actor_id,
             item_id=item.id,
             observation_id=observation.id,
             kind="INITIAL",
@@ -197,6 +214,7 @@ class InventoryService:
                 raise RuleViolation("NEGATIVE_STOCK", "Operation would leave negative stock")
             amount(item.current_stock + delta, allow_zero=True)
             movement = Movement(
+                created_by=self.actor_id,
                 item_id=item_id,
                 observation_id=observation.id,
                 kind=kind,
@@ -270,6 +288,7 @@ class InventoryService:
                 raise RuleViolation("NEGATIVE_STOCK", "Reversal would leave negative stock")
             amount(item.current_stock + delta, allow_zero=True)
             reversal = Movement(
+                created_by=self.actor_id,
                 item_id=item.id,
                 observation_id=observation.id,
                 kind="REVERSAL",
@@ -328,6 +347,7 @@ class InventoryService:
                 raise RuleViolation("NEGATIVE_STOCK", "Correction would leave negative stock")
             amount(item.current_stock + delta, allow_zero=True)
             correction = Movement(
+                created_by=self.actor_id,
                 item_id=item.id,
                 observation_id=observation.id,
                 kind="CORRECTION",
@@ -366,6 +386,7 @@ class InventoryService:
                 else:
                     self.session.add(
                         Movement(
+                            created_by=self.actor_id,
                             item_id=item.id,
                             observation_id=observation.id,
                             kind="CORRECTION",
@@ -378,6 +399,7 @@ class InventoryService:
                     )
             calculated = calculate_count(item.current_stock, physical)
             adjustment = Movement(
+                created_by=self.actor_id,
                 item_id=item.id,
                 observation_id=observation.id,
                 kind="COUNT_ADJUSTMENT",
@@ -388,6 +410,7 @@ class InventoryService:
             self.session.add(adjustment)
             self.session.flush()
             count = Count(
+                created_by=self.actor_id,
                 item_id=item.id,
                 observation_id=observation.id,
                 adjustment_movement_id=adjustment.id,
@@ -445,7 +468,7 @@ class InventoryService:
         if observation is None:
             consumption = Consumption("INSUFFICIENT_HISTORY", 0, Decimal(0), None, None, None)
         else:
-            movements, _ = self._facts(observation.id)
+            movements, _ = self._facts(observation.id, include_counts=False)
             metric_invalidated = {
                 m.invalidates_movement_id for m in movements if m.kind in {"REVERSAL", "CORRECTION"}
             }
@@ -500,12 +523,14 @@ class InventoryService:
         )
         return Decimal(total)
 
-    def shortage_rate(self, item_id: int, start: datetime, end: datetime) -> dict:
+    def shortage_rate(
+        self, item_id: int, start: datetime, end: datetime, *, _lock: bool = True
+    ) -> dict:
         _aware(start)
         _aware(end)
         if start >= end:
             raise RuleViolation("INVALID_PERIOD", "Start must precede end", 422)
-        self._item(item_id, lock=True)
+        self._item(item_id, lock=_lock)
         observation = self._observation(item_id)
         if observation is None or start < observation.started_at:
             return {

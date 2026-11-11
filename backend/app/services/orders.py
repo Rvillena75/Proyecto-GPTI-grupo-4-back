@@ -13,8 +13,9 @@ from app.services.inventory import InventoryService
 
 
 class OrderService:
-    def __init__(self, session: Session):
+    def __init__(self, session: Session, actor_id: int | None = None):
         self.session = session
+        self.actor_id = actor_id
 
     def _view(self, order: Order, suggestion: Suggestion) -> dict:
         receipt = (
@@ -140,7 +141,7 @@ class OrderService:
                 raise RuleViolation(
                     "FIXED_FORMAT_MISMATCH", "Receive all approved fixed-content packs"
                 )
-            movement = InventoryService(self.session).add_movement(
+            movement = InventoryService(self.session, self.actor_id).add_movement(
                 item_id,
                 "ENTRY",
                 quantity,

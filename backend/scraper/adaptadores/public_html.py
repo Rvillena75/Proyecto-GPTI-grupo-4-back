@@ -55,7 +55,7 @@ def product_objects(body: str) -> list[dict]:
         for obj in walk(decoded):
             types = obj.get("@type", [])
             types = [types] if isinstance(types, str) else types
-            if "Product" in types:
+            if isinstance(types, list) and "Product" in types:
                 products.append(obj)
     if not products:
         raise ScrapeError(
@@ -73,7 +73,12 @@ def parse_product(body: str, url: str, supplier: dict) -> RawQuote:
     if len(matches) != 1:
         raise ScrapeError("PRODUCT_MISMATCH", "Expected exactly one configured product SKU")
     product = matches[0]
+    for key in ("url", "@id"):
+        if product.get(key) is not None and not isinstance(product[key], str):
+            raise ScrapeError("PARSING_ERROR", "Invalid product URL type")
     canonical = product.get("url") or product.get("@id")
+    if canonical is not None and not isinstance(canonical, str):
+        raise ScrapeError("PARSING_ERROR", "Invalid product URL type")
     if canonical and urljoin(url, canonical).rstrip("/") != url.rstrip("/"):
         raise ScrapeError(
             "PRODUCT_MISMATCH", "Product canonical URL differs from requested public page"
@@ -99,6 +104,20 @@ def parse_product(body: str, url: str, supplier: dict) -> RawQuote:
     brand = product.get("brand", "")
     brand = brand.get("name", "") if isinstance(brand, dict) else brand
     currency = offers.get("priceCurrency") or specification.get("priceCurrency", "")
+    if (
+        not isinstance(brand, str)
+        or not isinstance(currency, str)
+        or not isinstance(product.get("name"), str)
+        or (
+            price is not None
+            and (isinstance(price, bool) or not isinstance(price, (str, int, float)))
+        )
+        or (
+            offers.get("priceValidUntil") is not None
+            and not isinstance(offers["priceValidUntil"], str)
+        )
+    ):
+        raise ScrapeError("PARSING_ERROR", "Invalid commercial metadata types")
     return RawQuote(
         str(product.get("name", "")),
         str(price) if price is not None else None,

@@ -2,13 +2,16 @@
 
 Este directorio contiene **datos sintéticos**, una copia verificable del Dataset v2 congelado, costos logísticos supuestos y herramientas para cargar y comprobar el entorno en una base PostgreSQL aislada. No contiene credenciales ni datos productivos.
 
-El equipo adoptó este montaje local como entorno de datos de la simulación E3. El montaje reproduce el inventario y verifica el costo de despacho; **todavía no implementa la comparación completa de políticas E3 ni acredita las metas 30/20/5**. Consultar [HALLAZGOS.md](HALLAZGOS.md) antes de interpretar resultados.
+El equipo adoptó este montaje local como entorno de datos de la simulación E3. El montaje reproduce el inventario y verifica el costo de despacho. La comparación sintética entre políticas está implementada en `comparar_politicas.py`, con escenarios original y de estrés. Sus resultados son exploratorios y **no acreditan las metas 30/20/5 en operación real**. Consultar [RESULTADOS_COMPARACION.md](RESULTADOS_COMPARACION.md) y [HALLAZGOS.md](HALLAZGOS.md).
 
 ## Contenido
 
 - `dataset_v2/`: copia sintética congelada con su manifiesto de hashes; no editar sus datos originales.
 - `parametros_productos.json`: configuración separada de proveedores para E3, con despachos por pedido.
 - `entorno_simulacion.py`: crea una base nueva local y la carga; también comprueba una base ya creada.
+- `comparar_politicas.py`: simula políticas manual y StockSmart sobre los escenarios sintéticos; funciona en memoria, sin conexión a la base.
+- `RESULTADOS_COMPARACION.md`: métodos, indicadores, límites y resultados de referencia.
+- `evidencia/comparacion_politicas_2026-11-15.json`: resultados, pedidos y registros diarios reproducibles.
 - `evidencia/verificacion_local_2026-11-15.json`: evidencia de una ejecución local previa, con precios históricos; no demuestra ejecución en otro computador.
 - `resultados_locales/`: salidas generadas en cada computador; se excluyen de Git.
 
@@ -44,3 +47,12 @@ La comprobación lee los costos de PostgreSQL, ejecuta la comparación del backe
 | Santa Isabel | 3.990 | Supuesto referido a sus términos de servicio |
 
 Se requiere validar cobertura, mínimos de compra y logística para el caso real. No aplicar estos valores en producción ni modificarlos en Dataset v2: los valores para E3 viven en `parametros_productos.json`.
+
+## Comparar políticas
+
+```powershell
+python simulacion/e3/comparar_politicas.py
+python -m pytest simulacion/e3/tests -q
+```
+
+La comparación carga los archivos de esta carpeta, no PostgreSQL. El escenario original tiene cero quiebres y su reducción porcentual es indeterminada. El escenario de estrés fue seleccionado después de conocerlo y no prueba el desempeño en una empresa. Ver el reporte para el detalle de supuestos y resultados.

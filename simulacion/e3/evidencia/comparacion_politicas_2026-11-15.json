@@ -1,0 +1,3548 @@
+{
+  "dataset_sha256": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+  "origin": "SIMULACION_SINTETICA_NO_DATOS_REALES",
+  "notice": "Las condiciones comerciales y costos son supuestos; los precios del 07/10 son un proxy constante aplicado antes de su fecha observada. No representan precios históricos ni resultados causales reales.",
+  "stress_selection": "Escenario adicional solicitado para permitir quiebres: demanda por recetas x1.30, redondeada a servicios enteros. Definido después de conocer que la base tiene cero quiebres; no es validación independiente.",
+  "assumptions": [
+    "mismas demandas diarias en ambas políticas por escenario",
+    "pedidos humanos aprobados inmediatamente",
+    "compara formatos enteros sin validar mínimos ni factibilidad real",
+    "sin shocks de retraso",
+    "precios fijos postdatados como proxy contrafactual",
+    "despacho una vez por pedido",
+    "se reportan inventario final y pedidos pendientes; desembolso no ajustado por inventario",
+    "costo de apertura anterior al horizonte excluido de ambas políticas"
+  ],
+  "scenarios": {
+    "original": {
+      "demand_factor": "1",
+      "manual": {
+        "policy": "manual",
+        "daily": [
+          {
+            "date": "2026-07-27",
+            "opening_kg": "2.491000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.191000"
+          },
+          {
+            "date": "2026-07-28",
+            "opening_kg": "2.191000",
+            "received_kg": "2.465000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.431000"
+          },
+          {
+            "date": "2026-07-29",
+            "opening_kg": "4.431000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.756000"
+          },
+          {
+            "date": "2026-07-30",
+            "opening_kg": "3.756000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.381000"
+          },
+          {
+            "date": "2026-07-31",
+            "opening_kg": "3.381000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.931000"
+          },
+          {
+            "date": "2026-08-01",
+            "opening_kg": "2.931000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.466000",
+            "closing_kg": "1.715000"
+          },
+          {
+            "date": "2026-08-02",
+            "opening_kg": "1.715000",
+            "received_kg": "2.453000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.718000"
+          },
+          {
+            "date": "2026-08-03",
+            "opening_kg": "3.718000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.493000"
+          },
+          {
+            "date": "2026-08-04",
+            "opening_kg": "3.493000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.818000"
+          },
+          {
+            "date": "2026-08-05",
+            "opening_kg": "2.818000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.518000"
+          },
+          {
+            "date": "2026-08-06",
+            "opening_kg": "2.518000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.065000",
+            "closing_kg": "2.003000"
+          },
+          {
+            "date": "2026-08-07",
+            "opening_kg": "2.003000",
+            "received_kg": "2.502000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.130000"
+          },
+          {
+            "date": "2026-08-08",
+            "opening_kg": "4.130000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.825000",
+            "fulfilled_kg": "0.825000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.305000"
+          },
+          {
+            "date": "2026-08-09",
+            "opening_kg": "3.305000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.155000"
+          },
+          {
+            "date": "2026-08-10",
+            "opening_kg": "3.155000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.855000"
+          },
+          {
+            "date": "2026-08-11",
+            "opening_kg": "2.855000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.353000",
+            "closing_kg": "2.052000"
+          },
+          {
+            "date": "2026-08-12",
+            "opening_kg": "2.052000",
+            "received_kg": "2.526000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.128000"
+          },
+          {
+            "date": "2026-08-13",
+            "opening_kg": "4.128000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.678000"
+          },
+          {
+            "date": "2026-08-14",
+            "opening_kg": "3.678000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.228000"
+          },
+          {
+            "date": "2026-08-15",
+            "opening_kg": "3.228000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.553000"
+          },
+          {
+            "date": "2026-08-16",
+            "opening_kg": "2.553000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.027000",
+            "closing_kg": "2.151000"
+          },
+          {
+            "date": "2026-08-17",
+            "opening_kg": "2.151000",
+            "received_kg": "2.482000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.483000"
+          },
+          {
+            "date": "2026-08-18",
+            "opening_kg": "4.483000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.258000"
+          },
+          {
+            "date": "2026-08-19",
+            "opening_kg": "4.258000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.658000"
+          },
+          {
+            "date": "2026-08-20",
+            "opening_kg": "3.658000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.283000"
+          },
+          {
+            "date": "2026-08-21",
+            "opening_kg": "3.283000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.801000",
+            "closing_kg": "1.732000"
+          },
+          {
+            "date": "2026-08-22",
+            "opening_kg": "1.732000",
+            "received_kg": "2.531000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.813000"
+          },
+          {
+            "date": "2026-08-23",
+            "opening_kg": "3.813000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.363000"
+          },
+          {
+            "date": "2026-08-24",
+            "opening_kg": "3.363000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.138000"
+          },
+          {
+            "date": "2026-08-25",
+            "opening_kg": "3.138000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.538000"
+          },
+          {
+            "date": "2026-08-26",
+            "opening_kg": "2.538000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.007000",
+            "closing_kg": "1.856000"
+          },
+          {
+            "date": "2026-08-27",
+            "opening_kg": "1.856000",
+            "received_kg": "2.518000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.699000"
+          },
+          {
+            "date": "2026-08-28",
+            "opening_kg": "3.699000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.099000"
+          },
+          {
+            "date": "2026-08-29",
+            "opening_kg": "3.099000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.649000"
+          },
+          {
+            "date": "2026-08-30",
+            "opening_kg": "2.649000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.349000"
+          },
+          {
+            "date": "2026-08-31",
+            "opening_kg": "2.349000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.199000"
+          },
+          {
+            "date": "2026-09-01",
+            "opening_kg": "2.199000",
+            "received_kg": "2.459000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.208000"
+          },
+          {
+            "date": "2026-09-02",
+            "opening_kg": "4.208000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.058000"
+          },
+          {
+            "date": "2026-09-03",
+            "opening_kg": "4.058000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.533000"
+          },
+          {
+            "date": "2026-09-04",
+            "opening_kg": "3.533000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.075000",
+            "fulfilled_kg": "0.075000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "1.074000",
+            "closing_kg": "2.384000"
+          },
+          {
+            "date": "2026-09-05",
+            "opening_kg": "2.384000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.009000"
+          },
+          {
+            "date": "2026-09-06",
+            "opening_kg": "2.009000",
+            "received_kg": "2.493000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.902000"
+          },
+          {
+            "date": "2026-09-07",
+            "opening_kg": "3.902000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.677000"
+          },
+          {
+            "date": "2026-09-08",
+            "opening_kg": "3.677000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.302000"
+          },
+          {
+            "date": "2026-09-09",
+            "opening_kg": "3.302000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.809000",
+            "closing_kg": "1.893000"
+          },
+          {
+            "date": "2026-09-10",
+            "opening_kg": "1.893000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.593000"
+          },
+          {
+            "date": "2026-09-11",
+            "opening_kg": "1.593000",
+            "received_kg": "2.521000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.964000"
+          },
+          {
+            "date": "2026-09-12",
+            "opening_kg": "3.964000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.589000"
+          },
+          {
+            "date": "2026-09-13",
+            "opening_kg": "3.589000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.364000"
+          },
+          {
+            "date": "2026-09-14",
+            "opening_kg": "3.364000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.843000",
+            "closing_kg": "1.996000"
+          },
+          {
+            "date": "2026-09-15",
+            "opening_kg": "1.996000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.696000"
+          },
+          {
+            "date": "2026-09-16",
+            "opening_kg": "1.696000",
+            "received_kg": "2.451000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.622000"
+          },
+          {
+            "date": "2026-09-17",
+            "opening_kg": "3.622000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.322000"
+          },
+          {
+            "date": "2026-09-18",
+            "opening_kg": "3.322000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.947000"
+          },
+          {
+            "date": "2026-09-19",
+            "opening_kg": "2.947000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.496000",
+            "closing_kg": "2.076000"
+          },
+          {
+            "date": "2026-09-20",
+            "opening_kg": "2.076000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.851000"
+          },
+          {
+            "date": "2026-09-21",
+            "opening_kg": "1.851000",
+            "received_kg": "2.459000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.410000"
+          },
+          {
+            "date": "2026-09-22",
+            "opening_kg": "3.410000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.810000"
+          },
+          {
+            "date": "2026-09-23",
+            "opening_kg": "2.810000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.210000"
+          },
+          {
+            "date": "2026-09-24",
+            "opening_kg": "2.210000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.610000"
+          },
+          {
+            "date": "2026-09-25",
+            "opening_kg": "1.610000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.010000"
+          },
+          {
+            "date": "2026-09-26",
+            "opening_kg": "1.010000",
+            "received_kg": "2.481000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.966000"
+          },
+          {
+            "date": "2026-09-27",
+            "opening_kg": "2.966000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.216000"
+          },
+          {
+            "date": "2026-09-28",
+            "opening_kg": "2.216000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.766000"
+          },
+          {
+            "date": "2026-09-29",
+            "opening_kg": "1.766000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.016000"
+          },
+          {
+            "date": "2026-09-30",
+            "opening_kg": "1.016000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.716000"
+          },
+          {
+            "date": "2026-10-01",
+            "opening_kg": "0.716000",
+            "received_kg": "2.549000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.815000"
+          },
+          {
+            "date": "2026-10-02",
+            "opening_kg": "2.815000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.266000",
+            "closing_kg": "1.799000"
+          },
+          {
+            "date": "2026-10-03",
+            "opening_kg": "1.799000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.899000"
+          },
+          {
+            "date": "2026-10-04",
+            "opening_kg": "0.899000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.374000"
+          }
+        ],
+        "orders": [
+          {
+            "issued": "2026-07-27",
+            "arrival": "2026-07-28",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-01",
+            "arrival": "2026-08-02",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-06",
+            "arrival": "2026-08-07",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-11",
+            "arrival": "2026-08-12",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-16",
+            "arrival": "2026-08-17",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-21",
+            "arrival": "2026-08-22",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-26",
+            "arrival": "2026-08-27",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-31",
+            "arrival": "2026-09-01",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-05",
+            "arrival": "2026-09-06",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-10",
+            "arrival": "2026-09-11",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-15",
+            "arrival": "2026-09-16",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-20",
+            "arrival": "2026-09-21",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-25",
+            "arrival": "2026-09-26",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-30",
+            "arrival": "2026-10-01",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          }
+        ],
+        "metrics": {
+          "closing_zero_days": 0,
+          "unmet_days": 0,
+          "unmet_kg": "0.000000",
+          "demand_kg": "31.800000",
+          "fulfilled_kg": "31.800000",
+          "expiry_waste_kg": "5.207000",
+          "initial_kg": "2.491000",
+          "received_kg": "34.890000",
+          "closing_stock_kg": "0.374000",
+          "purchases_clp": "530110.000000",
+          "orders_count": 14,
+          "orders_in_transit": 0,
+          "in_transit_nominal_kg": "0.000000"
+        }
+      },
+      "stocksmart": {
+        "policy": "stocksmart",
+        "daily": [
+          {
+            "date": "2026-07-27",
+            "opening_kg": "2.491000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.191000"
+          },
+          {
+            "date": "2026-07-28",
+            "opening_kg": "2.191000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.966000"
+          },
+          {
+            "date": "2026-07-29",
+            "opening_kg": "1.966000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.291000"
+          },
+          {
+            "date": "2026-07-30",
+            "opening_kg": "1.291000",
+            "received_kg": "2.875000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.791000"
+          },
+          {
+            "date": "2026-07-31",
+            "opening_kg": "3.791000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.341000"
+          },
+          {
+            "date": "2026-08-01",
+            "opening_kg": "3.341000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.466000",
+            "closing_kg": "2.125000"
+          },
+          {
+            "date": "2026-08-02",
+            "opening_kg": "2.125000",
+            "received_kg": "3.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.675000"
+          },
+          {
+            "date": "2026-08-03",
+            "opening_kg": "4.675000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.450000"
+          },
+          {
+            "date": "2026-08-04",
+            "opening_kg": "4.450000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.775000"
+          },
+          {
+            "date": "2026-08-05",
+            "opening_kg": "3.775000",
+            "received_kg": "3.125000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.600000"
+          },
+          {
+            "date": "2026-08-06",
+            "opening_kg": "6.600000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.150000"
+          },
+          {
+            "date": "2026-08-07",
+            "opening_kg": "6.150000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.775000"
+          },
+          {
+            "date": "2026-08-08",
+            "opening_kg": "5.775000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.825000",
+            "fulfilled_kg": "0.825000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.950000"
+          },
+          {
+            "date": "2026-08-09",
+            "opening_kg": "4.950000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.800000"
+          },
+          {
+            "date": "2026-08-10",
+            "opening_kg": "4.800000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.500000"
+          },
+          {
+            "date": "2026-08-11",
+            "opening_kg": "4.500000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.050000"
+          },
+          {
+            "date": "2026-08-12",
+            "opening_kg": "4.050000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.600000"
+          },
+          {
+            "date": "2026-08-13",
+            "opening_kg": "3.600000",
+            "received_kg": "4.940000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.090000"
+          },
+          {
+            "date": "2026-08-14",
+            "opening_kg": "8.090000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.640000"
+          },
+          {
+            "date": "2026-08-15",
+            "opening_kg": "7.640000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.965000"
+          },
+          {
+            "date": "2026-08-16",
+            "opening_kg": "6.965000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.590000"
+          },
+          {
+            "date": "2026-08-17",
+            "opening_kg": "6.590000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.440000"
+          },
+          {
+            "date": "2026-08-18",
+            "opening_kg": "6.440000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.215000"
+          },
+          {
+            "date": "2026-08-19",
+            "opening_kg": "6.215000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.615000"
+          },
+          {
+            "date": "2026-08-20",
+            "opening_kg": "5.615000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.240000"
+          },
+          {
+            "date": "2026-08-21",
+            "opening_kg": "5.240000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.490000"
+          },
+          {
+            "date": "2026-08-22",
+            "opening_kg": "4.490000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.040000"
+          },
+          {
+            "date": "2026-08-23",
+            "opening_kg": "4.040000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.590000"
+          },
+          {
+            "date": "2026-08-24",
+            "opening_kg": "3.590000",
+            "received_kg": "4.994000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.359000"
+          },
+          {
+            "date": "2026-08-25",
+            "opening_kg": "8.359000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.759000"
+          },
+          {
+            "date": "2026-08-26",
+            "opening_kg": "7.759000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.276000",
+            "closing_kg": "6.808000"
+          },
+          {
+            "date": "2026-08-27",
+            "opening_kg": "6.808000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.133000"
+          },
+          {
+            "date": "2026-08-28",
+            "opening_kg": "6.133000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.533000"
+          },
+          {
+            "date": "2026-08-29",
+            "opening_kg": "5.533000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.083000"
+          },
+          {
+            "date": "2026-08-30",
+            "opening_kg": "5.083000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.783000"
+          },
+          {
+            "date": "2026-08-31",
+            "opening_kg": "4.783000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.633000"
+          },
+          {
+            "date": "2026-09-01",
+            "opening_kg": "4.633000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.183000"
+          },
+          {
+            "date": "2026-09-02",
+            "opening_kg": "4.183000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.033000"
+          },
+          {
+            "date": "2026-09-03",
+            "opening_kg": "4.033000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.508000"
+          },
+          {
+            "date": "2026-09-04",
+            "opening_kg": "3.508000",
+            "received_kg": "4.936000",
+            "demand_kg": "0.075000",
+            "fulfilled_kg": "0.075000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.988000",
+            "closing_kg": "7.381000"
+          },
+          {
+            "date": "2026-09-05",
+            "opening_kg": "7.381000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.006000"
+          },
+          {
+            "date": "2026-09-06",
+            "opening_kg": "7.006000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.406000"
+          },
+          {
+            "date": "2026-09-07",
+            "opening_kg": "6.406000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.181000"
+          },
+          {
+            "date": "2026-09-08",
+            "opening_kg": "6.181000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.806000"
+          },
+          {
+            "date": "2026-09-09",
+            "opening_kg": "5.806000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.870000",
+            "closing_kg": "4.336000"
+          },
+          {
+            "date": "2026-09-10",
+            "opening_kg": "4.336000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.036000"
+          },
+          {
+            "date": "2026-09-11",
+            "opening_kg": "4.036000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.150000",
+            "fulfilled_kg": "0.150000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.886000"
+          },
+          {
+            "date": "2026-09-12",
+            "opening_kg": "3.886000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.511000"
+          },
+          {
+            "date": "2026-09-13",
+            "opening_kg": "3.511000",
+            "received_kg": "3.125000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.411000"
+          },
+          {
+            "date": "2026-09-14",
+            "opening_kg": "6.411000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.814000",
+            "closing_kg": "5.072000"
+          },
+          {
+            "date": "2026-09-15",
+            "opening_kg": "5.072000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.772000"
+          },
+          {
+            "date": "2026-09-16",
+            "opening_kg": "4.772000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.247000"
+          },
+          {
+            "date": "2026-09-17",
+            "opening_kg": "4.247000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.947000"
+          },
+          {
+            "date": "2026-09-18",
+            "opening_kg": "3.947000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.572000"
+          },
+          {
+            "date": "2026-09-19",
+            "opening_kg": "3.572000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.447000",
+            "closing_kg": "2.750000"
+          },
+          {
+            "date": "2026-09-20",
+            "opening_kg": "2.750000",
+            "received_kg": "3.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.525000"
+          },
+          {
+            "date": "2026-09-21",
+            "opening_kg": "5.525000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.625000"
+          },
+          {
+            "date": "2026-09-22",
+            "opening_kg": "4.625000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.025000"
+          },
+          {
+            "date": "2026-09-23",
+            "opening_kg": "4.025000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.425000"
+          },
+          {
+            "date": "2026-09-24",
+            "opening_kg": "3.425000",
+            "received_kg": "3.125000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.950000"
+          },
+          {
+            "date": "2026-09-25",
+            "opening_kg": "5.950000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.350000"
+          },
+          {
+            "date": "2026-09-26",
+            "opening_kg": "5.350000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.825000"
+          },
+          {
+            "date": "2026-09-27",
+            "opening_kg": "4.825000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.075000"
+          },
+          {
+            "date": "2026-09-28",
+            "opening_kg": "4.075000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.625000"
+          },
+          {
+            "date": "2026-09-29",
+            "opening_kg": "3.625000",
+            "received_kg": "3.125000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.000000"
+          },
+          {
+            "date": "2026-09-30",
+            "opening_kg": "6.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.700000"
+          },
+          {
+            "date": "2026-10-01",
+            "opening_kg": "5.700000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.450000",
+            "fulfilled_kg": "0.450000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.250000"
+          },
+          {
+            "date": "2026-10-02",
+            "opening_kg": "5.250000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.500000"
+          },
+          {
+            "date": "2026-10-03",
+            "opening_kg": "4.500000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.600000"
+          },
+          {
+            "date": "2026-10-04",
+            "opening_kg": "3.600000",
+            "received_kg": "4.965000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.040000"
+          }
+        ],
+        "orders": [
+          {
+            "issued": "2026-07-28",
+            "arrival": "2026-07-30",
+            "supplier_id": 3,
+            "supplier": "Santa Isabel",
+            "packs": 23,
+            "nominal_kg": "2.875000",
+            "subtotal_clp": "59110.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "63100.000000",
+            "alternative_supplier_total_clp": "63180.000000"
+          },
+          {
+            "issued": "2026-07-31",
+            "arrival": "2026-08-02",
+            "supplier_id": 3,
+            "supplier": "Santa Isabel",
+            "packs": 24,
+            "nominal_kg": "3.000000",
+            "subtotal_clp": "61680.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "65670.000000",
+            "alternative_supplier_total_clp": "65710.000000"
+          },
+          {
+            "issued": "2026-08-04",
+            "arrival": "2026-08-05",
+            "supplier_id": 2,
+            "supplier": "Jumbo",
+            "packs": 25,
+            "nominal_kg": "3.125000",
+            "subtotal_clp": "63250.000000",
+            "shipping_clp": "4990.000000",
+            "total_clp": "68240.000000",
+            "alternative_supplier_total_clp": "68240.000000"
+          },
+          {
+            "issued": "2026-08-12",
+            "arrival": "2026-08-13",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "73300.000000"
+          },
+          {
+            "issued": "2026-08-23",
+            "arrival": "2026-08-24",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "75830.000000"
+          },
+          {
+            "issued": "2026-09-03",
+            "arrival": "2026-09-04",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "75830.000000"
+          },
+          {
+            "issued": "2026-09-12",
+            "arrival": "2026-09-13",
+            "supplier_id": 2,
+            "supplier": "Jumbo",
+            "packs": 25,
+            "nominal_kg": "3.125000",
+            "subtotal_clp": "63250.000000",
+            "shipping_clp": "4990.000000",
+            "total_clp": "68240.000000",
+            "alternative_supplier_total_clp": "68240.000000"
+          },
+          {
+            "issued": "2026-09-18",
+            "arrival": "2026-09-20",
+            "supplier_id": 3,
+            "supplier": "Santa Isabel",
+            "packs": 24,
+            "nominal_kg": "3.000000",
+            "subtotal_clp": "61680.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "65670.000000",
+            "alternative_supplier_total_clp": "65710.000000"
+          },
+          {
+            "issued": "2026-09-23",
+            "arrival": "2026-09-24",
+            "supplier_id": 2,
+            "supplier": "Jumbo",
+            "packs": 25,
+            "nominal_kg": "3.125000",
+            "subtotal_clp": "63250.000000",
+            "shipping_clp": "4990.000000",
+            "total_clp": "68240.000000",
+            "alternative_supplier_total_clp": "68240.000000"
+          },
+          {
+            "issued": "2026-09-28",
+            "arrival": "2026-09-29",
+            "supplier_id": 2,
+            "supplier": "Jumbo",
+            "packs": 25,
+            "nominal_kg": "3.125000",
+            "subtotal_clp": "63250.000000",
+            "shipping_clp": "4990.000000",
+            "total_clp": "68240.000000",
+            "alternative_supplier_total_clp": "68240.000000"
+          },
+          {
+            "issued": "2026-10-03",
+            "arrival": "2026-10-04",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "85950.000000"
+          }
+        ],
+        "metrics": {
+          "closing_zero_days": 0,
+          "unmet_days": 0,
+          "unmet_kg": "0.000000",
+          "demand_kg": "31.800000",
+          "fulfilled_kg": "31.800000",
+          "expiry_waste_kg": "3.861000",
+          "initial_kg": "2.491000",
+          "received_kg": "41.210000",
+          "closing_stock_kg": "8.040000",
+          "purchases_clp": "754360.000000",
+          "orders_count": 11,
+          "orders_in_transit": 0,
+          "in_transit_nominal_kg": "0.000000"
+        }
+      },
+      "targets": {
+        "quiebres_dias_stock_cierre_cero": {
+          "baseline": "0",
+          "policy": "0",
+          "relative_percent": null,
+          "threshold_percent": "30",
+          "status": "NO_EVALUABLE_BASE_CERO"
+        },
+        "merma_kg": {
+          "baseline": "5.207000",
+          "policy": "3.861000",
+          "relative_percent": "25.849818",
+          "threshold_percent": "20",
+          "status": "CUMPLE_SIMULACION"
+        },
+        "ahorro_proveedores_proxy": {
+          "baseline": "778470.000000",
+          "policy": "754360.000000",
+          "relative_percent": "3.097101",
+          "threshold_percent": "5",
+          "status": "PROXY_NO_VALIDADO_COMERCIALMENTE",
+          "reason": "Comparación de ofertas de la misma necesidad; factibilidad comercial y canasta no verificadas",
+          "orders_compared": 11
+        },
+        "desembolso_ordenes_diferencia_descriptiva": {
+          "manual_clp": "530110.000000",
+          "stocksmart_clp": "754360.000000",
+          "status": "NO_COMPARABLE_SERVICIO_E_INVENTARIO"
+        }
+      }
+    },
+    "estres_demanda_130": {
+      "demand_factor": "1.30",
+      "manual": {
+        "policy": "manual",
+        "daily": [
+          {
+            "date": "2026-07-27",
+            "opening_kg": "2.491000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.116000"
+          },
+          {
+            "date": "2026-07-28",
+            "opening_kg": "2.116000",
+            "received_kg": "2.465000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.281000"
+          },
+          {
+            "date": "2026-07-29",
+            "opening_kg": "4.281000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.381000"
+          },
+          {
+            "date": "2026-07-30",
+            "opening_kg": "3.381000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.856000"
+          },
+          {
+            "date": "2026-07-31",
+            "opening_kg": "2.856000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.256000"
+          },
+          {
+            "date": "2026-08-01",
+            "opening_kg": "2.256000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.281000"
+          },
+          {
+            "date": "2026-08-02",
+            "opening_kg": "1.281000",
+            "received_kg": "2.453000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.134000"
+          },
+          {
+            "date": "2026-08-03",
+            "opening_kg": "3.134000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.834000"
+          },
+          {
+            "date": "2026-08-04",
+            "opening_kg": "2.834000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.934000"
+          },
+          {
+            "date": "2026-08-05",
+            "opening_kg": "1.934000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.559000"
+          },
+          {
+            "date": "2026-08-06",
+            "opening_kg": "1.559000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.959000"
+          },
+          {
+            "date": "2026-08-07",
+            "opening_kg": "0.959000",
+            "received_kg": "2.502000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.936000"
+          },
+          {
+            "date": "2026-08-08",
+            "opening_kg": "2.936000",
+            "received_kg": "0.000000",
+            "demand_kg": "1.050000",
+            "fulfilled_kg": "1.050000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.886000"
+          },
+          {
+            "date": "2026-08-09",
+            "opening_kg": "1.886000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.661000"
+          },
+          {
+            "date": "2026-08-10",
+            "opening_kg": "1.661000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.286000"
+          },
+          {
+            "date": "2026-08-11",
+            "opening_kg": "1.286000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.686000"
+          },
+          {
+            "date": "2026-08-12",
+            "opening_kg": "0.686000",
+            "received_kg": "2.526000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.612000"
+          },
+          {
+            "date": "2026-08-13",
+            "opening_kg": "2.612000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.086000",
+            "closing_kg": "1.926000"
+          },
+          {
+            "date": "2026-08-14",
+            "opening_kg": "1.926000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.326000"
+          },
+          {
+            "date": "2026-08-15",
+            "opening_kg": "1.326000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.426000"
+          },
+          {
+            "date": "2026-08-16",
+            "opening_kg": "0.426000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.426000",
+            "unmet_kg": "0.099000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-08-17",
+            "opening_kg": "0.000000",
+            "received_kg": "2.482000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.257000"
+          },
+          {
+            "date": "2026-08-18",
+            "opening_kg": "2.257000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.957000"
+          },
+          {
+            "date": "2026-08-19",
+            "opening_kg": "1.957000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.207000"
+          },
+          {
+            "date": "2026-08-20",
+            "opening_kg": "1.207000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.682000"
+          },
+          {
+            "date": "2026-08-21",
+            "opening_kg": "0.682000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.682000",
+            "unmet_kg": "0.293000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-08-22",
+            "opening_kg": "0.000000",
+            "received_kg": "2.531000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.931000"
+          },
+          {
+            "date": "2026-08-23",
+            "opening_kg": "1.931000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.331000"
+          },
+          {
+            "date": "2026-08-24",
+            "opening_kg": "1.331000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.031000"
+          },
+          {
+            "date": "2026-08-25",
+            "opening_kg": "1.031000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.281000"
+          },
+          {
+            "date": "2026-08-26",
+            "opening_kg": "0.281000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.281000",
+            "unmet_kg": "0.619000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-08-27",
+            "opening_kg": "0.000000",
+            "received_kg": "2.518000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.618000"
+          },
+          {
+            "date": "2026-08-28",
+            "opening_kg": "1.618000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.868000"
+          },
+          {
+            "date": "2026-08-29",
+            "opening_kg": "0.868000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.268000"
+          },
+          {
+            "date": "2026-08-30",
+            "opening_kg": "0.268000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.268000",
+            "unmet_kg": "0.107000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-08-31",
+            "opening_kg": "0.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.000000",
+            "unmet_kg": "0.225000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-01",
+            "opening_kg": "0.000000",
+            "received_kg": "2.459000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.859000"
+          },
+          {
+            "date": "2026-09-02",
+            "opening_kg": "1.859000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.634000"
+          },
+          {
+            "date": "2026-09-03",
+            "opening_kg": "1.634000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.959000"
+          },
+          {
+            "date": "2026-09-04",
+            "opening_kg": "0.959000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.075000",
+            "fulfilled_kg": "0.075000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.884000"
+          },
+          {
+            "date": "2026-09-05",
+            "opening_kg": "0.884000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.359000"
+          },
+          {
+            "date": "2026-09-06",
+            "opening_kg": "0.359000",
+            "received_kg": "2.493000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.359000",
+            "closing_kg": "1.743000"
+          },
+          {
+            "date": "2026-09-07",
+            "opening_kg": "1.743000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.443000"
+          },
+          {
+            "date": "2026-09-08",
+            "opening_kg": "1.443000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.918000"
+          },
+          {
+            "date": "2026-09-09",
+            "opening_kg": "0.918000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.168000"
+          },
+          {
+            "date": "2026-09-10",
+            "opening_kg": "0.168000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.168000",
+            "unmet_kg": "0.207000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-11",
+            "opening_kg": "0.000000",
+            "received_kg": "2.521000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.296000"
+          },
+          {
+            "date": "2026-09-12",
+            "opening_kg": "2.296000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.771000"
+          },
+          {
+            "date": "2026-09-13",
+            "opening_kg": "1.771000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.471000"
+          },
+          {
+            "date": "2026-09-14",
+            "opening_kg": "1.471000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.796000"
+          },
+          {
+            "date": "2026-09-15",
+            "opening_kg": "0.796000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.421000"
+          },
+          {
+            "date": "2026-09-16",
+            "opening_kg": "0.421000",
+            "received_kg": "2.451000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.421000",
+            "closing_kg": "1.776000"
+          },
+          {
+            "date": "2026-09-17",
+            "opening_kg": "1.776000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.401000"
+          },
+          {
+            "date": "2026-09-18",
+            "opening_kg": "1.401000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.876000"
+          },
+          {
+            "date": "2026-09-19",
+            "opening_kg": "0.876000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.351000"
+          },
+          {
+            "date": "2026-09-20",
+            "opening_kg": "0.351000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.051000"
+          },
+          {
+            "date": "2026-09-21",
+            "opening_kg": "0.051000",
+            "received_kg": "2.459000",
+            "demand_kg": "1.200000",
+            "fulfilled_kg": "1.200000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.051000",
+            "closing_kg": "1.259000"
+          },
+          {
+            "date": "2026-09-22",
+            "opening_kg": "1.259000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.509000"
+          },
+          {
+            "date": "2026-09-23",
+            "opening_kg": "0.509000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.509000",
+            "unmet_kg": "0.241000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-24",
+            "opening_kg": "0.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.000000",
+            "unmet_kg": "0.750000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-25",
+            "opening_kg": "0.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.000000",
+            "unmet_kg": "0.750000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-26",
+            "opening_kg": "0.000000",
+            "received_kg": "2.481000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.806000"
+          },
+          {
+            "date": "2026-09-27",
+            "opening_kg": "1.806000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.831000"
+          },
+          {
+            "date": "2026-09-28",
+            "opening_kg": "0.831000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.231000"
+          },
+          {
+            "date": "2026-09-29",
+            "opening_kg": "0.231000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.231000",
+            "unmet_kg": "0.744000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-09-30",
+            "opening_kg": "0.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.000000",
+            "unmet_kg": "0.375000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-10-01",
+            "opening_kg": "0.000000",
+            "received_kg": "2.549000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.949000"
+          },
+          {
+            "date": "2026-10-02",
+            "opening_kg": "1.949000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.974000"
+          },
+          {
+            "date": "2026-10-03",
+            "opening_kg": "0.974000",
+            "received_kg": "0.000000",
+            "demand_kg": "1.200000",
+            "fulfilled_kg": "0.974000",
+            "unmet_kg": "0.226000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          },
+          {
+            "date": "2026-10-04",
+            "opening_kg": "0.000000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.000000",
+            "unmet_kg": "0.675000",
+            "waste_kg": "0.000000",
+            "closing_kg": "0.000000"
+          }
+        ],
+        "orders": [
+          {
+            "issued": "2026-07-27",
+            "arrival": "2026-07-28",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-01",
+            "arrival": "2026-08-02",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-06",
+            "arrival": "2026-08-07",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-11",
+            "arrival": "2026-08-12",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-16",
+            "arrival": "2026-08-17",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-21",
+            "arrival": "2026-08-22",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-26",
+            "arrival": "2026-08-27",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-08-31",
+            "arrival": "2026-09-01",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-05",
+            "arrival": "2026-09-06",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-10",
+            "arrival": "2026-09-11",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-15",
+            "arrival": "2026-09-16",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-20",
+            "arrival": "2026-09-21",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-25",
+            "arrival": "2026-09-26",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          },
+          {
+            "issued": "2026-09-30",
+            "arrival": "2026-10-01",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 1,
+            "nominal_kg": "2.500000",
+            "subtotal_clp": "33875.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "37865.000000",
+            "alternative_supplier_total_clp": null
+          }
+        ],
+        "metrics": {
+          "closing_zero_days": 13,
+          "unmet_days": 13,
+          "unmet_kg": "5.311000",
+          "demand_kg": "41.775000",
+          "fulfilled_kg": "36.464000",
+          "expiry_waste_kg": "0.917000",
+          "initial_kg": "2.491000",
+          "received_kg": "34.890000",
+          "closing_stock_kg": "0.000000",
+          "purchases_clp": "530110.000000",
+          "orders_count": 14,
+          "orders_in_transit": 0,
+          "in_transit_nominal_kg": "0.000000"
+        }
+      },
+      "stocksmart": {
+        "policy": "stocksmart",
+        "daily": [
+          {
+            "date": "2026-07-27",
+            "opening_kg": "2.491000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "2.116000"
+          },
+          {
+            "date": "2026-07-28",
+            "opening_kg": "2.116000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "1.816000"
+          },
+          {
+            "date": "2026-07-29",
+            "opening_kg": "1.816000",
+            "received_kg": "5.047000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.963000"
+          },
+          {
+            "date": "2026-07-30",
+            "opening_kg": "5.963000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.438000"
+          },
+          {
+            "date": "2026-07-31",
+            "opening_kg": "5.438000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.838000"
+          },
+          {
+            "date": "2026-08-01",
+            "opening_kg": "4.838000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "3.863000"
+          },
+          {
+            "date": "2026-08-02",
+            "opening_kg": "3.863000",
+            "received_kg": "4.984000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.247000"
+          },
+          {
+            "date": "2026-08-03",
+            "opening_kg": "8.247000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.947000"
+          },
+          {
+            "date": "2026-08-04",
+            "opening_kg": "7.947000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.047000"
+          },
+          {
+            "date": "2026-08-05",
+            "opening_kg": "7.047000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.672000"
+          },
+          {
+            "date": "2026-08-06",
+            "opening_kg": "6.672000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.072000"
+          },
+          {
+            "date": "2026-08-07",
+            "opening_kg": "6.072000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.547000"
+          },
+          {
+            "date": "2026-08-08",
+            "opening_kg": "5.547000",
+            "received_kg": "0.000000",
+            "demand_kg": "1.050000",
+            "fulfilled_kg": "1.050000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.497000"
+          },
+          {
+            "date": "2026-08-09",
+            "opening_kg": "4.497000",
+            "received_kg": "4.990000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "9.262000"
+          },
+          {
+            "date": "2026-08-10",
+            "opening_kg": "9.262000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.887000"
+          },
+          {
+            "date": "2026-08-11",
+            "opening_kg": "8.887000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.287000"
+          },
+          {
+            "date": "2026-08-12",
+            "opening_kg": "8.287000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.687000"
+          },
+          {
+            "date": "2026-08-13",
+            "opening_kg": "7.687000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.166000",
+            "closing_kg": "6.921000"
+          },
+          {
+            "date": "2026-08-14",
+            "opening_kg": "6.921000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.321000"
+          },
+          {
+            "date": "2026-08-15",
+            "opening_kg": "6.321000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.421000"
+          },
+          {
+            "date": "2026-08-16",
+            "opening_kg": "5.421000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.896000"
+          },
+          {
+            "date": "2026-08-17",
+            "opening_kg": "4.896000",
+            "received_kg": "4.987000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "9.658000"
+          },
+          {
+            "date": "2026-08-18",
+            "opening_kg": "9.658000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "9.358000"
+          },
+          {
+            "date": "2026-08-19",
+            "opening_kg": "9.358000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.608000"
+          },
+          {
+            "date": "2026-08-20",
+            "opening_kg": "8.608000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.083000"
+          },
+          {
+            "date": "2026-08-21",
+            "opening_kg": "8.083000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.592000",
+            "closing_kg": "6.516000"
+          },
+          {
+            "date": "2026-08-22",
+            "opening_kg": "6.516000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.916000"
+          },
+          {
+            "date": "2026-08-23",
+            "opening_kg": "5.916000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.316000"
+          },
+          {
+            "date": "2026-08-24",
+            "opening_kg": "5.316000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.016000"
+          },
+          {
+            "date": "2026-08-25",
+            "opening_kg": "5.016000",
+            "received_kg": "4.959000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "9.225000"
+          },
+          {
+            "date": "2026-08-26",
+            "opening_kg": "9.225000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.325000"
+          },
+          {
+            "date": "2026-08-27",
+            "opening_kg": "8.325000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.900000",
+            "fulfilled_kg": "0.900000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.425000"
+          },
+          {
+            "date": "2026-08-28",
+            "opening_kg": "7.425000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.675000"
+          },
+          {
+            "date": "2026-08-29",
+            "opening_kg": "6.675000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.075000"
+          },
+          {
+            "date": "2026-08-30",
+            "opening_kg": "6.075000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.700000"
+          },
+          {
+            "date": "2026-08-31",
+            "opening_kg": "5.700000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.475000"
+          },
+          {
+            "date": "2026-09-01",
+            "opening_kg": "5.475000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.516000",
+            "closing_kg": "4.359000"
+          },
+          {
+            "date": "2026-09-02",
+            "opening_kg": "4.359000",
+            "received_kg": "7.534000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "11.668000"
+          },
+          {
+            "date": "2026-09-03",
+            "opening_kg": "11.668000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "10.993000"
+          },
+          {
+            "date": "2026-09-04",
+            "opening_kg": "10.993000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.075000",
+            "fulfilled_kg": "0.075000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "10.918000"
+          },
+          {
+            "date": "2026-09-05",
+            "opening_kg": "10.918000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "10.393000"
+          },
+          {
+            "date": "2026-09-06",
+            "opening_kg": "10.393000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.353000",
+            "closing_kg": "9.290000"
+          },
+          {
+            "date": "2026-09-07",
+            "opening_kg": "9.290000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.990000"
+          },
+          {
+            "date": "2026-09-08",
+            "opening_kg": "8.990000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.465000"
+          },
+          {
+            "date": "2026-09-09",
+            "opening_kg": "8.465000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.715000"
+          },
+          {
+            "date": "2026-09-10",
+            "opening_kg": "7.715000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.340000"
+          },
+          {
+            "date": "2026-09-11",
+            "opening_kg": "7.340000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.225000",
+            "fulfilled_kg": "0.225000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.115000"
+          },
+          {
+            "date": "2026-09-12",
+            "opening_kg": "7.115000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.590000"
+          },
+          {
+            "date": "2026-09-13",
+            "opening_kg": "6.590000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.290000"
+          },
+          {
+            "date": "2026-09-14",
+            "opening_kg": "6.290000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.615000"
+          },
+          {
+            "date": "2026-09-15",
+            "opening_kg": "5.615000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.568000",
+            "closing_kg": "4.672000"
+          },
+          {
+            "date": "2026-09-16",
+            "opening_kg": "4.672000",
+            "received_kg": "4.956000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.953000"
+          },
+          {
+            "date": "2026-09-17",
+            "opening_kg": "8.953000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.578000"
+          },
+          {
+            "date": "2026-09-18",
+            "opening_kg": "8.578000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.053000"
+          },
+          {
+            "date": "2026-09-19",
+            "opening_kg": "8.053000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.525000",
+            "fulfilled_kg": "0.525000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.528000"
+          },
+          {
+            "date": "2026-09-20",
+            "opening_kg": "7.528000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.300000",
+            "fulfilled_kg": "0.300000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.053000",
+            "closing_kg": "7.175000"
+          },
+          {
+            "date": "2026-09-21",
+            "opening_kg": "7.175000",
+            "received_kg": "0.000000",
+            "demand_kg": "1.200000",
+            "fulfilled_kg": "1.200000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.975000"
+          },
+          {
+            "date": "2026-09-22",
+            "opening_kg": "5.975000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.225000"
+          },
+          {
+            "date": "2026-09-23",
+            "opening_kg": "5.225000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.475000"
+          },
+          {
+            "date": "2026-09-24",
+            "opening_kg": "4.475000",
+            "received_kg": "5.032000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.757000"
+          },
+          {
+            "date": "2026-09-25",
+            "opening_kg": "8.757000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.750000",
+            "fulfilled_kg": "0.750000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.007000"
+          },
+          {
+            "date": "2026-09-26",
+            "opening_kg": "8.007000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.332000"
+          },
+          {
+            "date": "2026-09-27",
+            "opening_kg": "7.332000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.357000"
+          },
+          {
+            "date": "2026-09-28",
+            "opening_kg": "6.357000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.757000"
+          },
+          {
+            "date": "2026-09-29",
+            "opening_kg": "5.757000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "4.782000"
+          },
+          {
+            "date": "2026-09-30",
+            "opening_kg": "4.782000",
+            "received_kg": "4.951000",
+            "demand_kg": "0.375000",
+            "fulfilled_kg": "0.375000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "9.358000"
+          },
+          {
+            "date": "2026-10-01",
+            "opening_kg": "9.358000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.600000",
+            "fulfilled_kg": "0.600000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "8.758000"
+          },
+          {
+            "date": "2026-10-02",
+            "opening_kg": "8.758000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.975000",
+            "fulfilled_kg": "0.975000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "7.783000"
+          },
+          {
+            "date": "2026-10-03",
+            "opening_kg": "7.783000",
+            "received_kg": "0.000000",
+            "demand_kg": "1.200000",
+            "fulfilled_kg": "1.200000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "6.583000"
+          },
+          {
+            "date": "2026-10-04",
+            "opening_kg": "6.583000",
+            "received_kg": "0.000000",
+            "demand_kg": "0.675000",
+            "fulfilled_kg": "0.675000",
+            "unmet_kg": "0.000000",
+            "waste_kg": "0.000000",
+            "closing_kg": "5.908000"
+          }
+        ],
+        "orders": [
+          {
+            "issued": "2026-07-28",
+            "arrival": "2026-07-29",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "91010.000000"
+          },
+          {
+            "issued": "2026-08-01",
+            "arrival": "2026-08-02",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "103660.000000"
+          },
+          {
+            "issued": "2026-08-08",
+            "arrival": "2026-08-09",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "103660.000000"
+          },
+          {
+            "issued": "2026-08-16",
+            "arrival": "2026-08-17",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "101130.000000"
+          },
+          {
+            "issued": "2026-08-24",
+            "arrival": "2026-08-25",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "93540.000000"
+          },
+          {
+            "issued": "2026-09-01",
+            "arrival": "2026-09-02",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 3,
+            "nominal_kg": "7.500000",
+            "subtotal_clp": "101625.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "105615.000000",
+            "alternative_supplier_total_clp": "111250.000000"
+          },
+          {
+            "issued": "2026-09-15",
+            "arrival": "2026-09-16",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "85950.000000"
+          },
+          {
+            "issued": "2026-09-23",
+            "arrival": "2026-09-24",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "88480.000000"
+          },
+          {
+            "issued": "2026-09-29",
+            "arrival": "2026-09-30",
+            "supplier_id": 1,
+            "supplier": "Central Mayorista",
+            "packs": 2,
+            "nominal_kg": "5.000000",
+            "subtotal_clp": "67750.000000",
+            "shipping_clp": "3990.000000",
+            "total_clp": "71740.000000",
+            "alternative_supplier_total_clp": "91010.000000"
+          }
+        ],
+        "metrics": {
+          "closing_zero_days": 0,
+          "unmet_days": 0,
+          "unmet_kg": "0.000000",
+          "demand_kg": "41.775000",
+          "fulfilled_kg": "41.775000",
+          "expiry_waste_kg": "2.248000",
+          "initial_kg": "2.491000",
+          "received_kg": "47.440000",
+          "closing_stock_kg": "5.908000",
+          "purchases_clp": "679535.000000",
+          "orders_count": 9,
+          "orders_in_transit": 0,
+          "in_transit_nominal_kg": "0.000000"
+        }
+      },
+      "targets": {
+        "quiebres_dias_stock_cierre_cero": {
+          "baseline": "13",
+          "policy": "0",
+          "relative_percent": "100.000000",
+          "threshold_percent": "30",
+          "status": "CUMPLE_SIMULACION"
+        },
+        "merma_kg": {
+          "baseline": "0.917000",
+          "policy": "2.248000",
+          "relative_percent": "-145.147219",
+          "threshold_percent": "20",
+          "status": "NO_CUMPLE_SIMULACION"
+        },
+        "ahorro_proveedores_proxy": {
+          "baseline": "869690.000000",
+          "policy": "679535.000000",
+          "relative_percent": "21.864687",
+          "threshold_percent": "5",
+          "status": "PROXY_NO_VALIDADO_COMERCIALMENTE",
+          "reason": "Comparación de ofertas de la misma necesidad; factibilidad comercial y canasta no verificadas",
+          "orders_compared": 9
+        },
+        "desembolso_ordenes_diferencia_descriptiva": {
+          "manual_clp": "530110.000000",
+          "stocksmart_clp": "679535.000000",
+          "status": "NO_COMPARABLE_SERVICIO_E_INVENTARIO"
+        }
+      }
+    }
+  }
+}

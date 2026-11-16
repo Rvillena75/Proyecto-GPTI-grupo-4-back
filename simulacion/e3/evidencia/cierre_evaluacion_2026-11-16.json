@@ -1,0 +1,88 @@
+{
+  "dataset_sha256": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+  "decision_date": "2026-11-16",
+  "context": {
+    "commune": "Macul",
+    "basket": "SOLO_PECHUGA",
+    "mode": "DESPACHO_REFERENCE_SIMULATED",
+    "accepted_scenarios": [
+      "original",
+      "estres_demanda_130"
+    ],
+    "retail_minimum_assumed_clp": "19990",
+    "retail_max_fiambre_kg": "1",
+    "supplier_reference": "Jumbo",
+    "common_delivery_window_assumed_days": 2,
+    "historical_price_basis": "2026-10-07",
+    "actual_checkout_or_b2b_contract": false
+  },
+  "equal_quantity_equal_stock_reference_order": {
+    "packs": 8,
+    "quantity_kg": "1.000000",
+    "jumbo_total_clp": "25230",
+    "santa_total_clp": "24550",
+    "saving_clp": "680",
+    "saving_percent": "2.695204122076892588188664289",
+    "five_percent_met_in_reference_case": false,
+    "commercial_status": "REFERENCIA_SIMULADA_SIN_CHECKOUT_CONFIRMADO"
+  },
+  "inventory_valuation": {
+    "manual": {
+      "opening_book_cost_clp": "33875",
+      "paid_orders_clp": "530110.000000",
+      "ending_inventory_book_value_clp": "0E-29",
+      "in_transit_product_book_value_clp": "0",
+      "fulfilled_product_cost_clp": "495653.1780565763312972369646",
+      "expired_product_cost_clp": "12471.82194342366870276303507",
+      "dispatch_expense_clp": "55860.000000",
+      "attributable_cost_clp": "563985.0000000000000000000000",
+      "fulfilled_kg": "36.464000",
+      "unmet_kg": "5.311000",
+      "cost_per_fulfilled_kg": "15466.89885914874945151382185",
+      "note": "Valor contable por costo de adquisición, no precio de venta o rescate; eficiencia descriptiva, no servicio equivalente"
+    },
+    "stocksmart_existing": {
+      "opening_book_cost_clp": "33875",
+      "paid_orders_clp": "679535.000000",
+      "ending_inventory_book_value_clp": "80650.26860326303223239156386",
+      "in_transit_product_book_value_clp": "0",
+      "fulfilled_product_cost_clp": "566191.0936331027950067497365",
+      "expired_product_cost_clp": "30658.63776363417276085869938",
+      "dispatch_expense_clp": "35910.000000",
+      "attributable_cost_clp": "632759.7313967369677676084361",
+      "fulfilled_kg": "41.775000",
+      "unmet_kg": "0.000000",
+      "cost_per_fulfilled_kg": "15146.85173900028648157051912",
+      "note": "Valor contable por costo de adquisición, no precio de venta o rescate; eficiencia descriptiva, no servicio equivalente"
+    },
+    "candidate": {
+      "opening_book_cost_clp": "33875",
+      "paid_orders_clp": "875250.000000",
+      "ending_inventory_book_value_clp": "67567.60000000000000000000000",
+      "in_transit_product_book_value_clp": "0",
+      "fulfilled_product_cost_clp": "772610.0596136702648790347494",
+      "expired_product_cost_clp": "4107.340386329735120965250623",
+      "dispatch_expense_clp": "64840",
+      "attributable_cost_clp": "841557.4000000000000000000000",
+      "fulfilled_kg": "41.775000",
+      "unmet_kg": "0.000000",
+      "cost_per_fulfilled_kg": "20145.00059844404548174745661",
+      "note": "Valor contable por costo de adquisición, no precio de venta o rescate; eficiencia descriptiva, no servicio equivalente"
+    }
+  },
+  "same_fulfilled_service_comparison": {
+    "reference": "stocksmart_existing",
+    "candidate": "precio_minimo_b1_c5",
+    "fulfilled_kg_both": "41.775000",
+    "inventory_accounting": "Existencias finales a costo de adquisición, no valor de venta",
+    "candidate_cost_increase_percent": "32.99793875036400042473384980",
+    "five_percent_saving_met": false
+  },
+  "decisions": {
+    "candidate_adoption": "NO_ADOPTAR_EN_PRODUCTO",
+    "five_percent": "NO_CUMPLE_EN_REFERENCIA_COMPARABLE_Y_NO_ACREDITADO_REAL",
+    "validation": "COMPLETADA_SINTETICA_CON_LIMITES_DE_ROBUSTEZ",
+    "deliverable": "EVALUACION_CERRADA_RESULTADO_DESFAVORABLE_NO_DECLARAR_30_20_5"
+  },
+  "warning": "Comuna y modalidad son decisiones del modelo; no prueban elegibilidad, stock, mínimos o aceptación de pedidos comerciales por los supermercados."
+}

@@ -1,5 +1,8 @@
 # Entorno local de datos para la simulación E3
 
+**Cierre del 16/11:** [CIERRE_DECISIONES_2026-11-16.md](CIERRE_DECISIONES_2026-11-16.md) fija el contexto simulado, concilia inventario y resuelve no adoptar la candidata; la meta de ahorro no queda cumplida.
+
+
 Este directorio contiene **datos sintéticos**, una copia verificable del Dataset v2 congelado, costos logísticos supuestos y herramientas para cargar y comprobar el entorno en una base PostgreSQL aislada. No contiene credenciales ni datos productivos.
 
 El equipo adoptó este montaje local como entorno de datos de la simulación E3. El montaje reproduce el inventario y verifica el costo de despacho. La comparación sintética entre políticas está implementada en `comparar_politicas.py`, con escenarios original y de estrés. Sus resultados son exploratorios y **no acreditan las metas 30/20/5 en operación real**. Consultar [RESULTADOS_COMPARACION.md](RESULTADOS_COMPARACION.md) y [HALLAZGOS.md](HALLAZGOS.md).

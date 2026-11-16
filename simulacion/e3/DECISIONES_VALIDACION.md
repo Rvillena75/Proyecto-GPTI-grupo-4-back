@@ -1,5 +1,8 @@
 # Decisiones y validación posterior de la candidata
 
+**Cierre del 16/11:** [CIERRE_DECISIONES_2026-11-16.md](CIERRE_DECISIONES_2026-11-16.md) fija el contexto simulado, concilia inventario y resuelve no adoptar la candidata; la meta de ahorro no queda cumplida.
+
+
 ## Estado de cierre
 
 Rodrigo aceptó en esta conversación el uso de los escenarios original y de estrés para esta entrega. Esta decisión no equivale a una aprobación de Patricio ni a un compromiso de que las metas estén cumplidas. El dataset original, la comparación anterior y la cuadrícula exploratoria se conservan con sus resultados.

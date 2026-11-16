@@ -1,0 +1,106 @@
+{
+  "database": "stocksmart_simulacion_e3_test",
+  "host": "127.0.0.1",
+  "port": 55439,
+  "scope": "Base local aislada; no es simulación E3 comparativa completa",
+  "dataset_sha256": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+  "parametros_sha256": "3a4f664170e16855858164e57a5838b0e2f1d63282c7ed0857bbd5b574d60b33",
+  "fecha_precios": "2026-10-07; precios históricos, no vigentes",
+  "comparacion_as_of": "2026-10-08T12:00:00+00:00",
+  "cantidad_kg": "6.697429",
+  "opciones": [
+    {
+      "supplier_id": 1,
+      "supplier_product_id": 1,
+      "supplier": "Central Mayorista",
+      "quote_id": 1,
+      "packs": 3,
+      "purchased_quantity": "7.500000",
+      "base_unit": "kg",
+      "subtotal_clp": "101625.000000",
+      "total_clp": "105615.000000",
+      "shipping_cost_clp": "3990.000000",
+      "observed_at": "2026-10-07T01:06:16.891771-03:00"
+    },
+    {
+      "supplier_id": 2,
+      "supplier_product_id": 2,
+      "supplier": "Jumbo",
+      "quote_id": 2,
+      "packs": 54,
+      "purchased_quantity": "6.750000",
+      "base_unit": "kg",
+      "subtotal_clp": "136620.000000",
+      "total_clp": "141610.000000",
+      "shipping_cost_clp": "4990.000000",
+      "observed_at": "2026-10-07T01:06:19.829514-03:00"
+    },
+    {
+      "supplier_id": 3,
+      "supplier_product_id": 3,
+      "supplier": "Santa Isabel",
+      "quote_id": 3,
+      "packs": 54,
+      "purchased_quantity": "6.750000",
+      "base_unit": "kg",
+      "subtotal_clp": "138780.000000",
+      "total_clp": "142770.000000",
+      "shipping_cost_clp": "3990.000000",
+      "observed_at": "2026-10-07T01:06:25.160095-03:00"
+    }
+  ],
+  "costos_clp": {
+    "Central Mayorista": "3990",
+    "Jumbo": "4990",
+    "Santa Isabel": "3990"
+  },
+  "comparacion_costo_cero": [
+    {
+      "supplier_id": 1,
+      "supplier_product_id": 1,
+      "supplier": "Central Mayorista",
+      "quote_id": 1,
+      "packs": 3,
+      "purchased_quantity": "7.500000",
+      "base_unit": "kg",
+      "subtotal_clp": "101625.000000",
+      "total_clp": "101625.000000",
+      "shipping_cost_clp": "0",
+      "observed_at": "2026-10-07T01:06:16.891771-03:00"
+    },
+    {
+      "supplier_id": 2,
+      "supplier_product_id": 2,
+      "supplier": "Jumbo",
+      "quote_id": 2,
+      "packs": 54,
+      "purchased_quantity": "6.750000",
+      "base_unit": "kg",
+      "subtotal_clp": "136620.000000",
+      "total_clp": "136620.000000",
+      "shipping_cost_clp": "0",
+      "observed_at": "2026-10-07T01:06:19.829514-03:00"
+    },
+    {
+      "supplier_id": 3,
+      "supplier_product_id": 3,
+      "supplier": "Santa Isabel",
+      "quote_id": 3,
+      "packs": 54,
+      "purchased_quantity": "6.750000",
+      "base_unit": "kg",
+      "subtotal_clp": "138780.000000",
+      "total_clp": "138780.000000",
+      "shipping_cost_clp": "0",
+      "observed_at": "2026-10-07T01:06:25.160095-03:00"
+    }
+  ],
+  "comprobaciones": [
+    "costos leídos desde PostgreSQL",
+    "PriceService.catalog y compare_offers",
+    "total = subtotal + despacho una sola vez",
+    "diferencia frente a despacho cero es el costo indicado por proveedor",
+    "HTTP GET /suppliers y /prices/{item}: 200, costos y totales correctos; reloj y autenticación sustituidos en prueba local"
+  ],
+  "advertencia": "Los montos son supuestos. Central es proxy logístico, no tarifa oficial. No se validaron mínimos o despacho real."
+}

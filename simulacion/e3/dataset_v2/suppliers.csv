@@ -1,0 +1,4 @@
+adapter,is_active,lead_time_days,name,operating_parameters_provenance,shipping_cost_clp,supplier_id
+central,True,1,Central Mayorista,SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE,0,1
+jumbo,True,1,Jumbo,SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE,0,2
+santa_isabel,True,2,Santa Isabel,SYNTHETIC_ASSUMPTION_NOT_SUPPLIER_PROMISE,0,3

@@ -1,0 +1,16 @@
+{
+  "automatic_safe_stock_at_reference": "3.393750000000000000000000000",
+  "demand_quantity": "31.800000",
+  "expiry_waste_percent_of_available": "13.92953639549503758593938097",
+  "final_stock": "0.374000",
+  "fulfilled_quantity": "31.800000",
+  "last_28_days_consumption": "13.575000",
+  "provenance": "CALCULATED_DESCRIPTION_OF_SYNTHETIC_E2_FIXTURE_NOT_E3_IMPACT",
+  "received_quantity_including_opening": "37.381",
+  "stockout_days": 0,
+  "unmet_demand_percent": "0",
+  "unmet_quantity": "0.000000",
+  "waste_quantity": "5.207000",
+  "weekly_physical_counts": 10,
+  "zero_stock_episodes": 0
+}

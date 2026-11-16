@@ -1,0 +1,35 @@
+{
+  "files": {
+    "allocations.csv": "f79671de33e976da67092736d3888a9af17edeb17f3734a150a05a8b6179a106",
+    "counts.csv": "991244622525c65c25bb5181d19e69e3447d5d81c65ebcb50cfb7b969186b959",
+    "daily_stock.csv": "3f18f314180081d694b4f3f8bf99db3469a4abf7952f8317e0b3e51750cd7a23",
+    "dataset.json": "124a2586ff809c76084ff95cd6007c7119111ff52f0ab223c5237fe74f4958c1",
+    "demand.csv": "90dc5401a5a587c09cc9a8a566233057585d8ea98f5c4b53a27f088815fc4a8a",
+    "items.csv": "c73bb706fb5cd116ef69212ef87ebf1d4445410717a48c4c47d9d147dc203232",
+    "lots.csv": "4a85d04dd450f89f103f346ef010b6801c6c81da73b229a5997d53fa5399c95d",
+    "movements.csv": "18558172c2db486a005ecece85327caa6c530efd5901d21b0c9c446607642213",
+    "orders.csv": "49287376333a168a385e7eee395fbd5960dc87d47dce657ab80b03021cf49715",
+    "price_quotes.csv": "d2f8c82418b6372d28d5a258a04b78f58035274370ed1805cf0b86269b66ceb4",
+    "receipts.csv": "c92aa1bce04baefe7661b6b83b917d24777852d2a4107e9a2dca68bd21537b55",
+    "supplier_products.csv": "2fff7dcc97ee0b7c2c8dd5242de3fa71be4c599920f118bac5ade2ef82a07170",
+    "suppliers.csv": "fb3ec867843ebef48feacfdfb6a3b7ad18bb8bd9f932226770cb71f37b7f759b",
+    "waste.csv": "c6b0a04670791b9bac99bf272c72ee3e1525bc574979963ff4d844d41ce1c24f"
+  },
+  "provenance": "SYNTHETIC_E2_TEST_DATA_NOT_A_REAL_BUSINESS",
+  "row_counts": {
+    "allocations": 73,
+    "counts": 21,
+    "daily_stock": 70,
+    "demand": 70,
+    "items": 1,
+    "lots": 15,
+    "movements": 106,
+    "orders": 15,
+    "price_quotes": 3,
+    "receipts": 15,
+    "supplier_products": 3,
+    "suppliers": 3,
+    "waste": 11
+  },
+  "schema_version": "2.0"
+}

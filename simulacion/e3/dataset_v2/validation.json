@@ -1,0 +1,18 @@
+{
+  "checks": [
+    "synthetic provenance, schema, timezone and continuous period",
+    "unique IDs, required suppliers and entity/item foreign keys",
+    "positive prices, full packs, compatible units, conversion and price normalization",
+    "OC supplier, quantities, approval, calendar lead time, receipt and inventory linkage",
+    "positive shelf life, expiry dates, FEFO, lot mass balances and expiry-only waste",
+    "all ledger balances nonnegative, P3 counts/adjustments and exact weekly periodicity",
+    "continuous demand and stock, recipes, fulfilled demand and explicit lost sales",
+    "last 28 complete local days, current-day exclusion and automatic safe stock",
+    "C1/C5/C12 arrival projection, maximum active calendar lead time and in-transit orders",
+    "global stock conservation and independently recalculated descriptive summaries"
+  ],
+  "checks_completed": 10,
+  "error_count": 0,
+  "errors": [],
+  "valid": true
+}

@@ -1,0 +1,4 @@
+base_unit,brand,commercial_format,comparison_group,content_quantity,content_unit,conversion_factor,id,is_variable_weight,item_id,min_packs,name_on_site,pack_quantity,sku,supplier_id,units_per_pack,url
+kg,RECETA DEL ABUELO,pieza nominal2.5kg por peso,rda_roasted_chicken_luncheon_meat,2500,g,0.001,201,True,2,1,PZA PECH POLLO ASADA 2.5KG RECETA ABUELO,2.500000,880521,1,1,https://www.centralmayorista.cl/p/pza-pech-pollo-asada-25kg-receta-abuelo-880521
+kg,Receta del Abuelo,paquete corte pluma125g,rda_roasted_chicken_luncheon_meat,125,g,0.001,202,,2,1,Pechuga Pollo Asada Receta del Abuelo Corte Pluma 125 g,0.125000,125608,2,1,https://www.jumbo.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p
+kg,Receta del Abuelo,paquete corte pluma125g,rda_roasted_chicken_luncheon_meat,125,g,0.001,203,,2,1,Pechuga Pollo Asada Receta del Abuelo Corte Pluma 125 g,0.125000,23226,3,1,https://www.santaisabel.cl/pechuga-pollo-asada-corte-pluma-rda-125g-1961592/p

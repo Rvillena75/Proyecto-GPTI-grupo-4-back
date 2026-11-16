@@ -1,5 +1,7 @@
 # Exploración de políticas para reducir quiebres y merma
 
+**Revisión posterior:** ver [DECISIONES_VALIDACION.md](DECISIONES_VALIDACION.md). La revisión comercial detectó pedidos incompatibles con límites publicados y la validación adicional mostró insuficiente robustez. Los resultados de esta exploración se conservan como evidencia histórica; no acreditan ahorro ni adopción de la candidata.
+
 ## Estado y preservación
 
 La simulación anterior permanece congelada en el commit `aef2a42d2e4ba608c5c7ee5a71777b6edb05895e` y en la rama `simulacion/e3-despachos-20261115`. Los archivos de Dataset v2 y su comparación anterior no fueron modificados. Este análisis agrega políticas hipotéticas en una rama separada; **no modifica ni acredita el comportamiento actual del backend**.

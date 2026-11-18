@@ -89,7 +89,7 @@ def test_two_pieces_are_opened_independently_when_first_used(tmp_path):
         ("opened_at", "2026-07-26T10:00:00-04:00"),
         ("closed_expires_at", "2026-07-28T00:00:00-04:00"),
         ("opened_shelf_life_days", 0),
-        ("quantity_received", "2.5"),
+        ("quantity_received", "2.4"),
     ],
 )
 def test_opening_and_weight_corruption_fails_validation(dataset, field, value):

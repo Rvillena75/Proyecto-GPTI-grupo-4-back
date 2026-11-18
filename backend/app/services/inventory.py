@@ -562,7 +562,10 @@ class InventoryService:
             raise RuleViolation("INVALID_PERIOD", "Start must precede end", 422)
         self._item(item_id, lock=_lock)
         observation = self._observation(item_id)
-        if observation is None or start < observation.started_at:
+        if observation is not None and start < observation.started_at:
+            # Before the observation there is no known stock: measure from its start instead.
+            start = observation.started_at
+        if observation is None or start >= end:
             return {
                 "status": "NOT_CALCULABLE",
                 "available": None,

@@ -368,6 +368,11 @@ def test_count_formulas_rate_and_reversals_do_not_double_count(
     rate = call(clean_db, "shortage_rate", item.id, T0, T0 + timedelta(days=1))
     assert rate["available"] == D(20)
     assert rate["rate_percent"] == D(10)
+    # A period that starts before the observation is measured from the observation start.
+    early = call(
+        clean_db, "shortage_rate", item.id, T0 - timedelta(days=90), T0 + timedelta(days=1)
+    )
+    assert early == rate
 
     second = create(clean_db, "20", T0 + timedelta(days=2))
     call(clean_db, "add_movement", second.id, "ENTRY", D(10), "kg", T0 + timedelta(days=2, hours=1))

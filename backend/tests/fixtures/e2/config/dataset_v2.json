@@ -128,7 +128,7 @@
     "rounding": "NEAREST_COMPLETE_PIECE_HALF_UP_MINIMUM1_FOR_POSITIVE_DEMAND",
     "total_consumed_kg": "3.075000"
   },
-  "purchase_plan_notes": "SYNTHETIC MANUAL BASE, frozen before future KPI: preceding7-day kg consumption3.075000 /7 x5=2.196428571428571428571428572, nearest whole2.5kg commercial piece =>1 pieces every5 calendar days. No stock/alerts/safe-stock/future realization/price or target KPI used. Poisson customer counts from recipe weekday means;75g per sandwich. Piece weights2450..2550g are independently seeded synthetic scale records, NOT manufacturer tolerance/real observed weights. Closed reference70 days from PF catalogue, actual batch label unverified; opening window5 calendar days from first actual use (upper institutional3-5-day opened luncheon-meat guidance). Never open all deliveries on reception. FEFO, receipt-only ENTRY, weekly counts and28-day automatic safe stock preserved. No E3.",
+  "purchase_plan_notes": "SYNTHETIC MANUAL BASE, frozen before future KPI: preceding7-day kg consumption3.075000 /7 x5=2.196428571428571428571428572, nearest whole2.5kg commercial piece =>1 pieces every5 calendar days. No stock/alerts/safe-stock/future realization/price or target KPI used. Poisson customer counts from recipe weekday means;75g per sandwich. Central piece weight fixed at the published 2500g (no piece-weight variability assumed). Closed reference70 days from PF catalogue, actual batch label unverified; opening window5 calendar days from first actual use (upper institutional3-5-day opened luncheon-meat guidance). Never open all deliveries on reception. FEFO, receipt-only ENTRY, weekly counts and28-day automatic safe stock preserved. No E3.",
   "recipes": [
     {
       "customer_model": "POISSON",
@@ -152,8 +152,8 @@
   "start_date": "2026-07-27",
   "storage": "SYNTHETIC_CONTINUOUS_REFRIGERATION_AT_OR_BELOW4C_NO_FREEZING",
   "synthetic_piece_weight_g_range": [
-    2450,
-    2550
+    2500,
+    2500
   ],
   "timezone": "America/Santiago",
   "weight_seed": 20260727

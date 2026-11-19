@@ -6,13 +6,14 @@ from decimal import Decimal as D
 from zoneinfo import ZoneInfo
 
 import pytest
+from sqlalchemy import func, select, update
+from test_procurement import NOW, START, EvidenceTransport, approved_order, catalog
+
 from app.e2.contracts import ApprovedOrder, PackSpec
 from app.e2.receipts import ReceiptService
 from app.persistence.models import Movement, Order, PriceQuote, ScrapeRun, Suggestion
 from app.services.inventory import format_movement_note
 from scraper import postgres, scheduler
-from sqlalchemy import func, select, update
-from test_procurement import NOW, START, EvidenceTransport, approved_order, catalog
 
 
 @pytest.mark.parametrize(

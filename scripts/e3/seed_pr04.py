@@ -8,10 +8,11 @@ from decimal import Decimal as D
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from app.persistence.models import Item, Movement
-from app.services.inventory import InventoryService
 from local_check_db import local_database
 from sqlalchemy import select
+
+from app.persistence.models import Item, Movement
+from app.services.inventory import InventoryService
 
 ZONE = ZoneInfo("America/Santiago")
 

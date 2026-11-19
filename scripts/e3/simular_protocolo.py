@@ -11,6 +11,9 @@ from decimal import Decimal as D
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from local_check_db import local_database
+from sqlalchemy import select, text
+
 from app.e2.dataset import json_text
 from app.e2.replay import replay_inventory
 from app.persistence.models import Order, PriceQuote, Suggestion, SupplierProduct, User
@@ -18,9 +21,7 @@ from app.services.catalog import CatalogService
 from app.services.inventory import InventoryService
 from app.services.orders import OrderService
 from app.services.suggestions import SuggestionService
-from local_check_db import local_database
 from scraper.pipeline import compare_offers, load_products
-from sqlalchemy import select, text
 
 ZONE = ZoneInfo("America/Santiago")
 STRESS_FIRST, STRESS_LAST = date(2026, 9, 14), date(2026, 9, 20)

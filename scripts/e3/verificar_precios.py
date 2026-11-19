@@ -5,14 +5,15 @@ import json
 import os
 from pathlib import Path
 
+from local_check_db import local_database
+from simular_protocolo import OPENING, START, ZONE, at, build_inputs, sha, store_catalog
+from sqlalchemy import select
+
 from app.e2.dataset import json_text
 from app.persistence.models import PriceQuote, ScrapeRun
 from app.services.inventory import InventoryService
-from local_check_db import local_database
 from scraper.pipeline import load_products
 from scraper.postgres import run_worker
-from simular_protocolo import OPENING, START, ZONE, at, build_inputs, sha, store_catalog
-from sqlalchemy import select
 
 
 def main():

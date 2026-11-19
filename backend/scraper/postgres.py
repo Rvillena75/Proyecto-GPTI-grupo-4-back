@@ -7,14 +7,14 @@ import os
 from datetime import UTC, datetime
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from app.api.procurement_schemas import PriceRefreshResponse
-from app.persistence.database import session_factory
-from app.persistence.models import ScrapeRun, Supplier, SupplierProduct
-from app.services.prices import PriceService
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.api.procurement_schemas import PriceRefreshResponse
+from app.persistence.database import session_factory
+from app.persistence.models import ScrapeRun, Supplier, SupplierProduct
+from app.services.prices import PriceService
 from scraper.runtime import price_transport
 from scraper.store import WorkerBusyError
 

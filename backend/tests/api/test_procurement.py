@@ -9,6 +9,8 @@ from pathlib import Path
 from threading import Barrier
 
 import pytest
+from sqlalchemy import func, select
+
 from app.api.procurement_routes import get_price_transport
 from app.main import app
 from app.persistence.models import Item, Movement, Order, PriceQuote, Suggestion, SupplierProduct
@@ -16,7 +18,6 @@ from app.services.orders import OrderService
 from scraper.contracts import ScrapeError
 from scraper.store import worker_lock
 from scraper.transport import PublicResponse
-from sqlalchemy import func, select
 
 START = datetime(2026, 10, 1, 12, tzinfo=UTC)
 NOW = datetime(2026, 10, 8, 12, tzinfo=UTC)

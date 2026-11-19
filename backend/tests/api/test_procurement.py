@@ -9,8 +9,6 @@ from pathlib import Path
 from threading import Barrier
 
 import pytest
-from sqlalchemy import func, select
-
 from app.api.procurement_routes import get_price_transport
 from app.main import app
 from app.persistence.models import Item, Movement, Order, PriceQuote, Suggestion, SupplierProduct
@@ -18,6 +16,7 @@ from app.services.orders import OrderService
 from scraper.contracts import ScrapeError
 from scraper.store import worker_lock
 from scraper.transport import PublicResponse
+from sqlalchemy import func, select
 
 START = datetime(2026, 10, 1, 12, tzinfo=UTC)
 NOW = datetime(2026, 10, 8, 12, tzinfo=UTC)
@@ -359,6 +358,41 @@ def test_get_orders_and_receipt_persist_and_retry_without_double_stock(api_clien
         assert (
             session.scalar(
                 select(func.count()).select_from(Movement).where(Movement.kind == "ENTRY")
+            )
+            == 1
+        )
+
+
+def test_pr15_receives_four_fixed_pieces_once_from_four_kg(api_client, clean_db):
+    client, _, item, products = catalog(api_client)
+    with clean_db() as session, session.begin():
+        product = session.get(SupplierProduct, products[0]["id"])
+        config = product.scrape_config
+        product.scrape_config = {**config, "pack": {**config["pack"], "is_variable_weight": False}}
+    assert (
+        client.post(
+            "/movements",
+            json={"item_id": item["id"], "kind": "ENTRY", "quantity": "1", "unit": "kg"},
+        ).status_code
+        == 201
+    )
+    assert D(client.get(f"/items/{item['id']}").json()["current_stock"]) == 4
+    order_id = approved_order(clean_db, item["id"], products[0]["id"], packs=4)
+    path = f"/orders/{order_id}/receipt"
+    assert client.post(path, json={"received_quantity": "20"}).status_code == 409
+    assert D(client.get(f"/items/{item['id']}").json()["current_stock"]) == 4
+    receipt = client.post(path)
+    assert receipt.status_code == 200
+    row = receipt.json()
+    assert row["status"] == "RECEIVED" and D(row["received_quantity"]) == 10
+    assert_same_order(client.post(path).json(), row)
+    assert D(client.get(f"/items/{item['id']}").json()["current_stock"]) == 14
+    with clean_db() as session:
+        movement = session.get(Movement, row["receipt_movement_id"])
+        assert movement.kind == "ENTRY" and movement.item_id == item["id"] and movement.delta == 10
+        assert (
+            session.scalar(
+                select(func.count(Movement.id)).where(Movement.note == f"Recepción {row['code']}")
             )
             == 1
         )

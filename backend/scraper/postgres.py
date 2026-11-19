@@ -7,14 +7,14 @@ import os
 from datetime import UTC, datetime
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from sqlalchemy import select
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session
-
 from app.api.procurement_schemas import PriceRefreshResponse
 from app.persistence.database import session_factory
 from app.persistence.models import ScrapeRun, Supplier, SupplierProduct
 from app.services.prices import PriceService
+from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
+
 from scraper.runtime import price_transport
 from scraper.store import WorkerBusyError
 
@@ -93,6 +93,20 @@ def is_daily_scrape_due(
     return bool(due_supplier_ids(session, now, timezone_name=timezone_name, item_id=item_id))
 
 
+def _daily_noop(session, now, timezone_name, item_id):
+    """A missing catalog is a configuration failure, not a completed daily refresh."""
+    if due_supplier_ids(session, now, timezone_name=timezone_name, item_id=item_id):
+        return None
+    configured = bool(active_supplier_ids(session, item_id=item_id))
+    payload = {
+        "status": "SKIPPED" if configured else "ERROR",
+        "reason": "ALREADY_COMPLETED_TODAY" if configured else "NO_ACTIVE_PRODUCTS",
+        "timezone": timezone_name,
+        "local_date": now.astimezone(resolve_timezone(timezone_name)).date().isoformat(),
+    }
+    return (0 if configured else 1), payload
+
+
 def run_worker(
     *,
     item_id: int | None = None,
@@ -102,50 +116,33 @@ def run_worker(
     emit_stdout: bool = True,
 ) -> tuple[int, dict]:
     """Execute the price worker once, coordinating via PostgreSQL advisory lock."""
-    zone = resolve_timezone(timezone_name)
+    resolve_timezone(timezone_name)
     current_time = now or datetime.now(UTC)
     statuses: list[str] = []
     outputs: list[dict] = []
     try:
         if only_if_due:
             with session_factory()() as session:
-                due = due_supplier_ids(
-                    session, current_time, timezone_name=timezone_name, item_id=item_id
-                )
+                noop = _daily_noop(session, current_time, timezone_name, item_id)
                 session.rollback()
-            if not due:
-                payload = {
-                    "status": "SKIPPED",
-                    "reason": "ALREADY_COMPLETED_TODAY",
-                    "timezone": timezone_name,
-                    "local_date": current_time.astimezone(zone).date().isoformat(),
-                }
-                LOG.info(
-                    "price_worker_skipped reason=ALREADY_COMPLETED_TODAY timezone=%s local_date=%s",
-                    timezone_name,
-                    payload["local_date"],
-                )
+            if noop is not None:
+                LOG.log(logging.ERROR if noop[0] else logging.INFO, "price_worker %s", noop[1])
                 if emit_stdout:
-                    print(json.dumps(payload, ensure_ascii=False))
-                return 0, payload
+                    print(json.dumps(noop[1], ensure_ascii=False))
+                return noop
 
         with price_transport() as transport:
             with session_factory()() as session:
                 if only_if_due:
-                    due = due_supplier_ids(
-                        session, current_time, timezone_name=timezone_name, item_id=item_id
-                    )
-                    if not due:
+                    noop = _daily_noop(session, current_time, timezone_name, item_id)
+                    if noop is not None:
                         session.rollback()
-                        payload = {
-                            "status": "SKIPPED",
-                            "reason": "ALREADY_COMPLETED_TODAY",
-                            "timezone": timezone_name,
-                            "local_date": current_time.astimezone(zone).date().isoformat(),
-                        }
+                        LOG.log(
+                            logging.ERROR if noop[0] else logging.INFO, "price_worker %s", noop[1]
+                        )
                         if emit_stdout:
-                            print(json.dumps(payload, ensure_ascii=False))
-                        return 0, payload
+                            print(json.dumps(noop[1], ensure_ascii=False))
+                        return noop
                 items = (
                     [item_id]
                     if item_id

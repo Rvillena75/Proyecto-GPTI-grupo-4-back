@@ -6,14 +6,13 @@ from decimal import Decimal as D
 from zoneinfo import ZoneInfo
 
 import pytest
-from sqlalchemy import func, select, update
-from test_procurement import NOW, START, EvidenceTransport, approved_order, catalog
-
 from app.e2.contracts import ApprovedOrder, PackSpec
 from app.e2.receipts import ReceiptService
 from app.persistence.models import Movement, Order, PriceQuote, ScrapeRun, Suggestion
 from app.services.inventory import format_movement_note
 from scraper import postgres, scheduler
+from sqlalchemy import func, select, update
+from test_procurement import NOW, START, EvidenceTransport, approved_order, catalog
 
 
 @pytest.mark.parametrize(
@@ -113,6 +112,13 @@ def test_e2_and_order_receipts_display_clean_detail_while_preserving_db_metadata
     entries = [m for m in movements if m["kind"] == "ENTRY"]
     assert [m["note"] for m in entries] == ["Recepción OC-E2-0015", "Recepción OC-0001"]
     assert all("E2_RECEIPT:" not in (m["note"] or "") for m in entries)
+
+
+def test_daily_worker_reports_missing_catalog_as_failure(clean_db, monkeypatch):
+    monkeypatch.setattr(postgres, "session_factory", lambda: clean_db)
+    code, result = postgres.run_worker(only_if_due=True, emit_stdout=False)
+    assert code == 1
+    assert result["status"] == "ERROR" and result["reason"] == "NO_ACTIVE_PRODUCTS"
 
 
 def test_daily_scheduler_and_worker_update_last_scrape_respect_chile_tz_and_isolate_errors(

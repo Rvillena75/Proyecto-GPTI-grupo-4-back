@@ -39,7 +39,7 @@ Configurar estas variables en el servicio antes del primer arranque:
 | `STOCKSMART_JWT_TTL_MINUTES` | `30` |
 | `STOCKSMART_DB_CONNECT_TIMEOUT` | `3`, opcional porque es el valor predeterminado |
 | `STOCKSMART_CORS_ORIGINS` | Origen HTTPS real del frontend; varios orígenes separados por coma. El Blueprint conserva `https://stocksmart-nine.vercel.app`, cuya vigencia debe confirmar el equipo. |
-| `STOCKSMART_DAILY_SCRAPE_ENABLED` | `true` (predeterminado en Render cuando `RENDER=true`) para habilitar el programador diario desatendido dentro del Web Service. |
+| `STOCKSMART_DAILY_SCRAPE_ENABLED` | `false` cuando el Cron Job dedicado ya está activo. Si se usa únicamente el Web Service, el programador puede habilitarse con `true` y solo funciona mientras el proceso está en ejecución. |
 | `STOCKSMART_DAILY_SCRAPE_TIMEZONE` | `America/Santiago` (predeterminado), maneja automáticamente horario de invierno (UTC-4) y horario de verano (UTC-3) en Chile. |
 | `STOCKSMART_DAILY_SCRAPE_HOUR` | `7` (07:00 hora local de Chile). |
 
@@ -62,10 +62,17 @@ Activar los jobs después de verificar la API y completar sus insumos externos. 
 
 | Servicio | Configuración |
 |---|---|
-| `stocksmart-daily-prices` | Rama `codex/deploy-render`, runtime Python, Root Directory `backend`, mismo Build Command y Python que la API, `python -m scraper.postgres --all-active --only-if-due`, cron `0 10 * * *` UTC (07:00 Chile verano / 06:00 Chile invierno), `STOCKSMART_DAILY_SCRAPE_TIMEZONE=America/Santiago`, misma base interna. Coordinado mediante advisory lock en PostgreSQL con el programador diario integrado de la API para evitar corridas duplicadas o simultáneas. |
+| `stocksmart-daily-prices` | Usar la rama con el fix de PR-07, runtime Python, Root Directory `backend`, mismo Build Command y Python que la API, `python -m scraper.postgres --all-active --only-if-due --timezone America/Santiago`, cron `0 10 * * *` UTC (07:00 Chile verano / 06:00 Chile invierno), misma base interna. El advisory lock de PostgreSQL coordina con las actualizaciones manuales de la API. |
 | `stocksmart-daily-backup` | Rama `codex/deploy-render`, runtime Docker, sin Root Directory, Dockerfile `./backend/Dockerfile`, Docker Context `./backend`, comando `python -m app.backups`, cron `0 8 * * *` UTC, misma base interna. |
 
 El backup requiere `STOCKSMART_BACKUP_BUCKET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` y `AWS_DEFAULT_REGION` (Blueprint: `us-west-2`). Son entradas privadas del servicio de backup. Para un destino S3 compatible existe `STOCKSMART_BACKUP_ENDPOINT` HTTPS opcional. El bucket debe bloquear acceso público y los permisos deben limitarse al uso requerido por la herramienta. El contenedor incorpora cliente PostgreSQL 18 para respaldar servidores 17/18.
+
+### Validar PR-07 en una instalación manual
+
+1. Revisar **Runs** del Cron Job existente. Si falta el servicio, crearlo con la configuración de la tabla cuando esté autorizado el costo. Un Web Service Free puede suspenderse tras 15 minutos sin solicitudes y su scheduler depende de que siga ejecutándose. El Cron Job es independiente. [Render Cron Jobs](https://render.com/docs/cronjobs) y [Render Free](https://render.com/docs/free).
+2. Confirmar la rama y el SHA del Cron Job, su zona UTC, el catálogo activo y la conexión a la misma base por la URL interna. Usar **Trigger Run** cuando no haya una ejecución activa. Si el día ya tiene precios válidos consultados, `ALREADY_COMPLETED_TODAY` es un salto legítimo. `NO_ACTIVE_PRODUCTS` indica falta de configuración y termina con código 1.
+3. Comprobar en **Runs** el disparador programado y su salida en los siguientes días. El historial autenticado `GET /suppliers/{id}/scrape-runs` muestra `finished_at` y estado. Contrastar los tres proveedores con ese historial y revisar los días sin registros. Un resultado parcial termina con código 2 y requiere revisar el proveedor con fallo.
+4. Cuando el cron dedicado esté confirmado, desactivar el programador interno del Web Service. Activar las notificaciones de fallo para el cron si el workspace las ofrece.
 
 La creación del cron no acredita una corrida correcta. Registrar la ejecución real de precios y el almacenamiento/retención de siete copias, y ensayar restauración solo en una base nueva vacía `*_test` según [operación](e2/OPERACION.md). La disponibilidad y permisos del bucket no se pueden comprobar desde el código versionado.
 

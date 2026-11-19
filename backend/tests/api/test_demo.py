@@ -22,7 +22,8 @@ def test_demo_cli_serializes_replayed_dates_and_seeds_real_source_definitions(
     report = json.loads(capsys.readouterr().out)
     assert report["valid"] and report["no_e3_simulation"]
     assert report["receipts"] and report["dataset_sha256"]
-    assert report["final_stock"] == "0.374000"
+    # The demo uses the fixed 2.5 kg fixture, including the opening receipt.
+    assert report["final_stock"] == "0.325000"
     with clean_db() as session:
         assert session.scalar(select(func.count(Supplier.id))) == 3
         assert session.scalar(select(func.count(PriceQuote.id))) == 0
